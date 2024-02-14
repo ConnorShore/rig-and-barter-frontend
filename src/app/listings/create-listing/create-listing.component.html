@@ -1,0 +1,38 @@
+<h2 mat-dialog-title>Create Listing</h2>
+<mat-dialog-content>
+    <form [formGroup]="createListingForm" (ngSubmit)="onSubmit()">
+        <br>
+        <mat-form-field appearance="outline">
+            <mat-label>Listing Title</mat-label>
+            <input matInput placeholder="Title" formControlName="listingTitle">
+            <mat-hint>The display title of the listing</mat-hint>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline">
+            <mat-label>Listing Description</mat-label>
+            <input matInput placeholder="Description" formControlName="listingDescription">
+            <mat-hint>The description of the listing</mat-hint>
+        </mat-form-field>
+        <br>
+        <mat-form-field floatLabel="always">
+            <mat-label>Listing Price</mat-label>
+            <input matInput type="number" placeholder="0" style="text-align: right;" formControlName="listingPrice">
+            <span matTextPrefix>$&nbsp;</span>
+            <mat-hint>The price of the listing</mat-hint>
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <mat-label>Select Category</mat-label>
+            <mat-select formControlName="listingCategory">
+                @for(category of componentCategories; track category) {
+                    <mat-option [value]="category">{{category}}</mat-option>
+                }
+            </mat-select>
+            <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+        </mat-form-field>
+        <br>
+        <file-drag-and-drop [maxNumFiles]="10" (selectedFiles)="setSelectedFiles($event)" />
+        <br>
+        <button mat-raised-button color="primary" type="submit">Create Listing</button>
+    </form>
+</mat-dialog-content>

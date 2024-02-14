@@ -1,0 +1,31 @@
+<div class="component-container"
+    [class.gridLayout]="currentSelectedFiles.length > 0"
+    [class.hovering]="isDragging"
+    (click)="fileSelector.click()"
+    (drop)="onDrop($event)"
+    (dragover)="onDragOver($event)"
+    (dragleave)="stopDrag($event)"
+    (dragend)="stopDrag($event)">
+
+    <input #fileSelector type="file" multiple (change)="onFilesSelected($event)" hidden>
+
+    @if(currentSelectedFiles.length > 0) {
+        @for(file of currentSelectedFiles; track file; let index = $index) {
+            <div class="file-item">
+                <!-- TODO: Add ability to click X to delete a file-->
+                <p class="file-item-content">
+                    <mat-icon aria-hidden="false" aria-label="File Icon" fontIcon="attach_file"></mat-icon>
+                    <br>
+                    {{file.name.substring(file.name.lastIndexOf('.')).toLowerCase()}}
+                </p>
+            </div>
+        }
+    }
+    @else {
+        <p class="text">
+            <mat-icon aria-hidden="false" aria-label="Upload Icon" fontIcon="upload" style="margin: 0px"></mat-icon>
+            <br>
+            Drag &amp; drop or click
+        </p>
+    }
+</div>

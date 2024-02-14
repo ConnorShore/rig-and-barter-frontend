@@ -1,0 +1,14 @@
+<mat-toolbar color="primary">
+    <h1 routerLink="/listings" style="cursor: pointer; margin-right: 35px;">Rig and Barter</h1>
+    <button mat-raised-button color="accent" (click)="checkHealth()" style="margin: 5px">Check Health</button>
+    <button mat-raised-button color="accent" (click)="createListingClicked()" style="margin: 5px">Create Listing</button>
+    <span class="spacer"></span>
+
+    @if(!loginState) {
+        <button mat-button (click)="loginClicked()">Login</button>
+    }
+    @else {
+        <button mat-button (click)="logoutClicked()">Logout</button>
+    }
+
+</mat-toolbar>
