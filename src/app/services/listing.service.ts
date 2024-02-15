@@ -14,7 +14,7 @@ export class ListingService {
     constructor(private httpClient: HttpClient, private configService: ConfigurationService, private authService: AuthService) { }
 
     createListing(listing: IListingRequest, images: File[]): Observable<any> {
-        
+        console.log('config: ', this.configService.config);
         const formData:any = new FormData();
         formData.append('listing', new Blob([JSON.stringify(listing)]), {type: 'application/json'});
         images.forEach(image => formData.append('images', image, image.name));
@@ -43,6 +43,13 @@ export class ListingService {
 
     checkHealth(): Observable<string> {
         return this.httpClient.get(this.createBackendRequest('api/listing/status'), {responseType: 'text'});
+    }
+
+    testGateway(): Observable<string> {
+        return this.httpClient.get(this.createBackendRequest('api/gateway'), {responseType: 'text'});
+    }
+    testGatewayOpen(): Observable<string> {
+        return this.httpClient.get(this.createBackendRequest('api/gateway/open'), {responseType: 'text'});
     }
 
     private createBackendRequest(route: string) {

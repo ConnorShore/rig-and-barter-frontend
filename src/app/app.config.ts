@@ -7,6 +7,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 import { ErrorInterceptor } from './shared/error.interceptor';
 import { KeycloakAngularModule, KeycloakBearerInterceptor, KeycloakService } from 'keycloak-angular';
+import { ConfigurationService } from './services/configuration.service';
 
 
 function initializeKeycloak(keycloak: KeycloakService) {
@@ -19,11 +20,18 @@ function initializeKeycloak(keycloak: KeycloakService) {
       },
       initOptions: {
         onLoad: 'check-sso',
+        pkceMethod: 'S256',
         silentCheckSsoRedirectUri:
           window.location.origin + '/assets/silent-check-sso.html'
       },
+      enableBearerInterceptor: true,
+      bearerPrefix: 'Bearer',
       bearerExcludedUrls: ['/assets', '/clients/public']
     });
+}
+
+function loadConfigFile(configService: ConfigurationService) {
+  return () => configService.loadConfigurationFile();
 }
 
 export const appConfig: ApplicationConfig = {
@@ -39,15 +47,26 @@ export const appConfig: ApplicationConfig = {
       withInterceptorsFromDi()
     ),
     {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService]
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: loadConfigFile,
+      multi: true,
+      deps: [ConfigurationService]
+    },
+    {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,
       multi: true
     },
     {
-      provide: APP_INITIALIZER,
-      useFactory: initializeKeycloak,
-      multi: true,
-      deps: [KeycloakService]
-    }
+      provide: HTTP_INTERCEPTORS,
+      useClass: KeycloakBearerInterceptor,
+      multi: true
+    },
   ],
 };

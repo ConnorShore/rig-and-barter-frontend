@@ -1,7 +1,5 @@
-import { Inject, Injectable } from "@angular/core";
-import { AuthConfig, OAuthService } from "angular-oauth2-oidc";
+import { Injectable } from "@angular/core";
 import { KeycloakService } from "keycloak-angular";
-import { Observable, of } from "rxjs";
 
 
 @Injectable({

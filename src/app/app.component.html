@@ -1,6 +1,9 @@
 <main>
   <navbar (loginEvent)="loginUser()" (logoutEvent)="logoutUser()" [loginState]="isLoggedIn"></navbar>
   <button (click)="checkToken()">Check Token</button>
+
+  <button (click)="checkGateway()">Check Gateway</button>
+  <button (click)="checkGatewayOpen()">Check Gateway Open</button>
   <section>
     <router-outlet />
   </section>
