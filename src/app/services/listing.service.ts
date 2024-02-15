@@ -4,7 +4,6 @@ import { ConfigurationService } from "./configuration.service";
 import { IListing } from "../model/listing";
 import { Observable } from "rxjs";
 import { IListingRequest } from "../model/listing-request";
-import { OAuthService } from "angular-oauth2-oidc";
 import { AuthService } from "./auth.service";
 
 
@@ -31,27 +30,21 @@ export class ListingService {
     }
 
     getAuthEndpoint(): Observable<string> {
-        console.log('is logged in', this.authService.isLoggedIn());
-        console.log('token: ', this.authService.getAccessToken());
         const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
         return this.httpClient.get(this.createBackendRequest('api/listing/auth'), {headers, responseType: 'text'});
     }
 
     getAllListings(): Observable<IListing[]> {
-        return this.httpClient.get<IListing[]>(this.createBackendRequest('api/listing'));
+        return this.httpClient.get<IListing[]>(this.createBackendRequest('api/listing/view'));
     }
 
     checkHealth(): Observable<string> {
         return this.httpClient.get(this.createBackendRequest('api/listing/status'), {responseType: 'text'});
     }
 
-    testGateway(): Observable<string> {
-        return this.httpClient.get(this.createBackendRequest('api/gateway'), {responseType: 'text'});
-    }
-    testGatewayOpen(): Observable<string> {
-        return this.httpClient.get(this.createBackendRequest('api/gateway/open'), {responseType: 'text'});
-    }
-
+    /**
+     * Helper to create the backend request with proper url
+    **/
     private createBackendRequest(route: string) {
         let finalRoute = route.startsWith('/') ? route.substring(1) : route;
         let apiGatewayUrl = this.configService.apiGatewayUrl;

@@ -1,1 +1,7 @@
-<p>listings-gallery works!</p>
+<h1>All Listings:</h1>
+@for(listing of listings; track listing.id) {
+    <div style="border: 1px solid black; margin: 5px; padding: 10px">
+        <p>{{listing.title}}</p>
+        <p>{{listing.description}}</p>
+    </div>
+}

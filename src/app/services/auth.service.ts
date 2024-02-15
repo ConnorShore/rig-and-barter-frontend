@@ -1,5 +1,7 @@
 import { Injectable } from "@angular/core";
 import { KeycloakService } from "keycloak-angular";
+import { KeycloakProfile } from "keycloak-js";
+import { Observable } from "rxjs";
 
 
 @Injectable({
@@ -7,10 +9,15 @@ import { KeycloakService } from "keycloak-angular";
 })
 export class AuthService {
 
-    constructor(private readonly keycloakService: KeycloakService) { }
+    userProfile: KeycloakProfile;
+
+    constructor(private readonly keycloakService: KeycloakService) {
+        this.fetchUserProfile();
+    }
 
     login() {
         this.keycloakService.login();
+        this.fetchUserProfile();
     }
 
     logout() {
@@ -23,5 +30,17 @@ export class AuthService {
 
     getAccessToken(): Promise<string> {
         return this.keycloakService.getToken();
+    }
+
+    getUserProfile(): KeycloakProfile {
+        return this.userProfile;
+    }
+
+    fetchUserProfile(): void {
+        if(this.isLoggedIn()) {
+            this.keycloakService.loadUserProfile().then(profile => {
+                this.userProfile = profile;
+            });
+        }
     }
 }

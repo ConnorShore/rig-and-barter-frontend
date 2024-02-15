@@ -1,6 +1,6 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ListingService } from '../../services/listing.service';
-import { Subscription } from 'rxjs';
+import { IListing } from '../../model/listing';
 
 @Component({
   selector: 'listings-gallery',
@@ -11,6 +11,16 @@ import { Subscription } from 'rxjs';
   templateUrl: './listings-gallery.component.html',
   styleUrl: './listings-gallery.component.css'
 })
-export class ListingsGalleryComponent {
+export class ListingsGalleryComponent implements OnInit {
 
+  listings: IListing[];
+
+  constructor(private listingService: ListingService) { }
+
+  ngOnInit(): void {
+    this.listingService.getAllListings().subscribe(listings => {
+      console.log('got all listings: ', listings);
+      this.listings = listings;
+    });
+  }
 }

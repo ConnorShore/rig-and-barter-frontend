@@ -30,8 +30,9 @@ export class AppComponent {
   title = 'rig-and-barter-frontend';
   isLoggedIn: boolean = false;
 
-  constructor(private configService: ConfigurationService, private authService: AuthService, private listingService: ListingService) {
+  constructor(private configService: ConfigurationService, private authService: AuthService) {
     this.configService.loadConfigurationFile();
+    this.authService.fetchUserProfile();
     this.isLoggedIn = this.authService.isLoggedIn();
   }
 
@@ -45,13 +46,7 @@ export class AppComponent {
 
   checkToken() {
     this.authService.getAccessToken().then(token => console.log('token: ', token));
+    console.log('user profile: ', this.authService.getUserProfile());
     console.log('logged in: ', this.authService.isLoggedIn());
-  }
-
-  checkGateway() {
-    this.listingService.testGateway().subscribe(response => console.log('gateway response: ', response));
-  }
-  checkGatewayOpen() {
-    this.listingService.testGatewayOpen().subscribe(response => console.log('gateway response: ', response));
   }
 }
