@@ -20,7 +20,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
     ListingService
   ],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
 

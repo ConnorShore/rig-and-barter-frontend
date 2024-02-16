@@ -5,7 +5,7 @@ import { Component, Input } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './view-listing.component.html',
-  styleUrl: './view-listing.component.css'
+  styleUrl: './view-listing.component.scss'
 })
 export class ViewListingComponent {
   

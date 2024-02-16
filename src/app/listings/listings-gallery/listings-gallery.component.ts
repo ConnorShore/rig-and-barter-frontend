@@ -9,7 +9,7 @@ import { IListing } from '../../model/listing';
   providers: [
   ],
   templateUrl: './listings-gallery.component.html',
-  styleUrl: './listings-gallery.component.css'
+  styleUrl: './listings-gallery.component.scss'
 })
 export class ListingsGalleryComponent implements OnInit {
 

@@ -21,7 +21,7 @@ import { ListingService } from './services/listing.service';
     ListingService
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.scss'
 })
 export class AppComponent {
 

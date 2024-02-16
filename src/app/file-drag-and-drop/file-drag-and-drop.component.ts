@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon'
     MatIconModule
   ],
   templateUrl: './file-drag-and-drop.component.html',
-  styleUrl: './file-drag-and-drop.component.css'
+  styleUrl: './file-drag-and-drop.component.scss'
 })
 export class FileDragAndDropComponent implements OnInit{
 

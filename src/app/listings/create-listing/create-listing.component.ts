@@ -26,7 +26,7 @@ import { FileDragAndDropComponent } from '../../file-drag-and-drop/file-drag-and
     ListingService
   ],
   templateUrl: './create-listing.component.html',
-  styleUrl: './create-listing.component.css'
+  styleUrl: './create-listing.component.scss'
 })
 export class CreateListingComponent implements OnInit {
 

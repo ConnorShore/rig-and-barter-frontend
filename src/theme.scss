@@ -1,0 +1,25 @@
+@use '@angular/material' as mat;
+@use '@angular/material-experimental' as matx;
+
+$m3-dark-theme: matx.define-theme((
+  color: (
+    theme-type: dark,
+    primary: matx.$m3-violet-palette,
+    tertiary: matx.$m3-green-palette,
+  )
+));
+
+$m3-light-theme: matx.define-theme((
+  color: (
+    primary: matx.$m3-magenta-palette,
+    tertiary: matx.$m3-cyan-palette,
+    )
+));
+
+.dark-theme {
+  @include mat.all-component-themes($m3-dark-theme);
+}
+
+.light-theme {
+  @include mat.all-component-themes($m3-light-theme);
+}
