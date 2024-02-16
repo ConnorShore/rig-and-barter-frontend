@@ -1,12 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ListingService } from '../../services/listing.service';
+import { Component, OnInit } from '@angular/core';
 import { IListing } from '../../model/listing';
+import { ListingCardComponent } from '../listing-card/listing-card.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'listings-gallery',
   standalone: true,
-  imports: [],
-  providers: [
+  imports: [
+    ListingCardComponent,
   ],
   templateUrl: './listings-gallery.component.html',
   styleUrl: './listings-gallery.component.scss'
@@ -15,12 +16,16 @@ export class ListingsGalleryComponent implements OnInit {
 
   listings: IListing[];
 
-  constructor(private listingService: ListingService) { }
+  constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.listingService.getAllListings().subscribe(listings => {
-      console.log('got all listings: ', listings);
+    this.activatedRoute.data.subscribe(({listings}) => {
       this.listings = listings;
+      console.log('listings: ', this.listings);
     });
+  }
+
+  selectListing(listing: IListing) {
+    console.log('selected listing: ', listing);
   }
 }

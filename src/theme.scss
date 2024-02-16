@@ -17,9 +17,12 @@ $m3-light-theme: matx.define-theme((
 ));
 
 .dark-theme {
-  @include mat.all-component-themes($m3-dark-theme);
+  @include mat.all-component-colors($m3-dark-theme);
 }
 
 .light-theme {
-  @include mat.all-component-themes($m3-light-theme);
+  @include mat.all-component-colors($m3-light-theme);
 }
+
+//TODO: CAn buy theme template: 
+//  https://www.creative-tim.com/product/material-dashboard-angular

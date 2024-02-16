@@ -1,7 +1,5 @@
 <main>
   <navbar (loginEvent)="loginUser()" (logoutEvent)="logoutUser()" [loginState]="isLoggedIn"></navbar>
-  <button (click)="checkToken()">Check Token</button>
-
   <section>
     <router-outlet />
   </section>

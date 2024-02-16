@@ -2,10 +2,7 @@ import { Component, OnChanges, ViewChild } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ConfigurationService } from './services/configuration.service';
-import { OAuthService } from 'angular-oauth2-oidc';
 import { AuthService } from './services/auth.service';
-import { KeycloakService } from 'keycloak-angular';
-import { ListingService } from './services/listing.service';
 
 @Component({
   selector: 'app-root',
@@ -17,8 +14,7 @@ import { ListingService } from './services/listing.service';
 	  NavbarComponent
   ],
   providers: [
-    ConfigurationService,
-    ListingService
+    ConfigurationService
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

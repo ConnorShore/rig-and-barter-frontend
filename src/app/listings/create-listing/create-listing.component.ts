@@ -61,7 +61,7 @@ export class CreateListingComponent implements OnInit {
     console.log('Creating listing images: ', this.listingImages);
 
     this.listingService.createListing(listingRequest, this.listingImages).subscribe(ret => {
-      // Todo: If it was successful, close the dialog and display toast message
+      // Todo: If it was successful, close the dialog and display toast message (and update listing gallery view)
       // Todo: If it was not successful, display error message and keep dialog open
       this.closeDialog();
     })

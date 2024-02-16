@@ -35,7 +35,7 @@ export class ListingService {
     }
 
     getAllListings(): Observable<IListing[]> {
-        return this.httpClient.get<IListing[]>(this.createBackendRequest('api/listing/view'));
+        return this.httpClient.get<IListing[]>(this.createBackendRequest('api/listing'));
     }
 
     checkHealth(): Observable<string> {
