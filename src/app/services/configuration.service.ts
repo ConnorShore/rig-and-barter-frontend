@@ -14,14 +14,11 @@ export class ConfigurationService {
     constructor(private httpClient: HttpClient) { }
 
     async loadConfigurationFile() {
-        console.log('Preparing config load');
         let configObserve = this.httpClient.get('/assets/config.json');
         this._config = await lastValueFrom(configObserve);
-        console.log('config file finished loading: ', this._config);
     }
     
     get apiGatewayUrl(): string {
-        console.log('config file: ', this._config);
         return this._config['api-gateway-url'];
     }
 }
