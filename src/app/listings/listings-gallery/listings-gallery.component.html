@@ -1,5 +1,8 @@
 <h1>All Listings:</h1>
 <div class="container responsive-grid">
+    @if(listings === undefined || listings.length === 0) {
+        <h2>No listings found</h2>
+    }
     @for(listing of listings; track listing.id) {
         <listing-card [listing]="listing" (listingClicked)="selectListing(listing)" />
     }

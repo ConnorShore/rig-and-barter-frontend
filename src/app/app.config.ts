@@ -14,7 +14,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
     keycloak.init({
       config: {
-        url: 'http://localhost:8180',
+        url: 'http://localhost:8080',
         realm: 'rig-and-barter-realm',
         clientId: 'rig-and-barter-client'
       },

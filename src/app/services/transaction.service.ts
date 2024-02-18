@@ -17,4 +17,7 @@ export class TransactionService {
         return this.httpClient.post(url, transactionRequest, {responseType: 'text'});
     }
 
+    tester(): Observable<string> {
+        return this.httpClient.get(createBackendRequest(this.configService.apiGatewayUrl, 'api/transaction/test'), {responseType: 'text'});
+    }
 }
