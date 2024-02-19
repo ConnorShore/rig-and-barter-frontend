@@ -2,11 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NavigationService } from '../../../core/navigation/navigation.service';
 import { VexLayoutService } from '@vex/services/vex-layout.service';
 import { VexConfigService } from '@vex/config/vex-config.service';
-import { map, startWith, switchMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { NavigationItem } from '../../../core/navigation/navigation-item.interface';
 import { VexPopoverService } from '@vex/components/vex-popover/vex-popover.service';
 import { Observable, of } from 'rxjs';
-import { SidenavUserMenuComponent } from './sidenav-user-menu/sidenav-user-menu.component';
 import { MatDialog } from '@angular/material/dialog';
 import { SearchModalComponent } from './search-modal/search-modal.component';
 import { SidenavItemComponent } from './sidenav-item/sidenav-item.component';
@@ -85,28 +84,6 @@ export class SidenavComponent implements OnInit {
     }
 
     return item.label;
-  }
-
-  openProfileMenu(origin: HTMLDivElement): void {
-    this.userMenuOpen$ = of(
-      this.popoverService.open({
-        content: SidenavUserMenuComponent,
-        origin,
-        offsetY: -8,
-        width: origin.clientWidth,
-        position: [
-          {
-            originX: 'center',
-            originY: 'top',
-            overlayX: 'center',
-            overlayY: 'bottom'
-          }
-        ]
-      })
-    ).pipe(
-      switchMap((popoverRef) => popoverRef.afterClosed$.pipe(map(() => false))),
-      startWith(true)
-    );
   }
 
   openSearch(): void {

@@ -25,6 +25,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { NavigationItem } from '../../../core/navigation/navigation-item.interface';
 import { checkRouterChildsData } from '@vex/utils/check-router-childs-data';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'vex-toolbar',
@@ -44,6 +45,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     ToolbarUserComponent,
     NavigationComponent,
     AsyncPipe
+  ],
+  providers: [
+    KeycloakService
   ]
 })
 export class ToolbarComponent implements OnInit {
@@ -74,6 +78,9 @@ export class ToolbarComponent implements OnInit {
 
   isDesktop$: Observable<boolean> = this.layoutService.isDesktop$;
   megaMenuOpen$: Observable<boolean> = of(false);
+
+  isUserLoggedIn = this.keycloakService.isLoggedIn();
+
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
   constructor(
@@ -81,6 +88,7 @@ export class ToolbarComponent implements OnInit {
     private readonly configService: VexConfigService,
     private readonly navigationService: NavigationService,
     private readonly popoverService: VexPopoverService,
+    private readonly keycloakService: KeycloakService,
     private readonly router: Router
   ) {}
 

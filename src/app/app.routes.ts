@@ -5,10 +5,16 @@ export const appRoutes: VexRoutes = [
   {
     path: '',
     component: LayoutComponent,
-    children: []
+    children: [
+      {
+        path: '',
+        redirectTo: '/listings',
+        pathMatch: 'full'
+      },
+      {
+        path: 'listings',
+        loadChildren: () => import('./listings/listings.routes').then(r => r.LISTING_ROUTES)
+      },
+    ]
   },
-  {
-      path: 'listings',
-      loadChildren: () => import('./listings/listings.routes').then(r => r.LISTING_ROUTES)
-  }
 ];

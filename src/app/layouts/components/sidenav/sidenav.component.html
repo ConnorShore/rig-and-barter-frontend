@@ -63,27 +63,4 @@
     </div>
   </vex-scrollbar>
 
-  <div
-    *ngIf="userVisible$ | async"
-    class="vex-sidenav-user__container flex-none">
-    <div
-      #userProfileMenuOriginRef
-      (click)="openProfileMenu(userProfileMenuOriginRef)"
-      [class.vex-sidenav-user--open]="userMenuOpen$ | async"
-      class="vex-sidenav-user flex items-center"
-      matRipple
-      matRippleColor="var(--vex-sidenav-item-ripple-color)">
-      <img
-        alt="User Avatar"
-        class="vex-sidenav-user__image flex-none"
-        src="../../../../assets/img/avatars/1.jpg" />
-      <div class="vex-sidenav-user__content flex-auto">
-        <div class="vex-sidenav-user__title">David Smith</div>
-        <div class="vex-sidenav-user__subtitle">Product Manager</div>
-      </div>
-      <mat-icon
-        class="vex-sidenav-user__dropdown-icon flex-none"
-        svgIcon="mat:arrow_drop_down"></mat-icon>
-    </div>
-  </div>
 </div>

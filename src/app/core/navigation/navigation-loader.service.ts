@@ -22,9 +22,9 @@ export class NavigationLoaderService {
     this._items.next([
       {
         type: 'link',
-        label: 'Listings',
+        label: 'Explore Listings',
         route: '/listings',
-        icon: 'mat:insights',
+        icon: 'mat:devices',
 
         // type: 'subheading',
         // label: 'Listings',

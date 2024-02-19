@@ -25,6 +25,17 @@
   </a>
 
   <button
+    id="createListingBtn"
+    *ngIf="isHorizontalLayout$ | async"
+    color="primary"
+    mat-flat-button
+    type="button">
+    Create Listing
+  </button>
+
+  
+
+  <!-- <button
     *ngIf="isHorizontalLayout$ | async"
     [class.hidden]="!(isDesktop$ | async)"
     [matMenuTriggerFor]="addNewMenu"
@@ -75,9 +86,9 @@
       <mat-icon svgIcon="mat:receipt"></mat-icon>
       <span>Add Receipt</span>
     </button>
-  </mat-menu>
+  </mat-menu> -->
 
-  <div #megaMenuOriginRef class="ltr:ml-2 rtl:mr-2">
+  <!-- <div #megaMenuOriginRef class="ltr:ml-2 rtl:mr-2">
     <button
       (click)="openMegaMenu(megaMenuOriginRef)"
       *ngIf="isHorizontalLayout$ | async"
@@ -98,7 +109,7 @@
     <vex-navigation-item
       *ngFor="let item of navigationItems$ | async"
       [item]="item"></vex-navigation-item>
-  </div>
+  </div> -->
 
   <span class="flex-1"></span>
 
@@ -113,37 +124,29 @@
       <vex-toolbar-notifications></vex-toolbar-notifications>
     </div>
 
-    <div class="px-1">
-      <button (click)="openQuickpanel()" mat-icon-button type="button">
-        <mat-icon color="primary" svgIcon="mat:bookmarks"></mat-icon>
+    @if(isUserLoggedIn) {
+      <div class="px-1">
+        <vex-toolbar-user></vex-toolbar-user>
+      </div>
+    } 
+    @else {
+      <button 
+        class="rounded-full h-9 w-9 flex items-center justify-center text-primary-600 bg-primary-600/10"
+        [matMenuTriggerFor]="loggedOutUserMenu">
+          <mat-icon svgIcon="mat:person"></mat-icon>
       </button>
-    </div>
-
-    <div class="px-1">
-      <button [matMenuTriggerFor]="languageMenu" mat-icon-button type="button">
-        <mat-icon svgIcon="flag:united-states"></mat-icon>
-      </button>
-    </div>
-
-    <div *ngIf="userVisible$ | async" class="px-1">
-      <vex-toolbar-user></vex-toolbar-user>
-    </div>
-
-    <mat-menu
-      #languageMenu="matMenu"
-      overlapTrigger="false"
-      xPosition="before"
-      yPosition="below">
-      <button mat-menu-item>
-        <mat-icon svgIcon="flag:united-states"></mat-icon>
-        <span>English</span>
-      </button>
-
-      <button mat-menu-item>
-        <mat-icon svgIcon="flag:germany"></mat-icon>
-        <span>German</span>
-      </button>
-    </mat-menu>
+      <mat-menu #loggedOutUserMenu="matMenu">
+        <button mat-menu-item>
+          <mat-icon svgIcon="mat:login"></mat-icon>
+          <span>Login</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon svgIcon="mat:person_add"></mat-icon>
+          <span>Register</span>
+        </button>
+      </mat-menu>
+    }
+    
   </div>
 </div>
 
