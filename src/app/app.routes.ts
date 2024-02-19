@@ -13,7 +13,7 @@ export const appRoutes: VexRoutes = [
       },
       {
         path: 'listings',
-        loadChildren: () => import('./listings/listings.routes').then(r => r.LISTING_ROUTES)
+        loadChildren: () => import('./pages/listings/listings.routes').then(r => r.LISTING_ROUTES)
       },
     ]
   },

@@ -26,6 +26,9 @@ import { NavigationItem } from '../../../core/navigation/navigation-item.interfa
 import { checkRouterChildsData } from '@vex/utils/check-router-childs-data';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { KeycloakService } from 'keycloak-angular';
+import { AuthService } from 'src/app/services/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateListingComponent } from 'src/app/pages/listings/create-listing/create-listing.component';
 
 @Component({
   selector: 'vex-toolbar',
@@ -79,7 +82,7 @@ export class ToolbarComponent implements OnInit {
   isDesktop$: Observable<boolean> = this.layoutService.isDesktop$;
   megaMenuOpen$: Observable<boolean> = of(false);
 
-  isUserLoggedIn = this.keycloakService.isLoggedIn();
+  isUserLoggedIn = this.authService.isLoggedIn();
 
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
@@ -87,9 +90,9 @@ export class ToolbarComponent implements OnInit {
     private readonly layoutService: VexLayoutService,
     private readonly configService: VexConfigService,
     private readonly navigationService: NavigationService,
-    private readonly popoverService: VexPopoverService,
-    private readonly keycloakService: KeycloakService,
-    private readonly router: Router
+    private readonly authService: AuthService,
+    private readonly router: Router,
+    private readonly dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -115,34 +118,22 @@ export class ToolbarComponent implements OnInit {
     this.layoutService.openSidenav();
   }
 
-  openMegaMenu(origin: ElementRef | HTMLElement): void {
-    this.megaMenuOpen$ = of(
-      this.popoverService.open({
-        content: MegaMenuComponent,
-        origin,
-        offsetY: 12,
-        position: [
-          {
-            originX: 'start',
-            originY: 'bottom',
-            overlayX: 'start',
-            overlayY: 'top'
-          },
-          {
-            originX: 'end',
-            originY: 'bottom',
-            overlayX: 'end',
-            overlayY: 'top'
-          }
-        ]
-      })
-    ).pipe(
-      switchMap((popoverRef) => popoverRef.afterClosed$.pipe(map(() => false))),
-      startWith(true)
-    );
-  }
-
   openSearch(): void {
     this.layoutService.openSearch();
+  }
+
+  loginUser() {
+    this.authService.login();
+  }
+
+  createListingClicked() {
+    this.dialog.open(CreateListingComponent, {
+      width: '600px',
+      height: '800px'
+    })
+    .afterClosed()
+    .subscribe(createdListing => {
+      console.log('Closed create listing dialog, created listing: ', createdListing);
+    });
   }
 }

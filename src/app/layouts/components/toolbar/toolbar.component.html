@@ -26,6 +26,8 @@
 
   <button
     id="createListingBtn"
+    [disabled]="!isUserLoggedIn"
+    (click)="createListingClicked()"
     *ngIf="isHorizontalLayout$ | async"
     color="primary"
     mat-flat-button
@@ -130,13 +132,15 @@
       </div>
     } 
     @else {
-      <button 
-        class="rounded-full h-9 w-9 flex items-center justify-center text-primary-600 bg-primary-600/10"
-        [matMenuTriggerFor]="loggedOutUserMenu">
-          <mat-icon svgIcon="mat:person"></mat-icon>
-      </button>
+      <div class="px-1">
+        <button 
+          mat-icon-button type="button"
+          [matMenuTriggerFor]="loggedOutUserMenu">
+            <mat-icon svgIcon="mat:person" color="primary"></mat-icon>
+        </button>
+      </div>
       <mat-menu #loggedOutUserMenu="matMenu">
-        <button mat-menu-item>
+        <button mat-menu-item (click)="loginUser()">
           <mat-icon svgIcon="mat:login"></mat-icon>
           <span>Login</span>
         </button>

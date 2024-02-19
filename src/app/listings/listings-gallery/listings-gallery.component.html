@@ -1,6 +1,0 @@
-<h1>All Listings:</h1>
-<div class="container responsive-grid">
-    @for(listing of listings; track listing.id) {
-        <listing-card [listing]="listing" (listingClicked)="selectListing(listing)" />
-    }
-</div>

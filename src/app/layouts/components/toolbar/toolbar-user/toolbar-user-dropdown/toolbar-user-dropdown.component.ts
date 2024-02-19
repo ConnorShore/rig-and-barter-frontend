@@ -14,6 +14,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthService } from 'src/app/services/auth.service';
 
 export interface OnlineStatus {
   id: 'online' | 'away' | 'dnd' | 'offline';
@@ -109,7 +110,8 @@ export class ToolbarUserDropdownComponent implements OnInit {
 
   constructor(
     private cd: ChangeDetectorRef,
-    private popoverRef: VexPopoverRef<ToolbarUserDropdownComponent>
+    private popoverRef: VexPopoverRef<ToolbarUserDropdownComponent>,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {}
@@ -117,6 +119,11 @@ export class ToolbarUserDropdownComponent implements OnInit {
   setStatus(status: OnlineStatus) {
     this.activeStatus = status;
     this.cd.markForCheck();
+  }
+
+  logoutUser() {
+    this.authService.logout();
+    this.close();
   }
 
   close() {
