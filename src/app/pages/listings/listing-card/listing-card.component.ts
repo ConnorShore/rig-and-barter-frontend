@@ -4,14 +4,15 @@ import { ListingService } from '../../../services/listing.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { CurrencyPipe } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
-  selector: 'listing-card',
+  selector: 'rb-listing-card',
   standalone: true,
   imports: [
     MatCardModule,
     MatButtonModule,
-    CurrencyPipe
+    CurrencyPipe,
   ],
   templateUrl: './listing-card.component.html',
   styleUrl: './listing-card.component.scss'
@@ -20,11 +21,8 @@ export class ListingCardComponent{
 
   @Input() listing: IListing;
   
-  @Output() listingClicked = new EventEmitter<void>();
+  @Output() listingSelected = new EventEmitter<string>();
 
   constructor(private listingService: ListingService) { }
-
-  onListingClicked() {
-    this.listingClicked.emit();
-  }
+  
 }

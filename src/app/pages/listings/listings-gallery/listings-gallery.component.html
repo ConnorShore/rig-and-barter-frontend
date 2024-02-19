@@ -1,5 +1,59 @@
-<div class="container responsive-grid">
+<!-- <div class="container responsive-grid">
     @for(listing of listings; track listing.id) {
         <listing-card [listing]="listing" (listingClicked)="selectListing(listing)" />
     }
-</div>
+</div> -->
+
+<div class="h-full flex flex-col">
+    <div class="p-6 pb-0 bg-foreground shadow-b flex-none border-b">
+      <div class="container px-0">
+        <h1 class="display-1 font-bold mt-0 mb-4 flex items-center">
+          <span class="block">{{PAGE_TITLE}}</span>
+        </h1>
+  
+        <div class="flex items-end justify-end">
+          <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+  
+          <button
+            class="ltr:ml-1 rtl:mr-1 flex-none hidden sm:inline-block"
+            color="primary"
+            mat-icon-button
+            matTooltip="Export Contacts"
+            type="button">
+            <mat-icon svgIcon="mat:cloud_download"></mat-icon>
+          </button>
+  
+          <button
+            class="ltr:ml-1 rtl:mr-1 flex-none"
+            color="primary"
+            mat-icon-button
+            matTooltip="Filter Contacts"
+            type="button">
+            <mat-icon svgIcon="mat:filter_list"></mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    @if(listings.length > 0) {
+        <div
+          class="overflow-y-auto flex-auto">
+          <div
+            class="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 container">
+            @for(listing of listings; track listing.id) {
+                <rb-listing-card
+                  (listingSelected)="listingSelected(listing.id)"
+                  [listing]="listing" />
+            }
+          </div>
+        </div>
+    }
+    @else {
+        <div
+          class="flex-auto flex flex-col items-center justify-center">
+          <img class="m-12 h-64" src="assets/img/illustrations/idea.svg" />
+          <h2 class="headline m-0 text-center">No active listings</h2>
+        </div>
+    }
+  </div>
+  
