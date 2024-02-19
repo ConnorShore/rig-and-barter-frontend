@@ -1,13 +1,14 @@
-import { Routes } from '@angular/router';
+import { LayoutComponent } from './layouts/layout/layout.component';
+import { VexRoutes } from '@vex/interfaces/vex-route.interface';
 
-export const routes: Routes = [
-    {
-        path: '',
-        redirectTo: '/listings',
-        pathMatch: 'full'
-    },
-    {
-        path: 'listings',
-        loadChildren: () => import('./listings/listings.routes').then(r => r.LISTING_ROUTES)
-    }
-]
+export const appRoutes: VexRoutes = [
+  {
+    path: '',
+    component: LayoutComponent,
+    children: []
+  },
+  {
+      path: 'listings',
+      loadChildren: () => import('./listings/listings.routes').then(r => r.LISTING_ROUTES)
+  }
+];
