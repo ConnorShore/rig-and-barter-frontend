@@ -1,14 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { IListing } from '../../../model/listing';
 import { ListingCardComponent } from '../listing-card/listing-card.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TransactionService } from '../../../services/transaction.service';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'listings-gallery',
   standalone: true,
   imports: [
-    ListingCardComponent
+    ListingCardComponent,
+    MatTabsModule,
+    MatIconModule,
   ],
   providers: [
     TransactionService
@@ -18,9 +22,13 @@ import { TransactionService } from '../../../services/transaction.service';
 })
 export class ListingsGalleryComponent implements OnInit {
 
-  listings: IListing[];
+  PAGE_TITLE = 'Explore Listings';
 
-  constructor(private activatedRoute: ActivatedRoute, private transactionService: TransactionService) { }
+  listings: IListing[] = [];
+
+  constructor(
+    private activatedRoute: ActivatedRoute, 
+    private router: Router) { }
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({listings}) => {
@@ -28,17 +36,22 @@ export class ListingsGalleryComponent implements OnInit {
       console.log('listings: ', this.listings);
     });
   }
-
-  selectListing(listing: IListing) {
-    console.log('selected listing: ', listing);
-    let transacitionRequest = {
-      listingId: listing.id,
-      sellerId: listing.userId,
-      title: 'New Transaction for: ' + listing.title
-    };
-
-    this.transactionService.createTransactionTest(transacitionRequest).subscribe(response => {
-      console.log('Create Transaction response: ', response);
-    });
+  
+  listingSelected(listingId: string) {
+    console.log('selected listing: ', listingId);
+    this.router.navigate(['/listings', listingId]);
   }
+
+  // selectListing(listing: IListing) {
+  //   console.log('selected listing: ', listing);
+  //   let transacitionRequest = {
+  //     listingId: listing.id,
+  //     sellerId: listing.userId,
+  //     title: 'New Transaction for: ' + listing.title
+  //   };
+
+  //   this.transactionService.createTransactionTest(transacitionRequest).subscribe(response => {
+  //     console.log('Create Transaction response: ', response);
+  //   });
+  // }
 }

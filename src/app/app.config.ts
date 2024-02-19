@@ -1,7 +1,7 @@
 import { ApplicationConfig, importProvidersFrom, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { appRoutes } from './app.routes';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import {
   HTTP_INTERCEPTORS,
   withFetch,
@@ -73,7 +73,6 @@ export const appConfig: ApplicationConfig = {
     ),
     provideAnimations(),
     provideHttpClient(withInterceptorsFromDi()),
-
     provideVex({
       /**
        * The config that will be used by default.
