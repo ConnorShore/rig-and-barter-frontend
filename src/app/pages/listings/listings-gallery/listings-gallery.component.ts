@@ -44,14 +44,6 @@ export class ListingsGalleryComponent implements OnInit, OnDestroy {
       console.log('listings: ', this.listings);
     });
 
-    console.log('subscribing to listing requested')
-    this.listingRequestedService.listingsRequested.subscribe(() => {  
-      console.log('on listing requested triggered in gallery V1');
-      this.listingService.getAllListings().subscribe(listings => {
-        this.listings = listings;
-      });
-    });
-
     this.listingRequestedSubscription = this.listingRequestedService.allListingsRequested().subscribe(() => {
       console.log('on listing requested triggered in gallery V2');
       this.listingService.getAllListings().subscribe(listings => {

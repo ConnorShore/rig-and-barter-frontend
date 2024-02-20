@@ -19718,6 +19718,7 @@ body {
   min-height: calc(100% - var(--vex-toolbar-height) - var(--vex-navigation-height));
   position: relative;
   width: 100%;
+  height: 100vh;
 }
 
 .vex-layout-footer-enabled .vex-layout-content {
@@ -22355,11 +22356,17 @@ blockquote > * {
 :root :is(.mb-4) {
   margin-bottom: 1rem;
 }
+:root :is(.mb-6) {
+  margin-bottom: 2rem;
+}
 :root :is(.ml-1) {
   margin-left: 0.25rem;
 }
 :root :is(.mr-3) {
   margin-right: 0.75rem;
+}
+:root :is(.mr-6) {
+  margin-right: 2rem;
 }
 :root :is(.mt-2) {
   margin-top: 0.5rem;
@@ -22400,6 +22407,9 @@ blockquote > * {
 :root :is(.h-9) {
   height: 2.25rem;
 }
+:root :is(.h-9) {
+  height: 2.25rem;
+}
 :root :is(.w-1) {
   width: 0.25rem;
 }
@@ -22433,11 +22443,26 @@ blockquote > * {
 :root :is(.flex-1) {
   flex: 1 1 0%;
 }
+:root :is(.flex-25) {
+  flex: 25%
+}
+:root :is(.flex-75) {
+  flex: 75%
+}
+:root :is(.flex-33) {
+  flex: 33%;
+}
+:root :is(.flex-66) {
+  flex: 67%;
+}
 :root :is(.flex-auto) {
   flex: 1 1 auto;
 }
 :root :is(.flex-none) {
   flex: none;
+}
+:root :is(.flex-end) {
+  align-self: flex-end;
 }
 :root :is(.transform) {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));

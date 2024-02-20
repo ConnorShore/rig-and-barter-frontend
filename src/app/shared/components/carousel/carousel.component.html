@@ -1,0 +1,23 @@
+<div class="carousel">
+    @for(image of images; track image;) {
+        @if($index === currentImage) {
+            <img
+            [src]="image"
+            class="slide"
+            [@slideAnimation]="animationType"
+          />
+        }
+    }
+  
+    <!-- controls -->
+    <button class="control prev" (click)="onPreviousClick()">
+        <div class="px-1">
+            <mat-icon svgIcon="mat:arrow_back_ios" style="transform: scale(2);" />
+        </div>
+    </button>
+    <button class="control next" (click)="onNextClick()">
+        <div class="px-1">
+            <mat-icon svgIcon="mat:arrow_forward_ios" style="transform: scale(2);" />
+        </div>
+    </button>
+</div>
