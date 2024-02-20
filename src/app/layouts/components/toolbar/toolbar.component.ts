@@ -88,6 +88,7 @@ export class ToolbarComponent implements OnInit {
   megaMenuOpen$: Observable<boolean> = of(false);
 
   isUserLoggedIn = this.authService.isLoggedIn();
+  loggedInUser = this.authService.getUserProfile();
 
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
 

@@ -2,12 +2,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  Input,
   OnInit
 } from '@angular/core';
 import { VexPopoverService } from '@vex/components/vex-popover/vex-popover.service';
 import { ToolbarUserDropdownComponent } from './toolbar-user-dropdown/toolbar-user-dropdown.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
+import { KeycloakProfile } from 'keycloak-js';
 
 @Component({
   selector: 'vex-toolbar-user',
@@ -18,6 +20,7 @@ import { MatRippleModule } from '@angular/material/core';
 })
 export class ToolbarUserComponent implements OnInit {
   dropdownOpen: boolean = false;
+  @Input() currentUser: KeycloakProfile;
 
   constructor(
     private popover: VexPopoverService,
@@ -47,9 +50,8 @@ export class ToolbarUserComponent implements OnInit {
           overlayX: 'end',
           overlayY: 'top'
         }
-      ]
+      ],
     });
-
     popoverRef.afterClosed$.subscribe(() => {
       this.dropdownOpen = false;
       this.cd.markForCheck();
