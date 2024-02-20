@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IListing } from '../../../model/listing';
 import { ListingCardComponent } from '../listing-card/listing-card.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TransactionService } from '../../../services/transaction.service';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
+import { Subscription } from 'rxjs';
+import { ListingsRequestService } from 'src/app/shared/services/listings-request.service';
+import { ListingService } from 'src/app/services/listing.service';
 
 @Component({
   selector: 'listings-gallery',
@@ -15,18 +18,23 @@ import { MatIconModule } from '@angular/material/icon';
     MatIconModule,
   ],
   providers: [
-    TransactionService
+    TransactionService,
+    ListingsRequestService
   ],
   templateUrl: './listings-gallery.component.html',
   styleUrl: './listings-gallery.component.scss'
 })
-export class ListingsGalleryComponent implements OnInit {
+export class ListingsGalleryComponent implements OnInit, OnDestroy {
 
   PAGE_TITLE = 'Explore Listings';
 
   listings: IListing[] = [];
 
+  listingRequestedSubscription = new Subscription;
+
   constructor(
+    private listingRequestedService: ListingsRequestService,
+    private listingService: ListingService,
     private activatedRoute: ActivatedRoute, 
     private router: Router) { }
 
@@ -35,6 +43,25 @@ export class ListingsGalleryComponent implements OnInit {
       this.listings = listings;
       console.log('listings: ', this.listings);
     });
+
+    console.log('subscribing to listing requested')
+    this.listingRequestedService.listingsRequested.subscribe(() => {  
+      console.log('on listing requested triggered in gallery V1');
+      this.listingService.getAllListings().subscribe(listings => {
+        this.listings = listings;
+      });
+    });
+
+    this.listingRequestedSubscription = this.listingRequestedService.allListingsRequested().subscribe(() => {
+      console.log('on listing requested triggered in gallery V2');
+      this.listingService.getAllListings().subscribe(listings => {
+        this.listings = listings;
+      });
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.listingRequestedSubscription.unsubscribe();
   }
   
   listingSelected(listingId: string) {
