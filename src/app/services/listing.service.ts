@@ -38,6 +38,10 @@ export class ListingService {
         return this.httpClient.get<IListing[]>(createBackendRequest(this.configService.apiGatewayUrl, 'api/listing'));
     }
 
+    getListingById(listingId: string): Observable<IListing> {
+        return this.httpClient.get<IListing>(createBackendRequest(this.configService.apiGatewayUrl, `api/listing/${listingId}`));
+    }
+
     checkHealth(): Observable<string> {
         return this.httpClient.get(createBackendRequest(this.configService.apiGatewayUrl, 'api/listing/status'), {responseType: 'text'});
     }

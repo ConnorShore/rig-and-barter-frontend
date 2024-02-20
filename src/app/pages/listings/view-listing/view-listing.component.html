@@ -1,1 +1,48 @@
-<p>view-listing works!</p>
+<div class="h-full flex flex-col">
+    <div class="p-6 pb-0 bg-foreground shadow-b border-b">
+        <div>
+          <h1 class="display-1 font-bold mt-0 mb-4 flex items-center">
+            <span class="block">{{listing.title}}</span>
+          </h1>
+        </div>
+    </div>
+    <div class="p-6 gap-6 grid grid-cols-3 h-full mb-6 mr-6">
+        <div class="bg-app-bar dark:bg-base dark:border">
+            <div class="p-4">
+                <h1 class="title font-medium m-0 select-none" style="font-weight: bold;">
+                    Description
+                </h1>
+                <p class="body-1 m-0 mt-2">
+                    {{ listing.description }}
+                </p>
+            </div>
+            <div class="p-4">
+                <h1 class="title font-medium m-0 select-none" style="font-weight: bold;">
+                    Category
+                </h1>
+                <p class="body-1 m-0 mt-2">
+                    {{ listing.componentCategory }}
+                </p>
+            </div>
+            <div class="p-4">
+                <h2 class="title font-medium m-0 select-none" style="font-weight: bold;">
+                    Price
+                </h2>
+                <p class="body-1 m-0 mt-2">
+                    {{ listing.price | currency: 'USD' }}
+                </p>
+            </div>
+            <div class="p-4">
+                <h2 class="title font-medium m-0 select-none" style="font-weight: bold;">
+                    Listing Date
+                </h2>
+                <p class="body-1 m-0 mt-2">
+                    {{ listing.creationDate | date }}
+                </p>
+            </div>
+        </div>
+        <div class="bg-app-bar dark:bg-base" style="grid-column: span 2;">
+            <rb-carousel [images]="listing.imageUrls" />
+        </div>
+    </div>
+</div>
