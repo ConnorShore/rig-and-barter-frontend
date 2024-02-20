@@ -11,9 +11,8 @@ export class TransactionService {
 
     constructor(private httpClient: HttpClient, private configService: ConfigurationService) { }
 
-    createTransactionTest(transactionRequest: ITransactionRequest): Observable<string> {
+    createTransaction(transactionRequest: ITransactionRequest): Observable<string> {
         let url = createBackendRequest(this.configService.apiGatewayUrl, 'api/transaction');
-        // return this.httpClient.get(url, {responseType: 'text'});
         return this.httpClient.post(url, transactionRequest, {responseType: 'text'});
     }
 

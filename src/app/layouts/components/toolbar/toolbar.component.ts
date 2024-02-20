@@ -31,6 +31,7 @@ import { KeycloakService } from 'keycloak-angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CreateListingComponent } from 'src/app/pages/listings/create-listing/create-listing.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'vex-toolbar',
@@ -50,7 +51,8 @@ import { CreateListingComponent } from 'src/app/pages/listings/create-listing/cr
     ToolbarUserComponent,
     NavigationComponent,
     MatDialogModule,
-    AsyncPipe
+    AsyncPipe,
+    MatTooltipModule
   ],
   providers: [
     KeycloakService
