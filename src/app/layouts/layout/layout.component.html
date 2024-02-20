@@ -22,10 +22,10 @@
     </mat-sidenav>
 
     <mat-sidenav-content class="vex-layout-sidenav-content">
-      <vex-toolbar [class.dark]="config.layout === 'vertical'" class="vex-toolbar"></vex-toolbar>
+      <vex-toolbar [class.dark]="config.layout === 'vertical'" class="vex-toolbar" (listingCreated)="onListingCreated()"></vex-toolbar>
 
       <main class="vex-layout-content">
-        <router-outlet></router-outlet>
+        <router-outlet/>
       </main>
 
     </mat-sidenav-content>

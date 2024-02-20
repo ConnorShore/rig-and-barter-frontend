@@ -1,38 +1,68 @@
-<h2 mat-dialog-title>Create Listing</h2>
-<mat-dialog-content>
-    <form [formGroup]="createListingForm" (ngSubmit)="onSubmit()">
-        <br>
-        <mat-form-field appearance="outline">
+<form (ngSubmit)="onSubmit()" [formGroup]="createListingForm">
+    <div class="flex items-center" mat-dialog-title>
+      <h2 class="headline m-0 flex-auto">
+        Create Listing
+      </h2>
+  
+      <button
+        class="text-secondary"
+        mat-dialog-close
+        mat-icon-button
+        type="button">
+        <mat-icon svgIcon="mat:close"></mat-icon>
+      </button>
+    </div>
+  
+    <mat-divider class="text-border"></mat-divider>
+  
+    <mat-dialog-content class="flex flex-col">
+
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
             <mat-label>Listing Title</mat-label>
-            <input matInput placeholder="Title" formControlName="listingTitle">
-            <mat-hint>The display title of the listing</mat-hint>
+            <input cdkFocusInitial formControlName="listingTitle" matInput placeholder="Listing Title" required/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
         </mat-form-field>
-        <br>
-        <mat-form-field appearance="outline">
-            <mat-label>Listing Description</mat-label>
-            <input matInput placeholder="Description" formControlName="listingDescription">
-            <mat-hint>The description of the listing</mat-hint>
+    
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always" required>
+            <mat-label>Description</mat-label>
+            <textarea formControlName="listingDescription" matInput placeholder="Listing Description"></textarea>
         </mat-form-field>
+    
+        <div class="flex flex-col sm:flex-row">
+            <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>Select Category</mat-label>
+                <mat-select formControlName="listingCategory" required>
+                    @for(category of componentCategories; track category) {
+                        <mat-option [value]="category">{{category}}</mat-option>
+                    }
+                </mat-select>
+                <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field class="sm:ml-6 flex-auto" appearance="outline" floatLabel="always">
+                <mat-label>Listing Price</mat-label>
+                <input formControlName="listingPrice" matInput type="number" placeholder="0.00" required/>
+                <span matTextPrefix>$&nbsp;</span>
+                <mat-icon matIconPrefix svgIcon="mat:sell"></mat-icon>
+
+            </mat-form-field>
+        </div>
+
         <br>
-        <mat-form-field floatLabel="always">
-            <mat-label>Listing Price</mat-label>
-            <input matInput type="number" placeholder="0" style="text-align: right;" formControlName="listingPrice">
-            <span matTextPrefix>$&nbsp;</span>
-            <mat-hint>The price of the listing</mat-hint>
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-            <mat-label>Select Category</mat-label>
-            <mat-select formControlName="listingCategory">
-                @for(category of componentCategories; track category) {
-                    <mat-option [value]="category">{{category}}</mat-option>
-                }
-            </mat-select>
-            <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
-        </mat-form-field>
-        <br>
-        <file-drag-and-drop [maxNumFiles]="10" (selectedFiles)="setSelectedFiles($event)" />
-        <br>
-        <button mat-raised-button color="primary" type="submit">Create Listing</button>
-    </form>
-</mat-dialog-content>
+        <div>
+            <mat-label>Listing Images</mat-label>
+            <file-drag-and-drop [maxNumFiles]="10" (selectedFiles)="setSelectedFiles($event)" />
+        </div>
+
+    </mat-dialog-content>
+  
+    <mat-dialog-actions class="flex justify-end" style="margin-bottom: 12px; margin-right: 12px;">
+        <button mat-button type="button" (click)="closeDialog(false)">Cancel</button>
+        <button [disabled]="createListingForm.invalid"
+        color="primary"
+        mat-flat-button
+        type="submit">
+        Create Listing
+        </button>
+    </mat-dialog-actions>
+</form>

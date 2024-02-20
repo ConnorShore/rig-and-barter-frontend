@@ -58,7 +58,6 @@ export class SidenavComponent implements OnInit {
     private navigationService: NavigationService,
     private layoutService: VexLayoutService,
     private configService: VexConfigService,
-    private readonly popoverService: VexPopoverService,
     private readonly dialog: MatDialog
   ) {}
 

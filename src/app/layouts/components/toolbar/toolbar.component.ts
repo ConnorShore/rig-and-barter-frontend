@@ -2,9 +2,11 @@ import {
   Component,
   DestroyRef,
   ElementRef,
+  EventEmitter,
   HostBinding,
   inject,
-  OnInit
+  OnInit,
+  Output
 } from '@angular/core';
 import { VexLayoutService } from '@vex/services/vex-layout.service';
 import { VexConfigService } from '@vex/config/vex-config.service';
@@ -27,7 +29,7 @@ import { checkRouterChildsData } from '@vex/utils/check-router-childs-data';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { KeycloakService } from 'keycloak-angular';
 import { AuthService } from 'src/app/services/auth.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CreateListingComponent } from 'src/app/pages/listings/create-listing/create-listing.component';
 
 @Component({
@@ -47,6 +49,7 @@ import { CreateListingComponent } from 'src/app/pages/listings/create-listing/cr
     ToolbarNotificationsComponent,
     ToolbarUserComponent,
     NavigationComponent,
+    MatDialogModule,
     AsyncPipe
   ],
   providers: [
@@ -56,6 +59,8 @@ import { CreateListingComponent } from 'src/app/pages/listings/create-listing/cr
 export class ToolbarComponent implements OnInit {
   @HostBinding('class.shadow-b')
   showShadow: boolean = false;
+
+  @Output() listingCreated = new EventEmitter<void>();
 
   navigationItems$: Observable<NavigationItem[]> =
     this.navigationService.items$;
@@ -129,11 +134,14 @@ export class ToolbarComponent implements OnInit {
   createListingClicked() {
     this.dialog.open(CreateListingComponent, {
       width: '600px',
-      height: '800px'
+      minHeight: '500px',
+      maxHeight: '800px'
     })
     .afterClosed()
     .subscribe(createdListing => {
-      console.log('Closed create listing dialog, created listing: ', createdListing);
+      // if(createdListing) {
+        this.listingCreated.emit();
+      // }
     });
   }
 }
