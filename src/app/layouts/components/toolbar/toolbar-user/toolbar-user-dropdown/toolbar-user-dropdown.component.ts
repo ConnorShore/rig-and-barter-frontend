@@ -15,6 +15,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from 'src/app/services/auth.service';
+import { KeycloakProfile } from 'keycloak-js';
 
 export interface OnlineStatus {
   id: 'online' | 'away' | 'dnd' | 'offline';
@@ -105,6 +106,8 @@ export class ToolbarUserDropdownComponent implements OnInit {
   ];
 
   activeStatus: OnlineStatus = this.statuses[0];
+  
+  currentUser = this.authService.getUserProfile();
 
   trackById = trackById;
 

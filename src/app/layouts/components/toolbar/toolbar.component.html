@@ -128,7 +128,7 @@
 
     @if(isUserLoggedIn) {
       <div class="px-1">
-        <vex-toolbar-user></vex-toolbar-user>
+        <vex-toolbar-user [currentUser]="loggedInUser"></vex-toolbar-user>
       </div>
     } 
     @else {
