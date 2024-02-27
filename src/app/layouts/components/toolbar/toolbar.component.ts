@@ -1,7 +1,6 @@
 import {
   Component,
   DestroyRef,
-  ElementRef,
   EventEmitter,
   HostBinding,
   inject,
@@ -12,8 +11,6 @@ import { VexLayoutService } from '@vex/services/vex-layout.service';
 import { VexConfigService } from '@vex/config/vex-config.service';
 import { filter, map, startWith, switchMap } from 'rxjs/operators';
 import { NavigationService } from '../../../core/navigation/navigation.service';
-import { VexPopoverService } from '@vex/components/vex-popover/vex-popover.service';
-import { MegaMenuComponent } from './mega-menu/mega-menu.component';
 import { Observable, of } from 'rxjs';
 import { NavigationComponent } from '../navigation/navigation.component';
 import { ToolbarUserComponent } from './toolbar-user/toolbar-user.component';

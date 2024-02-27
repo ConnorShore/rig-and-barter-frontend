@@ -43,6 +43,7 @@ export class ViewListingComponent implements OnInit {
   createTransaction() {
     const transactionRequest: ITransactionRequest = {
       listingId: this.listing.id,
+      buyerId: this.currentUser.id as string,
       sellerId: this.listing.userId,
       title: this.listing.title + ' - Transaction'
     };
