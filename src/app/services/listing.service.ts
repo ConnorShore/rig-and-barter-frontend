@@ -13,14 +13,11 @@ export class ListingService {
     
     constructor(private httpClient: HttpClient, private authService: AuthService, private configService: ConfigurationService) {}
 
-    createListing(listing: IListingRequest, images: File[]): Observable<any> {
+    createListing(listing: IListingRequest, images: File[]): Observable<string> {
         const formData:any = new FormData();
         formData.append('listing', new Blob([JSON.stringify(listing)]), {type: 'application/json'});
         images.forEach(image => formData.append('images', image, image.name));
-
-        console.log('Form data images: ', formData.get('images'));
-        
-        return this.httpClient.post(createBackendRequest(this.configService.apiGatewayUrl, 'api/listing'), formData);
+        return this.httpClient.post(createBackendRequest(this.configService.apiGatewayUrl, 'api/listing'), formData, ({responseType: 'text'}));
     }
 
     getNoAuthEndpoint(): Observable<string> {

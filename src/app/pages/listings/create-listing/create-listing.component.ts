@@ -1,16 +1,17 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatFormFieldModule, MatLabel } from '@angular/material/form-field'
+import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { MatSelectModule } from '@angular/material/select'
 import { ListingService } from '../../../services/listing.service';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ComponentCategory } from '../../../model/component-category';
 import { MatButtonModule } from '@angular/material/button';
 import { IListingRequest } from '../../../model/listing-request';
 import { FileDragAndDropComponent } from '../../../shared/components/file-drag-and-drop/file-drag-and-drop.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'create-listing',
@@ -48,7 +49,8 @@ export class CreateListingComponent implements OnInit {
 
   constructor(
     private dialogRef: MatDialogRef<CreateListingComponent>,
-    private listingService: ListingService) { }
+    private listingService: ListingService,
+    private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.componentCategories = Object.keys(ComponentCategory);
@@ -66,9 +68,8 @@ export class CreateListingComponent implements OnInit {
     console.log('Creating listing data: ', listingRequest);
     console.log('Creating listing images: ', this.listingImages);
 
-    this.listingService.createListing(listingRequest, this.listingImages).subscribe(ret => {
-      // Todo: If it was successful, close the dialog and display toast message (and update listing gallery view)
-      // Todo: If it was not successful, display error message and keep dialog open
+    this.listingService.createListing(listingRequest, this.listingImages).subscribe(listingId => {
+      this.notificationService.showSuccess('Your listing is now available to the public', 'Listing Created', 'View', `/listings/${listingId}`);
       this.closeDialog(true);
     })
   }
