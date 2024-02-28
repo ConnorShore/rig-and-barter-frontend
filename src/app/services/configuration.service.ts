@@ -3,7 +3,9 @@ import { Injectable } from "@angular/core";
 import { lastValueFrom } from "rxjs";
 
 
-@Injectable({providedIn: 'root'})
+@Injectable({
+    providedIn: 'root'
+})
 export class ConfigurationService {
 
     private _config: any;
