@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { IListing } from 'src/app/model/listing';
 import { ITransactionRequest } from 'src/app/model/transaction-request';
 import { AuthService } from 'src/app/services/auth.service';
+import { NotificationService } from 'src/app/services/notification.service';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { CarouselComponent } from 'src/app/shared/components/carousel/carousel.component';
 
@@ -30,7 +31,8 @@ export class ViewListingComponent implements OnInit {
   
   constructor(private activatedRoute: ActivatedRoute, 
     private authService: AuthService,
-    private transactionService: TransactionService) { }
+    private transactionService: TransactionService,
+    private notificationService: NotificationService) { }
 
   ngOnInit() {
     console.log('this.activatedRoute.data: ', this.activatedRoute.data);
@@ -50,6 +52,7 @@ export class ViewListingComponent implements OnInit {
 
     this.transactionService.createTransaction(transactionRequest).subscribe((transactionId) => {
       console.log('Transaction created: ', transactionId);
+      this.notificationService.showInfo('The seller will be notified of your interest in this listing.', 'Transaction Started');
     });
   }
 }
