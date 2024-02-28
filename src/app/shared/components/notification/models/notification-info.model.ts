@@ -1,6 +1,8 @@
 export interface INotificationInfo {
-    title: string;
+    title?: string;
     message: string;
+    actionLabel?: string;
+    actionUrl?: string;
     type: NotificationType;
 }
 

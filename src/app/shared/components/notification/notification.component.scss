@@ -1,0 +1,13 @@
+
+.mat-snack-bar-container {
+    max-width: 800px;
+    @apply shadow text-on-primary-600 py-4 px-6;
+ }
+  
+.notification-heading {
+    @apply text-lg;
+}
+
+.notification-subheading {
+    @apply text-xs;
+}

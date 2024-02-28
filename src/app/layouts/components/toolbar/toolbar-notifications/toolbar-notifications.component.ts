@@ -10,7 +10,6 @@ import { VexPopoverService } from '@vex/components/vex-popover/vex-popover.servi
 import { ToolbarNotificationsDropdownComponent } from './toolbar-notifications-dropdown/toolbar-notifications-dropdown.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'vex-toolbar-notifications',
@@ -18,8 +17,7 @@ import { NotificationService } from 'src/app/services/notification.service';
   styleUrls: ['./toolbar-notifications.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [MatButtonModule, MatIconModule],
-  providers: [NotificationService]
+  imports: [MatButtonModule, MatIconModule]
 })
 export class ToolbarNotificationsComponent implements OnInit {
   @ViewChild('originRef', { static: true, read: ElementRef })
@@ -29,15 +27,12 @@ export class ToolbarNotificationsComponent implements OnInit {
 
   constructor(
     private popover: VexPopoverService,
-    private cd: ChangeDetectorRef,
-    private notificationService: NotificationService
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {}
 
   showPopover() {
-    this.notificationService.showInfo('Hello, World!', 'Test Title');
-
     this.dropdownOpen = true;
     this.cd.markForCheck();
 
