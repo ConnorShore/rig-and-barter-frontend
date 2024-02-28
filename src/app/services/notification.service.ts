@@ -59,7 +59,7 @@ export class NotificationService {
             horizontalPosition: this.horizontalPosition,
             verticalPosition: this.verticalPosition,
             panelClass: [panelClass],
-            duration: this.duration,
+            duration: this.duration
         });
     }
 }
