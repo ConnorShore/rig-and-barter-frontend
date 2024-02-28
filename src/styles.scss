@@ -39,3 +39,18 @@ html {
   // --vex-color-warn: yellow;
   // --vex-color-warn-contrast: black;
 }
+
+.mat-mdc-snack-bar-container {
+  &.info-notification {
+    --mdc-snackbar-container-color: #2196f3;
+  }
+  &.success-notification {
+    --mdc-snackbar-container-color: #4CAF50;
+  }
+  &.warning-notification {
+    --mdc-snackbar-container-color: #ff9800;
+  }
+  &.error-notification {
+    --mdc-snackbar-container-color: #f44336;
+  }
+}

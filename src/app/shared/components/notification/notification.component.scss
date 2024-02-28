@@ -1,0 +1,20 @@
+
+.mat-snack-bar-container {
+    @apply shadow text-on-primary-600 py-4 px-6;
+}
+
+.notification-container {
+    border-bottom-left-radius: var(--vex-border-radius);
+    border-bottom-right-radius: var(--vex-border-radius);
+}
+  
+.notification-heading {
+    font-weight: 800;
+    font-size: 13pt;
+    color: #292929;
+}
+
+.notification-subheading {
+    font-size:10pt;
+    color: #292929;
+}
