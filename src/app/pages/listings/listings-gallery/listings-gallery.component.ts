@@ -8,6 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { Subscription } from 'rxjs';
 import { ListingsRequestService } from 'src/app/shared/services/listings-request.service';
 import { ListingService } from 'src/app/services/listing.service';
+import { StompService } from 'src/app/services/stomp.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'listings-gallery',
@@ -35,6 +37,8 @@ export class ListingsGalleryComponent implements OnInit, OnDestroy {
   constructor(
     private listingRequestedService: ListingsRequestService,
     private listingService: ListingService,
+    private stompService: StompService,
+    private notificationService: NotificationService,
     private activatedRoute: ActivatedRoute, 
     private router: Router) { }
 
@@ -50,6 +54,11 @@ export class ListingsGalleryComponent implements OnInit, OnDestroy {
         this.listings = listings;
       });
     });
+
+    this.stompService.subscribe('/topic/tester', () => {
+      this.notificationService.showInfo('Recieved websocked info');
+      console.log('WEBSOKET WORKS!');
+    });
   }
 
   ngOnDestroy(): void {
@@ -61,16 +70,9 @@ export class ListingsGalleryComponent implements OnInit, OnDestroy {
     this.router.navigate(['/listings', listingId]);
   }
 
-  // selectListing(listing: IListing) {
-  //   console.log('selected listing: ', listing);
-  //   let transacitionRequest = {
-  //     listingId: listing.id,
-  //     sellerId: listing.userId,
-  //     title: 'New Transaction for: ' + listing.title
-  //   };
-
-  //   this.transactionService.createTransactionTest(transacitionRequest).subscribe(response => {
-  //     console.log('Create Transaction response: ', response);
-  //   });
-  // }
+  callWebsocket() {
+    this.notificationService.checkHealth().subscribe(response => {
+      console.log('check health response: ', response);
+    });
+  }
 }

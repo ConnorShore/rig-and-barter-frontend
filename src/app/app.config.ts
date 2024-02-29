@@ -23,6 +23,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { ErrorInterceptor } from './shared/error.interceptor';
 import { KeycloakAngularModule, KeycloakBearerInterceptor, KeycloakService } from 'keycloak-angular';
 import { ConfigurationService } from './services/configuration.service';
+import { StompService } from './services/stomp.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [

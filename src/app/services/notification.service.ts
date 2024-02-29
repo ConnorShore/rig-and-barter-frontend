@@ -3,6 +3,10 @@ import { Injectable } from "@angular/core";
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from "@angular/material/snack-bar";
 import { NotificationComponent } from "../shared/components/notification/notification.component";
 import { INotificationInfo, NotificationType } from "../shared/components/notification/models/notification-info.model";
+import { HttpClient } from "@angular/common/http";
+import { createBackendRequest } from "../shared/http.utils";
+import { ConfigurationService } from "./configuration.service";
+import { Observable } from "rxjs";
 
 @Injectable({
     providedIn: 'root',
@@ -13,7 +17,9 @@ export class NotificationService {
 
     private duration: number = 3500;
 
-    constructor(private snackBar: MatSnackBar) { }
+    constructor(private snackBar: MatSnackBar,
+        private httpClient: HttpClient,
+        private configService: ConfigurationService) { }
 
     showInfo(message: string, title?: string, actionLabel?: string, actionUrl?: string) {
         this.spawnNotification(NotificationType.INFO, message, title, actionLabel, actionUrl);
@@ -29,6 +35,10 @@ export class NotificationService {
 
     showError(message: string, title?: string, actionLabel?: string, actionUrl?: string) {
         this.spawnNotification(NotificationType.ERROR, message, title, actionLabel, actionUrl);
+    }
+
+    checkHealth(): Observable<string> {
+        return this.httpClient.get(createBackendRequest(this.configService.apiGatewayUrl, 'api/notification/status'), {responseType: 'text'});
     }
 
     private spawnNotification(type: NotificationType, message: string, title?: string, actionLabel?: string, actionUrl?: string) {
