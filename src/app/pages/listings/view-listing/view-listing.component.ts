@@ -50,8 +50,9 @@ export class ViewListingComponent implements OnInit {
       title: this.listing.title + ' - Transaction'
     };
 
+    console.log('transaciton request: ', transactionRequest);
+
     this.transactionService.createTransaction(transactionRequest).subscribe((transactionId) => {
-      console.log('Transaction created: ', transactionId);
       this.notificationService.showInfo('The seller will be notified of your interest in this listing.', 'Transaction Started');
     });
   }

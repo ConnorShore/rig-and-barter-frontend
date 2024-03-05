@@ -1,7 +1,7 @@
 import { ApplicationConfig, importProvidersFrom, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { appRoutes } from './app.routes';
-import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import {
   HTTP_INTERCEPTORS,
   withFetch,
@@ -23,7 +23,6 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { ErrorInterceptor } from './shared/error.interceptor';
 import { KeycloakAngularModule, KeycloakBearerInterceptor, KeycloakService } from 'keycloak-angular';
 import { ConfigurationService } from './services/configuration.service';
-import { StompService } from './services/stomp.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
