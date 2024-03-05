@@ -12,6 +12,7 @@ import { FileDragAndDropComponent } from '../../../shared/components/file-drag-a
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { NotificationService } from 'src/app/services/notification.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'create-listing',
@@ -50,7 +51,8 @@ export class CreateListingComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<CreateListingComponent>,
     private listingService: ListingService,
-    private notificationService: NotificationService) { }
+    private notificationService: NotificationService,
+    private authService: AuthService) { }
 
   ngOnInit(): void {
     this.componentCategories = Object.keys(ComponentCategory);

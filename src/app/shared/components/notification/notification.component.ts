@@ -37,8 +37,10 @@ export class NotificationComponent {
     if(!this.data.actionUrl)
       return;
 
-    console.log('Navigating to: ' + this.data.actionUrl);
-    this.router.navigate([this.data.actionUrl]);
+    if(this.data.actionUrl.startsWith('http'))
+      window.open(this.data.actionUrl, '_blank');
+    else
+      this.router.navigate([this.data.actionUrl]);
   }
 
   closeNotification() {
@@ -55,13 +57,13 @@ export class NotificationComponent {
         style += 'info';
         break;
       case NotificationType.SUCCESS:
-        style +=  'success';
+        style += 'success';
         break;
       case NotificationType.WARN:
-        style +=  'warning';
+        style += 'warning';
         break;
       case NotificationType.ERROR:
-        style +=  'error';
+        style += 'error';
         break;
     }
 

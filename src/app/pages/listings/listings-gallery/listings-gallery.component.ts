@@ -60,17 +60,4 @@ export class ListingsGalleryComponent implements OnInit, OnDestroy {
     console.log('selected listing: ', listingId);
     this.router.navigate(['/listings', listingId]);
   }
-
-  // selectListing(listing: IListing) {
-  //   console.log('selected listing: ', listing);
-  //   let transacitionRequest = {
-  //     listingId: listing.id,
-  //     sellerId: listing.userId,
-  //     title: 'New Transaction for: ' + listing.title
-  //   };
-
-  //   this.transactionService.createTransactionTest(transacitionRequest).subscribe(response => {
-  //     console.log('Create Transaction response: ', response);
-  //   });
-  // }
 }

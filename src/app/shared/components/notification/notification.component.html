@@ -2,7 +2,7 @@
     <div>
       <div class="notification-heading">{{data.title}}</div>
       <div class="notification-subheading"> 
-        {{data.message}}
+        <div [innerHTML]="data.message"></div>
       </div>
     </div>
 
