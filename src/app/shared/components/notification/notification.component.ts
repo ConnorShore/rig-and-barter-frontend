@@ -9,6 +9,7 @@ import { INotificationInfo, NotificationType } from './models/notification-info.
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterModule } from '@angular/router';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'rb-notification',
@@ -17,7 +18,8 @@ import { Router, RouterModule } from '@angular/router';
     MatSnackBarLabel,
     MatIconModule,
     MatButtonModule,
-    RouterModule
+    RouterModule,
+    NgClass
   ],
   templateUrl: './notification.component.html',
   styleUrl: './notification.component.scss'
@@ -27,10 +29,13 @@ export class NotificationComponent {
   snackBarRef = inject(MatSnackBarRef);
 
   notificationContainerStyle: string;
+  notificationIcon: string;
+  notificationIconClass: string;
 
   constructor(@Inject(MAT_SNACK_BAR_DATA) public data: INotificationInfo,
               private router: Router) {
     this.notificationContainerStyle = this.setNotificationContainerStyle(data.type);
+    this.setNotificationIconData(data.type);
   }
 
   navigateToAction() {
@@ -68,5 +73,29 @@ export class NotificationComponent {
     }
 
     return style;
+  }
+
+  /**
+   * Set the style class and icon for the notification icon on the type
+   */
+  private setNotificationIconData(type: NotificationType): void {
+    switch (type) {
+      case NotificationType.INFO:
+        this.notificationIcon = 'mat:info';
+        this.notificationIconClass = "icon-color-info"
+        break;
+      case NotificationType.SUCCESS:
+        this.notificationIcon = 'mat:check_circle';
+        this.notificationIconClass = "icon-color-success"
+        break;
+      case NotificationType.WARN:
+        this.notificationIcon = 'mat:warning';
+        this.notificationIconClass = "icon-color-warning"
+        break;
+      case NotificationType.ERROR:
+        this.notificationIcon = 'mat:error';
+        this.notificationIconClass = "icon-color-error"
+        break;
+    }
   }
 }
