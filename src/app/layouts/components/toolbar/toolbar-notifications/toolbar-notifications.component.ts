@@ -10,6 +10,8 @@ import { VexPopoverService } from '@vex/components/vex-popover/vex-popover.servi
 import { ToolbarNotificationsDropdownComponent } from './toolbar-notifications-dropdown/toolbar-notifications-dropdown.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { NotificationService } from 'src/app/services/notification.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'vex-toolbar-notifications',
@@ -25,12 +27,23 @@ export class ToolbarNotificationsComponent implements OnInit {
 
   dropdownOpen: boolean = false;
 
+  userNotifications: Notification[] = [];
+
   constructor(
     private popover: VexPopoverService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private notificationService: NotificationService,
+    private authService: AuthService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if(this.authService.isLoggedIn()) {
+      this.notificationService.getAllNotificationsForUser().subscribe((notifications: Notification[]) => {
+        console.log('got all user notifications: ', notifications);
+        this.userNotifications = notifications;
+      });
+    }
+  }
 
   showPopover() {
     this.dropdownOpen = true;

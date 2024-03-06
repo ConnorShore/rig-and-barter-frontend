@@ -37,6 +37,10 @@ export class NotificationService {
         this.spawnNotification(NotificationType.ERROR, message, title, actionLabel, actionUrl);
     }
 
+    getAllNotificationsForUser(): Observable<Notification[]> {
+        return this.httpClient.get<Notification[]>(createBackendRequest(this.configService.apiGatewayUrl, 'api/notification'));
+    }
+
     checkHealth(): Observable<string> {
         return this.httpClient.get(createBackendRequest(this.configService.apiGatewayUrl, 'api/notification/status'), {responseType: 'text'});
     }
