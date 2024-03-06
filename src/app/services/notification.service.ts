@@ -56,6 +56,10 @@ export class NotificationService {
             case NotificationType.ERROR:
                 panelClass = 'error-notification';
                 break;
+            default:
+                panelClass = '';
+                console.error('Unknown notification type: ' + type);
+                break;
         }
 
         this.snackBar.openFromComponent(NotificationComponent, {

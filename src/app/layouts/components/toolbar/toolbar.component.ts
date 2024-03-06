@@ -29,6 +29,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CreateListingComponent } from 'src/app/pages/listings/create-listing/create-listing.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'vex-toolbar',
@@ -97,7 +98,8 @@ export class ToolbarComponent implements OnInit {
     private readonly navigationService: NavigationService,
     private readonly authService: AuthService,
     private readonly router: Router,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly notificationService: NotificationService
   ) {}
 
   ngOnInit() {
@@ -143,5 +145,21 @@ export class ToolbarComponent implements OnInit {
         this.listingCreated.emit();
       // }
     });
+  }
+
+  showInfo() {
+    this.notificationService.showInfo('This is an info message', 'Test Info');
+  }
+
+  showSuccess() {
+    this.notificationService.showSuccess('This is a success message', 'Test Success');
+  }
+
+  showWarn() {
+    this.notificationService.showWarning('This is a warning message', 'Test Warn');
+  }
+
+  showError() {
+    this.notificationService.showError('This is an error message', 'Test Error');
   }
 }

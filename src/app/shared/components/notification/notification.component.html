@@ -1,5 +1,11 @@
 <div class="flex items-center justify-between">
-    <div>
+    <div style="width: 10%;">
+      <mat-icon
+      [svgIcon]="notificationIcon"
+      [ngClass]="notificationIconClass"
+      class="flex-none"></mat-icon>
+    </div>
+    <div class="flex-auto">
       <div class="notification-heading">{{data.title}}</div>
       <div class="notification-subheading"> 
         <div [innerHTML]="data.message"></div>

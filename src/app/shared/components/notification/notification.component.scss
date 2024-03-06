@@ -1,3 +1,4 @@
+@import "../../../../variables.scss";
 
 .mat-snack-bar-container {
     @apply shadow text-on-primary-600 py-4 px-6;
@@ -11,11 +12,27 @@
 .notification-heading {
     font-weight: 800;
     font-size: 13pt;
-    color: #292929;
+    color: #e8e6e6;
 }
 
 .notification-subheading {
     font-size:10pt;
     font-weight: 500;
-    color: #292929;
+    color: #bcbcbc;
+}
+
+.icon-color-info {
+    color: $info-color;
+}
+
+.icon-color-success {
+    color: $success-color;
+}
+
+.icon-color-warning {
+    color: $warning-color;
+}
+
+.icon-color-error {
+    color: $error-color;
 }

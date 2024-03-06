@@ -2,6 +2,7 @@
 @import "~highlight.js/styles/androidstudio.css";
 // Vex Core
 @import "./@vex/styles/core";
+@import "./variables.scss";
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -43,15 +44,23 @@ html {
 
 .mat-mdc-snack-bar-container {
   &.info-notification {
-    --mdc-snackbar-container-color: #2196f3;
+    --mdc-snackbar-container-color: #111827;
+    border-width: 2px;
+    border-color: $info-color;
   }
   &.success-notification {
-    --mdc-snackbar-container-color: #4CAF50;
+    --mdc-snackbar-container-color: #111827;
+    border-width: 2px;
+    border-color: $success-color;
   }
   &.warning-notification {
-    --mdc-snackbar-container-color: #ff9800;
+    --mdc-snackbar-container-color: #111827;
+    border-width: 2px;
+    border-color: $warning-color;
   }
   &.error-notification {
-    --mdc-snackbar-container-color: #f44336;
+    --mdc-snackbar-container-color: #111827;
+    border-width: 2px;
+    border-color: $error-color;
   }
 }
