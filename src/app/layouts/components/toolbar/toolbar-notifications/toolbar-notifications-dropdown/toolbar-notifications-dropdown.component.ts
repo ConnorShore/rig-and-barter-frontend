@@ -5,11 +5,11 @@ import { trackById } from '@vex/utils/track-by';
 import { VexDateFormatRelativePipe } from '@vex/pipes/vex-date-format-relative/vex-date-format-relative.pipe';
 import { RouterLink } from '@angular/router';
 import { MatRippleModule } from '@angular/material/core';
-import { NgClass, NgFor } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { IFrontEndNotification } from 'src/app/model/notification/front-end-notification';
+import { FrontEndNotificationType, IFrontEndNotification } from 'src/app/model/notification/front-end-notification';
 import { DATA_TOKEN } from '@vex/components/vex-popover/vex-popover.service';
 import { NotificationService } from 'src/app/services/notification.service';
 
@@ -26,12 +26,14 @@ import { NotificationService } from 'src/app/services/notification.service';
     MatRippleModule,
     RouterLink,
     NgClass,
+    NgIf,
     VexDateFormatRelativePipe
   ]
 })
 export class ToolbarNotificationsDropdownComponent implements OnInit {
 
-  @Input() userNotifications: IFrontEndNotification[];
+  userNotifications: IFrontEndNotification[];
+  userSignedIn: boolean;
 
   notifications: Notification[] = [
     {
@@ -97,7 +99,8 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
 
 
   constructor(@Inject(DATA_TOKEN) public data: any, private notificationService: NotificationService) {
-    this.userNotifications = data;
+    this.userSignedIn = data[0];
+    this.userNotifications = data[1];
   }
 
   ngOnInit() {
@@ -105,6 +108,38 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
 
   markAsRead(notification: IFrontEndNotification) {
     notification.seenByUser = true;
+  }
+
+  getNoficiationTypeColor(notificationType: FrontEndNotificationType) {
+    let type: FrontEndNotificationType = FrontEndNotificationType[notificationType as unknown as keyof typeof FrontEndNotificationType];
+    switch (type) {
+      case FrontEndNotificationType.INFO:
+        return 'icon-color-info';
+      case FrontEndNotificationType.SUCCESS:
+        return 'icon-color-success';
+      case FrontEndNotificationType.WARNING:
+        return 'icon-color-warning';
+      case FrontEndNotificationType.ERROR:
+        return 'icon-color-error';
+      default:
+        return '';
+    }
+  }
+
+  getNoficiationTypeIcon(notificationType: FrontEndNotificationType) {
+    let type: FrontEndNotificationType = FrontEndNotificationType[notificationType as unknown as keyof typeof FrontEndNotificationType];
+    switch (type) {
+      case FrontEndNotificationType.INFO:
+        return 'mat:info';
+      case FrontEndNotificationType.SUCCESS:
+        return 'mat:check_circle';
+      case FrontEndNotificationType.WARNING:
+        return 'mat:warning';
+      case FrontEndNotificationType.ERROR:
+        return 'mat:error';
+      default:
+        return '';
+    }
   }
 
   deleteNotification(notification: IFrontEndNotification, index: number) {

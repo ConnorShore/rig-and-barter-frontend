@@ -22,6 +22,9 @@
 .dropdown-subheading {
   @apply text-xs;
 }
+.dropdown-subheading-large {
+  @apply text-sm;
+}
 
 .dropdown-content {
   max-height: 291px; // 73px height of 1 notification * 4
@@ -74,4 +77,13 @@
 
 .icon-color-info {
   color: $info-color;
+}
+.icon-color-success {
+  color: $success-color;
+}
+.icon-color-warning {
+  color: $warning-color;
+}
+.icon-color-error {
+  color: $error-color;
 }

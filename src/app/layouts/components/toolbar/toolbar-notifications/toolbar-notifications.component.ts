@@ -28,6 +28,7 @@ export class ToolbarNotificationsComponent implements OnInit {
   dropdownOpen: boolean = false;
 
   @Input() userNotifications: IFrontEndNotification[] = [];
+  @Input() userSignedIn: boolean;
 
   constructor(
     private popover: VexPopoverService,
@@ -47,7 +48,7 @@ export class ToolbarNotificationsComponent implements OnInit {
 
     const popoverRef = this.popover.open({
       content: ToolbarNotificationsDropdownComponent,
-      data: this.userNotifications,
+      data: [this.userSignedIn, this.userNotifications],
       origin: this.originRef,
       offsetY: 12,
       position: [

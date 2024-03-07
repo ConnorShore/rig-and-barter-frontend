@@ -1,20 +1,29 @@
 <div class="dropdown">
   <div class="dropdown-header flex items-center justify-between">
-    <div>
-      <div class="dropdown-heading">Notifications</div>
-      <div class="dropdown-subheading">
-        You have {{ userNotifications.length }} new notifications.
+    @if(userSignedIn) {
+      <div>
+        <div class="dropdown-heading">Notifications</div>
+        <div class="dropdown-subheading">
+          You have {{ userNotifications.length }} new notifications.
+        </div>
       </div>
-    </div>
-
-    <button [matMenuTriggerFor]="settingsMenu" mat-icon-button type="button">
-      <mat-icon
-        class="notifications-header-icon"
-        svgIcon="mat:settings"></mat-icon>
-    </button>
+  
+      <button *ngIf="userSignedIn" [matMenuTriggerFor]="settingsMenu" mat-icon-button type="button">
+        <mat-icon
+          class="notifications-header-icon"
+          svgIcon="mat:settings"></mat-icon>
+      </button>
+    }
+    @else {
+      <div>
+        <div class="dropdown-subheading-large">
+          Sign in to see your notifications.
+        </div>
+      </div>
+    }
   </div>
 
-  <div class="dropdown-content">
+  <div *ngIf="userSignedIn" class="dropdown-content">
     <a
       *ngFor="let notification of userNotifications; index as i"
       [class.read]="notification.seenByUser"
@@ -22,26 +31,26 @@
       class="notification flex items-center"
       (click)="markAsRead(notification)"
       matRipple>
+        <!-- TODO: Make the icon and icon color dynamic based on notification.notificationType-->
       <mat-icon
-        svgIcon="mat:info"
-        class="notification-icon flex-none icon-color-info"></mat-icon>
-      <!-- <mat-icon
-        [ngClass]="notification.colorClass"
-        [svgIcon]="notification.icon"
-        class="notification-icon flex-none"></mat-icon> -->
+        [ngClass]="getNoficiationTypeColor(notification.notificationType)"
+        [svgIcon]="getNoficiationTypeIcon(notification.notificationType)"
+        class="notification-icon flex-none"></mat-icon>
       <div class="flex-auto">
         <div class="notification-label">{{ notification.title }}</div>
         <div class="notification-description">
           {{ notification.creationDate | vexDateFormatRelative }}
         </div>
       </div>
-      <mat-icon
-        class="notification-chevron flex-none"
-        svgIcon="mat:delete" (click)="deleteNotification(notification, i)"></mat-icon>
+      <button mat-icon-button type="button" (click)="deleteNotification(notification, i)">
+        <mat-icon
+          class="notification-chevron flex-none"
+          svgIcon="mat:delete"/>
+      </button>
     </a>
   </div>
 
-  <div class="dropdown-footer flex items-center justify-center">
+  <div *ngIf="userSignedIn" class="dropdown-footer flex items-center justify-center">
     <button color="primary" mat-button type="button">MARK ALL AS READ</button>
   </div>
 </div>

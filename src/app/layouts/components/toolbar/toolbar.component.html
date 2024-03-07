@@ -51,7 +51,7 @@
     </div>
 
     <div class="px-1">
-      <vex-toolbar-notifications [userNotifications]="userNotifications"></vex-toolbar-notifications>
+      <vex-toolbar-notifications [userNotifications]="userNotifications" [userSignedIn]="isUserLoggedIn"></vex-toolbar-notifications>
     </div>
 
     @if(isUserLoggedIn) {
