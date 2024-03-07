@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { Notification } from '../interfaces/notification.interface';
 import { DateTime } from 'luxon';
 import { trackById } from '@vex/utils/track-by';
@@ -9,6 +9,9 @@ import { NgClass, NgFor } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { FrontEndNotificationType, IFrontEndNotification } from 'src/app/model/notification/front-end-notification';
+import { DATA_TOKEN } from '@vex/components/vex-popover/vex-popover.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'vex-toolbar-notifications-dropdown',
@@ -27,6 +30,9 @@ import { MatButtonModule } from '@angular/material/button';
   ]
 })
 export class ToolbarNotificationsDropdownComponent implements OnInit {
+
+  @Input() userNotifications: IFrontEndNotification[];
+
   notifications: Notification[] = [
     {
       id: '1',
@@ -89,7 +95,21 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
 
   trackById = trackById;
 
-  constructor() {}
 
-  ngOnInit() {}
+  constructor(@Inject(DATA_TOKEN) public data: any, private notificationService: NotificationService) {
+    this.userNotifications = data;
+  }
+
+  ngOnInit() {
+  }
+
+  markAsRead(notification: IFrontEndNotification) {
+    notification.seenByUser = true;
+  }
+
+  deleteNotification(notification: IFrontEndNotification, index: number) {
+    this.notificationService.deleteNotification(notification.id).subscribe(() => {
+      this.userNotifications.splice(index, 1);
+    });
+  }
 }

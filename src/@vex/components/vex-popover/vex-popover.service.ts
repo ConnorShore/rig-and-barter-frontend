@@ -1,10 +1,11 @@
-import { ElementRef, Injectable, Injector } from '@angular/core';
+import { ComponentRef, ElementRef, Injectable, InjectionToken, Injector } from '@angular/core';
 import {
   ConnectedPosition,
   ConnectionPositionPair,
   FlexibleConnectedPositionStrategyOrigin,
   Overlay,
   OverlayConfig,
+  OverlayRef,
   PositionStrategy
 } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
@@ -21,6 +22,8 @@ export interface VexPopoverParams<T> {
   offsetY?: number;
   offsetX?: number;
 }
+
+export const DATA_TOKEN = new InjectionToken<any>('portal-data');
 
 @Injectable({
   providedIn: 'root'
@@ -53,10 +56,11 @@ export class VexPopoverService {
     );
     const popoverRef = new VexPopoverRef<T>(overlayRef, content, data);
 
-    const injector = this.createInjector(popoverRef, this.injector);
-    overlayRef.attach(new ComponentPortal(VexPopoverComponent, null, injector));
+    const injector = this.createInjector(popoverRef, this.injector, data);
+    const componentPortal = new ComponentPortal(VexPopoverComponent, null, injector);
+    overlayRef.attach(componentPortal);
 
-    return popoverRef;
+    return popoverRef
   }
 
   private static getPositions(): ConnectionPositionPair[] {
@@ -76,12 +80,17 @@ export class VexPopoverService {
     ];
   }
 
-  createInjector(popoverRef: VexPopoverRef, injector: Injector) {
+  createInjector(popoverRef: VexPopoverRef, injector: Injector, data: any) {
+    console.log('creating injector with data: ', data);
     return Injector.create({
       providers: [
         {
           provide: VexPopoverRef,
           useValue: popoverRef
+        },
+        {
+          provide: DATA_TOKEN,
+          useValue: data
         }
       ],
       parent: injector

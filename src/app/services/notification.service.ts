@@ -7,6 +7,7 @@ import { HttpClient } from "@angular/common/http";
 import { createBackendRequest } from "../shared/http.utils";
 import { ConfigurationService } from "./configuration.service";
 import { Observable } from "rxjs";
+import { IFrontEndNotification } from "../model/notification/front-end-notification";
 
 @Injectable({
     providedIn: 'root',
@@ -37,8 +38,12 @@ export class NotificationService {
         this.spawnNotification(NotificationType.ERROR, message, title, actionLabel, actionUrl);
     }
 
-    getAllNotificationsForUser(): Observable<Notification[]> {
-        return this.httpClient.get<Notification[]>(createBackendRequest(this.configService.apiGatewayUrl, 'api/notification'));
+    getAllNotificationsForUser(): Observable<IFrontEndNotification[]> {
+        return this.httpClient.get<IFrontEndNotification[]>(createBackendRequest(this.configService.apiGatewayUrl, 'api/notification'));
+    }
+
+    deleteNotification(id: string): Observable<void> {
+        return this.httpClient.delete<void>(createBackendRequest(this.configService.apiGatewayUrl, 'api/notification/' + id));
     }
 
     checkHealth(): Observable<string> {

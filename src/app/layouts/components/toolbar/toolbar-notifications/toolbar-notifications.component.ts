@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  Input,
   OnInit,
   ViewChild
 } from '@angular/core';
@@ -10,8 +11,7 @@ import { VexPopoverService } from '@vex/components/vex-popover/vex-popover.servi
 import { ToolbarNotificationsDropdownComponent } from './toolbar-notifications-dropdown/toolbar-notifications-dropdown.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { NotificationService } from 'src/app/services/notification.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { IFrontEndNotification } from 'src/app/model/notification/front-end-notification';
 
 @Component({
   selector: 'vex-toolbar-notifications',
@@ -27,22 +27,14 @@ export class ToolbarNotificationsComponent implements OnInit {
 
   dropdownOpen: boolean = false;
 
-  userNotifications: Notification[] = [];
+  @Input() userNotifications: IFrontEndNotification[] = [];
 
   constructor(
     private popover: VexPopoverService,
-    private cd: ChangeDetectorRef,
-    private notificationService: NotificationService,
-    private authService: AuthService
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    if(this.authService.isLoggedIn()) {
-      this.notificationService.getAllNotificationsForUser().subscribe((notifications: Notification[]) => {
-        console.log('got all user notifications: ', notifications);
-        this.userNotifications = notifications;
-      });
-    }
   }
 
   showPopover() {
@@ -55,6 +47,7 @@ export class ToolbarNotificationsComponent implements OnInit {
 
     const popoverRef = this.popover.open({
       content: ToolbarNotificationsDropdownComponent,
+      data: this.userNotifications,
       origin: this.originRef,
       offsetY: 12,
       position: [

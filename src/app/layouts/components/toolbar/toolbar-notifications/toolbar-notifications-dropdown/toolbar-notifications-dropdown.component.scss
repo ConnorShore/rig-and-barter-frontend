@@ -1,3 +1,5 @@
+@import '../../../../../../variables.scss';
+
 .dropdown {
   background: var(--vex-background-card);
   border-bottom-left-radius: var(--vex-border-radius);
@@ -68,4 +70,8 @@
 
 .notification + .notification {
   @apply border-t;
+}
+
+.icon-color-info {
+  color: $info-color;
 }

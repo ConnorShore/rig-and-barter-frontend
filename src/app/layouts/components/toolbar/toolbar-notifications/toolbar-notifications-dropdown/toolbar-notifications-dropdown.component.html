@@ -3,7 +3,7 @@
     <div>
       <div class="dropdown-heading">Notifications</div>
       <div class="dropdown-subheading">
-        You have {{ notifications.length }} new notifications.
+        You have {{ userNotifications.length }} new notifications.
       </div>
     </div>
 
@@ -16,24 +16,28 @@
 
   <div class="dropdown-content">
     <a
-      *ngFor="let notification of notifications; trackBy: trackById"
-      [class.read]="notification.read"
+      *ngFor="let notification of userNotifications; index as i"
+      [class.read]="notification.seenByUser"
       [routerLink]="[]"
       class="notification flex items-center"
+      (click)="markAsRead(notification)"
       matRipple>
       <mat-icon
+        svgIcon="mat:info"
+        class="notification-icon flex-none icon-color-info"></mat-icon>
+      <!-- <mat-icon
         [ngClass]="notification.colorClass"
         [svgIcon]="notification.icon"
-        class="notification-icon flex-none"></mat-icon>
+        class="notification-icon flex-none"></mat-icon> -->
       <div class="flex-auto">
-        <div class="notification-label">{{ notification.label }}</div>
+        <div class="notification-label">{{ notification.title }}</div>
         <div class="notification-description">
-          {{ notification.datetime | vexDateFormatRelative }}
+          {{ notification.creationDate | vexDateFormatRelative }}
         </div>
       </div>
       <mat-icon
         class="notification-chevron flex-none"
-        svgIcon="mat:chevron_right"></mat-icon>
+        svgIcon="mat:delete" (click)="deleteNotification(notification, i)"></mat-icon>
     </a>
   </div>
 

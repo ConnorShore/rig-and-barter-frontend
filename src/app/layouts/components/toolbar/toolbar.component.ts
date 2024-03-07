@@ -30,6 +30,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CreateListingComponent } from 'src/app/pages/listings/create-listing/create-listing.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NotificationService } from 'src/app/services/notification.service';
+import { IFrontEndNotification } from 'src/app/model/notification/front-end-notification';
 
 @Component({
   selector: 'vex-toolbar',
@@ -89,6 +90,7 @@ export class ToolbarComponent implements OnInit {
 
   isUserLoggedIn = this.authService.isLoggedIn();
   loggedInUser = this.authService.getUserProfile();
+  userNotifications: IFrontEndNotification[] = [];
 
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
@@ -115,6 +117,15 @@ export class ToolbarComponent implements OnInit {
           (data) => data.toolbarShadowEnabled ?? false
         );
       });
+
+      if(this.authService.isLoggedIn()) {
+        this.notificationService.getAllNotificationsForUser().subscribe((notifications: IFrontEndNotification[]) => {
+          console.log('got all user notifications: ', notifications);
+          this.userNotifications = notifications;
+  
+          // TODO: Populate the notification dropdown with the notifications (have default for no notifications or "user needs to login in order to see notifications")
+        });
+      }
   }
 
   openQuickpanel(): void {
