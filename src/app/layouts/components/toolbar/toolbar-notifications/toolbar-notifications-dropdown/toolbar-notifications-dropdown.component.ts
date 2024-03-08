@@ -34,7 +34,6 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
   unseenNotifications: number
 
   constructor(@Inject(DATA_TOKEN) public data: any, private notificationService: NotificationService) {
-    console.log('here');
     this.userSignedIn = data[0];
     this.userNotifications = data[1];
     this.setUnseenNotifications();
@@ -59,6 +58,31 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
       this.userNotifications.forEach(notification => notification.seenByUser = true);
       this.unseenNotifications = 0;
     });
+  }
+
+  deleteNotification(event: Event, notification: IFrontEndNotification, index: number) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.notificationService.deleteNotifications([notification.id]).subscribe(() => {
+      this.userNotifications.splice(index, 1);
+      this.setUnseenNotifications();
+    });
+  }
+
+  deleteAllNotifications() {
+    const notificationIds = this.userNotifications.map(notification => notification.id);
+    this.deleteMultipleNotifications(notificationIds);
+  }
+
+  deleteAllReadNotifications() {
+    const notificationIds = this.userNotifications
+                                  .filter(notification => notification.seenByUser)
+                                  .map(notification => notification.id);
+    this.deleteMultipleNotifications(notificationIds);
+  }
+
+  setUnseenNotifications() {
+    this.unseenNotifications = this.userNotifications.length - this.userNotifications.filter(notification => notification.seenByUser).length;
   }
 
   getNoficiationTypeColor(notificationType: FrontEndNotificationType) {
@@ -93,16 +117,10 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
     }
   }
 
-  deleteNotification(event: Event, notification: IFrontEndNotification, index: number) {
-    event.preventDefault();
-    event.stopPropagation();
-    this.notificationService.deleteNotification(notification.id).subscribe(() => {
-      this.userNotifications.splice(index, 1);
+  private deleteMultipleNotifications(notificationIds: string[]) {
+    this.notificationService.deleteNotifications(notificationIds).subscribe(() => {
+      this.userNotifications = this.userNotifications.filter(notification => !notificationIds.includes(notification.id));
       this.setUnseenNotifications();
     });
-  }
-
-  setUnseenNotifications() {
-    this.unseenNotifications = this.userNotifications.length - this.userNotifications.filter(notification => notification.seenByUser).length;
   }
 }

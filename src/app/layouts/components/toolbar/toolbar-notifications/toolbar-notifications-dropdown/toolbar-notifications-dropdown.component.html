@@ -61,8 +61,13 @@
     <span>Mark all as read</span>
   </button>
 
-  <button mat-menu-item>
+  <button mat-menu-item (click)="deleteAllReadNotifications()">
     <mat-icon svgIcon="mat:notifications_off"></mat-icon>
-    <span>Disable Notifications</span>
+    <span>Delete all read notifications</span>
+  </button>
+
+  <button mat-menu-item (click)="deleteAllNotifications()">
+    <mat-icon svgIcon="mat:notifications_off"></mat-icon>
+    <span>Delete all notifications</span>
   </button>
 </mat-menu>
