@@ -55,7 +55,10 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
   }
 
   markAllAsRead() {
-    // TODO: Implement (probably need an endpoint for a batch update rather than loop through all notifications and mark them individually)
+    this.notificationService.markAllNotificationsAsSeen().subscribe(() => {
+      this.userNotifications.forEach(notification => notification.seenByUser = true);
+      this.unseenNotifications = 0;
+    });
   }
 
   getNoficiationTypeColor(notificationType: FrontEndNotificationType) {

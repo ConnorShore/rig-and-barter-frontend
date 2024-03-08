@@ -56,7 +56,7 @@
 </div>
 
 <mat-menu #settingsMenu="matMenu" xPosition="before" yPosition="below">
-  <button mat-menu-item>
+  <button mat-menu-item (click)="markAllAsRead()">
     <mat-icon svgIcon="mat:clear_all"></mat-icon>
     <span>Mark all as read</span>
   </button>

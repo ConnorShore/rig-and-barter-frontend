@@ -8,6 +8,7 @@ import { createBackendRequest } from "../shared/http.utils";
 import { ConfigurationService } from "./configuration.service";
 import { Observable } from "rxjs";
 import { IFrontEndNotification } from "../model/notification/front-end-notification";
+import { th } from "date-fns/locale";
 
 @Injectable({
     providedIn: 'root',
@@ -48,6 +49,10 @@ export class NotificationService {
 
     markNotificationAsSeen(id: string): Observable<void> {
         return this.httpClient.patch<void>(createBackendRequest(this.configService.apiGatewayUrl, 'api/notification/' + id + '/seen'), {});
+    }
+
+    markAllNotificationsAsSeen(): Observable<void> {
+        return this.httpClient.patch<void>(createBackendRequest(this.configService.apiGatewayUrl, 'api/notification/seen'), {});
     }
 
     checkHealth(): Observable<string> {
