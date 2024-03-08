@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  Input,
   OnInit,
   ViewChild
 } from '@angular/core';
@@ -10,6 +11,7 @@ import { VexPopoverService } from '@vex/components/vex-popover/vex-popover.servi
 import { ToolbarNotificationsDropdownComponent } from './toolbar-notifications-dropdown/toolbar-notifications-dropdown.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { IFrontEndNotification } from 'src/app/model/notification/front-end-notification';
 
 @Component({
   selector: 'vex-toolbar-notifications',
@@ -25,12 +27,16 @@ export class ToolbarNotificationsComponent implements OnInit {
 
   dropdownOpen: boolean = false;
 
+  @Input() userNotifications: IFrontEndNotification[] = [];
+  @Input() userSignedIn: boolean;
+
   constructor(
     private popover: VexPopoverService,
     private cd: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   showPopover() {
     this.dropdownOpen = true;
@@ -42,6 +48,7 @@ export class ToolbarNotificationsComponent implements OnInit {
 
     const popoverRef = this.popover.open({
       content: ToolbarNotificationsDropdownComponent,
+      data: [this.userSignedIn, this.userNotifications],
       origin: this.originRef,
       offsetY: 12,
       position: [

@@ -3,10 +3,12 @@ import { Injectable } from "@angular/core";
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from "@angular/material/snack-bar";
 import { NotificationComponent } from "../shared/components/notification/notification.component";
 import { INotificationInfo, NotificationType } from "../shared/components/notification/models/notification-info.model";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { createBackendRequest } from "../shared/http.utils";
 import { ConfigurationService } from "./configuration.service";
 import { Observable } from "rxjs";
+import { IFrontEndNotification } from "../model/notification/front-end-notification";
+import { th } from "date-fns/locale";
 
 @Injectable({
     providedIn: 'root',
@@ -35,6 +37,24 @@ export class NotificationService {
 
     showError(message: string, title?: string, actionLabel?: string, actionUrl?: string) {
         this.spawnNotification(NotificationType.ERROR, message, title, actionLabel, actionUrl);
+    }
+
+    getAllNotificationsForUser(): Observable<IFrontEndNotification[]> {
+        return this.httpClient.get<IFrontEndNotification[]>(createBackendRequest(this.configService.apiGatewayUrl, 'api/notification'));
+    }
+
+    deleteNotifications(ids: string[]): Observable<void> {
+        let params = new HttpParams();
+        params = params.append('ids', ids.join(','));
+        return this.httpClient.delete<void>(createBackendRequest(this.configService.apiGatewayUrl, 'api/notification'), {params: params});
+    }
+
+    markNotificationAsSeen(id: string): Observable<void> {
+        return this.httpClient.patch<void>(createBackendRequest(this.configService.apiGatewayUrl, `api/notification/${id}/seen`), {});
+    }
+
+    markAllNotificationsAsSeen(): Observable<void> {
+        return this.httpClient.patch<void>(createBackendRequest(this.configService.apiGatewayUrl, 'api/notification/seen'), {});
     }
 
     checkHealth(): Observable<string> {
