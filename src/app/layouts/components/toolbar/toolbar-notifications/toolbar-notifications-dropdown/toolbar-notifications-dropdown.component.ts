@@ -1,7 +1,4 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { Notification } from '../interfaces/notification.interface';
-import { DateTime } from 'luxon';
-import { trackById } from '@vex/utils/track-by';
 import { VexDateFormatRelativePipe } from '@vex/pipes/vex-date-format-relative/vex-date-format-relative.pipe';
 import { RouterLink } from '@angular/router';
 import { MatRippleModule } from '@angular/material/core';
@@ -34,80 +31,31 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
 
   userNotifications: IFrontEndNotification[];
   userSignedIn: boolean;
-
-  notifications: Notification[] = [
-    {
-      id: '1',
-      label: 'New Order Received',
-      icon: 'mat:shopping_basket',
-      colorClass: 'text-primary-600',
-      datetime: DateTime.local().minus({ hour: 1 })
-    },
-    {
-      id: '2',
-      label: 'New customer has registered',
-      icon: 'mat:account_circle',
-      colorClass: 'text-orange-600',
-      datetime: DateTime.local().minus({ hour: 2 })
-    },
-    {
-      id: '3',
-      label: 'Campaign statistics are available',
-      icon: 'mat:insert_chart',
-      colorClass: 'text-purple-600',
-      datetime: DateTime.local().minus({ hour: 5 })
-    },
-    {
-      id: '4',
-      label: 'Project has been approved',
-      icon: 'mat:check_circle',
-      colorClass: 'text-green-600',
-      datetime: DateTime.local().minus({ hour: 9 })
-    },
-    {
-      id: '5',
-      label: 'Client reports are available',
-      icon: 'mat:description',
-      colorClass: 'text-primary-600',
-      datetime: DateTime.local().minus({ hour: 30 })
-    },
-    {
-      id: '6',
-      label: 'New review received',
-      icon: 'mat:feedback',
-      colorClass: 'text-orange-600',
-      datetime: DateTime.local().minus({ hour: 40 }),
-      read: true
-    },
-    {
-      id: '7',
-      label: '22 verified registrations',
-      icon: 'mat:verified_user',
-      colorClass: 'text-green-600',
-      datetime: DateTime.local().minus({ hour: 60 })
-    },
-    {
-      id: '8',
-      label: 'New files available',
-      icon: 'mat:file_copy',
-      colorClass: 'text-amber-600',
-      datetime: DateTime.local().minus({ hour: 90 })
-    }
-  ];
-
-  trackById = trackById;
-
+  unseenNotifications: number
 
   constructor(@Inject(DATA_TOKEN) public data: any, private notificationService: NotificationService) {
+    console.log('here');
     this.userSignedIn = data[0];
     this.userNotifications = data[1];
+    this.setUnseenNotifications();
   }
 
   ngOnInit() {
   }
 
-  markAsRead(notification: IFrontEndNotification) {
-    notification.seenByUser = true;
+  markAsRead(event: Event, notification: IFrontEndNotification) {
+    console.log('mark as read');
+    if(notification.seenByUser)
+      return;
+
+    this.notificationService.markNotificationAsSeen(notification.id).subscribe(() => {
+      notification.seenByUser = true;
+      this.setUnseenNotifications();
+    });
+  }
+
+  markAllAsRead() {
+    // TODO: Implement (probably need an endpoint for a batch update rather than loop through all notifications and mark them individually)
   }
 
   getNoficiationTypeColor(notificationType: FrontEndNotificationType) {
@@ -142,9 +90,16 @@ export class ToolbarNotificationsDropdownComponent implements OnInit {
     }
   }
 
-  deleteNotification(notification: IFrontEndNotification, index: number) {
+  deleteNotification(event: Event, notification: IFrontEndNotification, index: number) {
+    event.preventDefault();
+    event.stopPropagation();
     this.notificationService.deleteNotification(notification.id).subscribe(() => {
       this.userNotifications.splice(index, 1);
+      this.setUnseenNotifications();
     });
+  }
+
+  setUnseenNotifications() {
+    this.unseenNotifications = this.userNotifications.length - this.userNotifications.filter(notification => notification.seenByUser).length;
   }
 }

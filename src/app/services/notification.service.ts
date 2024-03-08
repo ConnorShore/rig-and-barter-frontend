@@ -46,6 +46,10 @@ export class NotificationService {
         return this.httpClient.delete<void>(createBackendRequest(this.configService.apiGatewayUrl, 'api/notification/' + id));
     }
 
+    markNotificationAsSeen(id: string): Observable<void> {
+        return this.httpClient.patch<void>(createBackendRequest(this.configService.apiGatewayUrl, 'api/notification/' + id + '/seen'), {});
+    }
+
     checkHealth(): Observable<string> {
         return this.httpClient.get(createBackendRequest(this.configService.apiGatewayUrl, 'api/notification/status'), {responseType: 'text'});
     }

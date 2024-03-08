@@ -157,20 +157,4 @@ export class ToolbarComponent implements OnInit {
       // }
     });
   }
-
-  showInfo() {
-    this.notificationService.showInfo('This is an info message', 'Test Info');
-  }
-
-  showSuccess() {
-    this.notificationService.showSuccess('This is a success message', 'Test Success');
-  }
-
-  showWarn() {
-    this.notificationService.showWarning('This is a warning message', 'Test Warn');
-  }
-
-  showError() {
-    this.notificationService.showError('This is an error message', 'Test Error');
-  }
 }

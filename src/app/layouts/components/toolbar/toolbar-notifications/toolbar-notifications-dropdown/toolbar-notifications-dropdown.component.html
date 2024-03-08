@@ -4,7 +4,7 @@
       <div>
         <div class="dropdown-heading">Notifications</div>
         <div class="dropdown-subheading">
-          You have {{ userNotifications.length }} new notifications.
+          You have {{ unseenNotifications }} new notifications.
         </div>
       </div>
   
@@ -29,9 +29,9 @@
       [class.read]="notification.seenByUser"
       [routerLink]="[]"
       class="notification flex items-center"
-      (click)="markAsRead(notification)"
+      (click)="markAsRead($event, notification)"
       matRipple>
-        <!-- TODO: Make the icon and icon color dynamic based on notification.notificationType-->
+      <!-- TODO: Expand the notifiation when clicked to reveal details -->
       <mat-icon
         [ngClass]="getNoficiationTypeColor(notification.notificationType)"
         [svgIcon]="getNoficiationTypeIcon(notification.notificationType)"
@@ -42,7 +42,7 @@
           {{ notification.creationDate | vexDateFormatRelative }}
         </div>
       </div>
-      <button mat-icon-button type="button" (click)="deleteNotification(notification, i)">
+      <button mat-icon-button type="button" (click)="deleteNotification($event, notification, i)">
         <mat-icon
           class="notification-chevron flex-none"
           svgIcon="mat:delete"/>
@@ -51,7 +51,7 @@
   </div>
 
   <div *ngIf="userSignedIn" class="dropdown-footer flex items-center justify-center">
-    <button color="primary" mat-button type="button">MARK ALL AS READ</button>
+    <button color="primary" mat-button type="button" (click)="markAllAsRead()">MARK ALL AS READ</button>
   </div>
 </div>
 

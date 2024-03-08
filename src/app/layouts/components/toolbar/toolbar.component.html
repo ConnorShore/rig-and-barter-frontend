@@ -26,7 +26,7 @@
 
   <button
     id="createListingBtn"
-    style="padding-right: 36px; padding-left: 36px;"
+    style="padding-right: 48px; padding-left: 48px; padding-top: 12px; padding-bottom: 12px;"
     [disabled]="!isUserLoggedIn"
     (click)="createListingClicked()"
     *ngIf="isHorizontalLayout$ | async"
@@ -35,11 +35,6 @@
     type="button">
     Create Listing
   </button>
-
-  <button mat-flat-button (click)="showInfo()">Show Info</button>
-  <button mat-flat-button (click)="showSuccess()">Show Success</button>
-  <button mat-flat-button (click)="showWarn()">Show Warn</button>
-  <button mat-flat-button (click)="showError()">Show Error</button>
 
   <span class="flex-1"></span>
 
