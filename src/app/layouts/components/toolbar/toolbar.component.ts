@@ -144,6 +144,11 @@ export class ToolbarComponent implements OnInit {
     this.authService.login();
   }
 
+  registerUser() {
+    console.log('registered clicked');
+    this.authService.register();
+  }
+
   createListingClicked() {
     this.dialog.open(CreateListingComponent, {
       width: '600px',
