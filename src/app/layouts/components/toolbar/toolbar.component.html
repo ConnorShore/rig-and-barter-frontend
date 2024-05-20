@@ -56,7 +56,7 @@
     } 
     @else {
       <div class="px-1">
-        <button 
+        <button
           mat-icon-button type="button"
           [matMenuTriggerFor]="loggedOutUserMenu">
             <mat-icon svgIcon="mat:person" color="primary"></mat-icon>
@@ -67,7 +67,7 @@
           <mat-icon svgIcon="mat:login"></mat-icon>
           <span>Login</span>
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item (click)="registerUser()">
           <mat-icon svgIcon="mat:person_add"></mat-icon>
           <span>Register</span>
         </button>
