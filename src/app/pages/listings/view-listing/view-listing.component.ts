@@ -27,7 +27,7 @@ import { CarouselComponent } from 'src/app/shared/components/carousel/carousel.c
 export class ViewListingComponent implements OnInit {
 
   listing: IListing;
-  currentUser = this.authService.getUserProfile();
+  currentUser = this.authService.getCurrentUser();
   
   constructor(private activatedRoute: ActivatedRoute, 
     private authService: AuthService,

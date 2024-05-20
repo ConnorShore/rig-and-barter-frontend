@@ -89,7 +89,7 @@ export class ToolbarComponent implements OnInit {
   megaMenuOpen$: Observable<boolean> = of(false);
 
   isUserLoggedIn = this.authService.isLoggedIn();
-  loggedInUser = this.authService.getUserProfile();
+  loggedInUser = this.authService.getCurrentUser();
   userNotifications: IFrontEndNotification[] = [];
 
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
@@ -102,7 +102,9 @@ export class ToolbarComponent implements OnInit {
     private readonly router: Router,
     private readonly dialog: MatDialog,
     private readonly notificationService: NotificationService
-  ) {}
+  ) {
+    this.loggedInUser = this.authService.getCurrentUser();
+  }
 
   ngOnInit() {
     this.router.events
@@ -145,8 +147,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   registerUser() {
-    console.log('registered clicked');
-    this.authService.register();
+    this.router.navigate(['/auth/register']);
   }
 
   createListingClicked() {

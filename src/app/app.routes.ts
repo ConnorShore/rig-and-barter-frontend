@@ -16,8 +16,8 @@ export const appRoutes: VexRoutes = [
         loadChildren: () => import('./pages/listings/listings.routes').then(r => r.LISTING_ROUTES)
       },
       {
-        path: 'redirect',
-        loadChildren: () => import('./pages/redirect/redirect.routes').then(r => r.REDIRECT_ROUTES)
+        path: 'auth',
+        loadChildren: () => import('./pages/auth/auth.routes').then(r => r.AUTH_ROUTES)
       },
     ]
   },

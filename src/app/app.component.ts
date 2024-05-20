@@ -23,10 +23,10 @@ export class AppComponent implements OnInit {
      */
     this.stompService.subscribe('/topic/frontend', (notification: IFrontEndNotification) => {
       console.log('about to handle notificaiton: ', notification);
-      if(this.authService.isLoggedIn() && notification.targetUser === this.authService.getUserProfile().id)
+      if(this.authService.isLoggedIn() && notification.targetUser === this.authService.getCurrentUser().id)
         this.notificationHandlerService.handleFrontEndNotification(notification);
       else {
-        console.log('notification is targeted at different user: ', this.authService.getUserProfile());
+        console.log('notification is targeted at different user: ', this.authService.getCurrentUser());
         console.log('seller id: ', notification.targetUser);
       }
     });

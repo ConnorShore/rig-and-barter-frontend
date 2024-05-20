@@ -1,10 +1,10 @@
 import { Routes } from "@angular/router";
-import { RegisterComponent } from "./register/register.component";
 import { AuthService } from "src/app/services/auth.service";
+import { RegisterComponent } from "./register/register.component";
 
-export const REDIRECT_ROUTES: Routes = [
+export const AUTH_ROUTES: Routes = [
     {
-        path: 'registerTest',
+        path: 'register',
         component: RegisterComponent,
         providers: [
             AuthService
