@@ -147,7 +147,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   registerUser() {
-    this.router.navigate(['/auth/register']);
+    this.router.navigate(['/register']);
   }
 
   createListingClicked() {

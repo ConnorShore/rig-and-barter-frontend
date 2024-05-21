@@ -5,7 +5,7 @@ import {
   UntypedFormGroup,
   Validators
 } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,11 +16,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AuthService } from 'src/app/services/auth.service';
 import { IUserRegisterRequest } from 'src/app/model/user-register-request';
-import { NotificationService } from 'src/app/services/notification.service';
-import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'register',
+  selector: 'rb-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
   animations: [fadeInUp400ms],
