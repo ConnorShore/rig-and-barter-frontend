@@ -23,6 +23,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { ErrorInterceptor } from './shared/error.interceptor';
 import { KeycloakAngularModule, KeycloakBearerInterceptor, KeycloakService } from 'keycloak-angular';
 import { ConfigurationService } from './services/configuration.service';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -124,7 +125,13 @@ export const appConfig: ApplicationConfig = {
           ['link', 'image']
         ]
       }
-    })
+    }),
+    { 
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, 
+      useValue: { 
+        subscriptSizing: 'dynamic' 
+      } 
+    }
   ]
 };
 

@@ -90,4 +90,9 @@ export class RegisterComponent {
 
     return this.form.value.password === this.form.value.passwordConfirm;
   }
+
+
+  navigateToLogin() {
+    this.authService.login();
+  }
 }

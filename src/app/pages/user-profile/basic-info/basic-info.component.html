@@ -1,2 +1,52 @@
-<p>basic-info works!</p>
-<p>User Name: {{user.firstName}}</p>
+<div>
+    <h1 class="display-2 font-bold mt-0 mb-4 flex items-center">
+        <span class="block">Basic Info</span>
+    </h1>
+</div>
+
+<div class="form-container">
+    <form (ngSubmit)="saveUserInfo()" [formGroup]="userInfoForm">
+        <mat-dialog-content class="flex">
+        
+            <div class="item-container">
+                <div class="item-title">
+                    <h2 class="display-1 headline font-bold mt-2 mb-2 flex items-center">
+                        First Name
+                    </h2>
+                </div>
+                <div class="item-input flex flex-col sm:flex-row">
+                    <mat-form-field class="item-input-field" style="width: 100%" appearance="outline">
+                        <input cdkFocusInitial formControlName="firstName" matInput [value]="user.firstName" [disabled]="true"/>
+                    </mat-form-field>
+                    <button class="flex-auto edit-field-button" type="button">
+                        <mat-icon matIconPrefix svgIcon="mat:edit" (click)="enableField('firstName')"></mat-icon>
+                    </button>
+                </div>
+            </div>
+        
+        </mat-dialog-content>
+    
+          
+        <mat-dialog-actions class="flex justify-start" style="margin-bottom: 12px; margin-right: 12px;">
+            <button [disabled]="userInfoForm.invalid"
+            color="primary"
+            mat-flat-button
+            type="submit">
+                Save Info
+            </button>
+            <button mat-button type="button" (click)="revertChanges()">Revert</button>
+        </mat-dialog-actions>
+    </form>
+</div>
+
+
+<!-- <div>
+    <div class="item-title">
+        <h2 class="display-1 headline font-bold mt-2 mb-2 flex items-center">
+            First Name
+        </h2>
+    </div>
+    <div class="item-value">
+        <input type="text" class="input" [(ngModel)]="user.firstName" />
+    </div>
+</div> -->
