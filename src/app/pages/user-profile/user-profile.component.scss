@@ -1,0 +1,23 @@
+@import "../../../variables.scss";
+
+#grid-wrapper {
+    margin: 0;
+    padding: 0;
+}
+
+.navigation-item {
+    flex-basis: 100%;
+    margin: 10px;
+    border-width: 1px;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.selected {
+    background-color: $highlight-color
+}
+
+.main-content {
+    padding: 10px;
+}
