@@ -3,5 +3,5 @@ export interface IUserResponse {
     email: string;
     firstName: string;
     lastName: string;
-    profilePicUrl: string;
+    profilePictureUrl: string;
 }

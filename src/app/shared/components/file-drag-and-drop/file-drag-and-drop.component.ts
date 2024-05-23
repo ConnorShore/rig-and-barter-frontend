@@ -1,6 +1,7 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list'
 import { MatIconModule } from '@angular/material/icon'
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'file-drag-and-drop',
@@ -12,13 +13,17 @@ import { MatIconModule } from '@angular/material/icon'
   templateUrl: './file-drag-and-drop.component.html',
   styleUrl: './file-drag-and-drop.component.scss'
 })
-export class FileDragAndDropComponent implements OnInit{
+export class FileDragAndDropComponent implements OnInit, OnDestroy {
 
   @Input() maxNumFiles: number;
   @Input() overwriteFilesOnSelect: boolean = false;
+  @Input() clearFilesEvent: Observable<void>;
+
   @Output() selectedFiles = new EventEmitter<File[]>();
 
   @ViewChild('fileSelector') public fileSelector: ElementRef;
+
+  private clearEventSubscription: Subscription;
   
   isDragging: boolean;
   currentSelectedFiles: File[];
@@ -28,6 +33,13 @@ export class FileDragAndDropComponent implements OnInit{
   ngOnInit(): void {
     this.isDragging = false;
     this.currentSelectedFiles = [];
+    this.clearEventSubscription = this.clearFilesEvent.subscribe(() => {
+      this.currentSelectedFiles = [];
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.clearEventSubscription.unsubscribe();
   }
 
   public onDrop(event: any): void {

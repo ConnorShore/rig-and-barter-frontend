@@ -1,1 +1,23 @@
-<p>user-profile works!</p>
+<div class="h-full flex flex-col">
+    <div class="p-6 pb-0 bg-foreground shadow-b border-b">
+        <div>
+          <h1 class="display-1 font-bold mt-0 mb-4 flex items-center">
+            <span class="block">User Profile</span>
+          </h1>
+        </div>
+    </div>
+    <div id="grid-wrapper" class="p-6 grid grid-cols-5 h-full mb-6 mr-6">
+        <div class="bg-app-bar dark:bg-base dark:border" style="border-top: 0; grid-column: span 1;">
+            @for (subPage of SUB_PAGES; track subPage.title) {
+                <div class="navigation-item p-3"[class.selected]="isSelectedSubPage($index)" (click)="selectSubPage($index)">
+                    <h2 class="title font-medium m-0 select-none">
+                        {{ subPage.title }}
+                    </h2>
+                </div>
+            }
+        </div>
+        <div class="bg-app-bar dark:bg-base main-content" style="grid-column: span 4;">
+            <ng-container *ngComponentOutlet="getSelectedSubPage().component; inputs: getSelectedSubPage().inputs"/>
+        </div>
+    </div>
+</div>
