@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IUserResponse } from 'src/app/model/user-response';
 import { BasicInfoComponent } from './basic-info/basic-info.component';
 import { BillingInfoComponent } from './billing-info/billing-info.component';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
+import { IUserResponse } from 'src/app/model/user-info/user-response';
 
 interface ISubPage {
   title: string;

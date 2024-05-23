@@ -1,2 +1,94 @@
-<p>billing-info works!</p>
-<p>User Name: {{user.firstName}}</p>
+<div class="flex">
+    <h1 class="display-2 font-bold mt-0 mb-8 flex items-center flex-auto">
+        <span class="block">Billing Info</span>
+    </h1>
+</div>
+
+<div class="form-container">
+    <form (ngSubmit)="saveBillingInfo()" [formGroup]="billingInfoForm">
+        <mat-dialog-content>
+        
+            <div class="item-container">
+                <div class="item-title">
+                    <h2 class="display-1 headline font-bold mt-2 mb-2 flex items-center">
+                        Name On Card
+                    </h2>
+                </div>
+                <div class="item-input flex flex-col sm:flex-row">
+                    <mat-form-field class="item-input-field" style="width: 100%" appearance="outline">
+                        <input cdkFocusInitial formControlName="nameOnCard" matInput/>
+                    </mat-form-field>
+                </div>
+            </div>
+
+
+        
+            <div class="item-container">
+                <div class="item-title">
+                    <h2 class="display-1 headline font-bold mt-2 mb-2 flex items-center">
+                        Card Number
+                    </h2>
+                </div>
+                <div class="item-input flex flex-col sm:flex-row">
+                    <mat-form-field class="item-input-field" style="width: 100%" appearance="outline">
+                        <input cdkFocusInitial formControlName="cardNumber" matInput/>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <!-- TODO: Make these two smaller side-by-side columns-->
+            <div class="item-container">
+                <div class="item-title">
+                    <h2 class="display-1 headline font-bold mt-2 mb-2 flex items-center">
+                        Expiration Date
+                    </h2>
+                </div>
+                <div class="item-input flex flex-col sm:flex-row">
+                    <mat-form-field class="item-input-field" style="width: 100%" appearance="outline">
+                        <input cdkFocusInitial formControlName="expirationDate" matInput/>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="item-container">
+                <div class="item-title">
+                    <h2 class="display-1 headline font-bold mt-2 mb-2 flex items-center">
+                        CVV
+                    </h2>
+                </div>
+                <div class="item-input flex flex-col sm:flex-row">
+                    <mat-form-field class="item-input-field" style="width: 100%" appearance="outline">
+                        <input cdkFocusInitial formControlName="cvv" matInput/>
+                    </mat-form-field>
+                </div>
+            </div>
+            <!-- ------------------------------------------------ -->
+        
+        </mat-dialog-content>
+    
+        @if(billingInfoForm.disabled) {
+            <mat-dialog-actions class="flex justify-start" style="margin-bottom: 12px; margin-right: 12px;">
+                <button
+                (click)="enableForm()"
+                class="mr-2"
+                color="primary"
+                mat-flat-button
+                type="button">
+                    Edit Info
+                </button>
+            </mat-dialog-actions>
+        }
+        @else {
+            <mat-dialog-actions class="flex justify-start" style="margin-bottom: 12px; margin-right: 12px;">
+                <button
+                class="mr-2"
+                color="primary"
+                mat-flat-button
+                type="submit">
+                    Save Info
+                </button>
+                <button mat-button type="button" (click)="revertChanges()">Cancel</button>
+            </mat-dialog-actions>
+        }
+    </form>
+</div>

@@ -4,7 +4,7 @@ import { KeycloakProfile } from "keycloak-js";
 import { UserService } from "./user.service";
 import { IUserRegisterRequest } from "../model/user-register-request";
 import { Observable } from "rxjs";
-import { IUserResponse } from "../model/user-response";
+import { IUserResponse } from "../model/user-info/user-response";
 
 
 @Injectable({
