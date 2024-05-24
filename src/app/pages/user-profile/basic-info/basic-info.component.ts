@@ -51,12 +51,6 @@ export class BasicInfoComponent implements OnInit {
     private readonly notificationService: NotificationService
   ) { }
 
-  /**
-   * TODO: 1. Implment save and revert 
-   *         b. Revert will just reset data to user data
-   *       2. Disable buttons if no changes have been made
-   */
-
   ngOnInit() {
     this.applyDefaultUserInfo();
     this.triggerClearProfilePicture();
@@ -109,6 +103,7 @@ export class BasicInfoComponent implements OnInit {
   }
 
   private applyDefaultUserInfo() {
+    console.log('user info: ', this.user);
     this.userInfoForm.setValue({
       firstName: this.user?.basicInfo.firstName ?? '',
       lastName: this.user?.basicInfo.lastName ?? '',

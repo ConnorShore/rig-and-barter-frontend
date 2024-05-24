@@ -47,6 +47,7 @@ export class BillingInfoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log('on init');
     this.applyDefaultBillingInfo();
   }
 
@@ -65,10 +66,10 @@ export class BillingInfoComponent implements OnInit {
 
   private applyDefaultBillingInfo() {
     this.billingInfoForm.setValue({
-      nameOnCard: this.user?.billingInfo.nameOnCard ?? '',
-      cardNumber: this.user?.billingInfo.cardNumber ?? '',
-      expirationDate: this.user?.billingInfo.experationDate ?? '',
-      cvv: this.user?.billingInfo.cvv ?? ''
+      nameOnCard: this.user?.billingInfo?.nameOnCard ?? '',
+      cardNumber: this.user?.billingInfo?.cardNumber ?? '',
+      expirationDate: this.user?.billingInfo?.experationDate ?? '',
+      cvv: this.user?.billingInfo?.cvv ?? ''
     });
 
     this.billingInfoForm.disable();

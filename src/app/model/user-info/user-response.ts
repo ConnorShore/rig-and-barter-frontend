@@ -4,5 +4,5 @@ import { IUserBillingInfoResponse } from "./user-billing-info-response";
 export interface IUserResponse {
     id: string;
     basicInfo: IUserBasicInfoResponse;
-    billingInfo: IUserBillingInfoResponse;
+    billingInfo?: IUserBillingInfoResponse;
 }

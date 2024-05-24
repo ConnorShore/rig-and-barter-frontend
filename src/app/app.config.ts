@@ -126,12 +126,12 @@ export const appConfig: ApplicationConfig = {
         ]
       }
     }),
-    { 
-      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, 
-      useValue: { 
-        subscriptSizing: 'dynamic' 
-      } 
-    }
+    // { 
+    //   provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, 
+    //   useValue: { 
+    //     subscriptSizing: 'dynamic' 
+    //   } 
+    // }
   ]
 };
 
