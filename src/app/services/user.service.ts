@@ -4,8 +4,11 @@ import { Injectable } from "@angular/core";
 import { IUserRegisterRequest } from "../model/user-register-request";
 import { createBackendRequest } from "../shared/http.utils";
 import { ConfigurationService } from "./configuration.service";
-import { IUserResponse } from "../model/user-response";
+import { IUserResponse } from "../model/user-info/user-response";
 import { IUserBasicInfoRequest } from "../model/user-info/user-basic-info-request";
+import { IUserBasicInfoResponse } from "../model/user-info/user-basic-info-response";
+import { IUserBillingInfoRequest } from "../model/user-info/user-billing-info-request";
+import { IUserBillingInfoResponse } from "../model/user-info/user-billing-info-response";
 
 
 @Injectable({
@@ -20,8 +23,8 @@ export class UserService {
         return this.httpClient.post<IUserResponse>(url, userRegisterRequest);
     }
 
-    getUserByEmail(email: string) {
-        let url = createBackendRequest(this.configService.apiGatewayUrl, `api/user/${email}`);
+    getUserById(userId: string) {
+        let url = createBackendRequest(this.configService.apiGatewayUrl, `api/user/${userId}`);
         return this.httpClient.get<IUserResponse>(url);
     }
 
@@ -33,6 +36,15 @@ export class UserService {
         else
             formData.append('profilePic', new Blob([]), 'empty');
         
-        return this.httpClient.post<IUserResponse>(createBackendRequest(this.configService.apiGatewayUrl, `api/user/${userId}/info/basic`), formData);
+        return this.httpClient.post<IUserBasicInfoResponse>(
+            createBackendRequest(this.configService.apiGatewayUrl, `api/user/${userId}/info/basic`), 
+            formData);
+    }
+
+    setUserBillingInfo(userId: string, userBillingInfo: IUserBillingInfoRequest) {
+        console.log('saving billing info: ', userBillingInfo);
+        return this.httpClient.post<IUserBillingInfoResponse>(
+            createBackendRequest(this.configService.apiGatewayUrl,`api/user/${userId}/info/billing`),
+            userBillingInfo);
     }
 }

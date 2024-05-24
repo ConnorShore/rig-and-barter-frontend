@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Subject } from 'rxjs';
 import { IUserBasicInfoRequest } from 'src/app/model/user-info/user-basic-info-request';
-import { IUserResponse } from 'src/app/model/user-response';
+import { IUserResponse } from 'src/app/model/user-info/user-response';
 import { NotificationService } from 'src/app/services/notification.service';
 import { UserService } from 'src/app/services/user.service';
 import { FileDragAndDropComponent } from 'src/app/shared/components/file-drag-and-drop/file-drag-and-drop.component';
@@ -46,15 +46,10 @@ export class BasicInfoComponent implements OnInit {
     email: new FormControl('')
   });
 
-  constructor(private readonly userService: UserService,
+  constructor(
+    private readonly userService: UserService,
     private readonly notificationService: NotificationService
   ) { }
-
-  /**
-   * TODO: 1. Implment save and revert 
-   *         b. Revert will just reset data to user data
-   *       2. Disable buttons if no changes have been made
-   */
 
   ngOnInit() {
     this.applyDefaultUserInfo();
@@ -72,7 +67,7 @@ export class BasicInfoComponent implements OnInit {
     console.log('profileImageUpload: ', this.profileImageUpload);
 
     this.userService.setUserBasicInfo(this.user.id, userInfoRequest, this.profileImageUpload).subscribe((updatedUser) => {
-      this.user = updatedUser;
+      this.user.basicInfo = updatedUser;
       this.revertChanges();
       this.notificationService.showSuccess('User info updated successfully');
     });
@@ -100,7 +95,7 @@ export class BasicInfoComponent implements OnInit {
   }
 
   getProfilePicture(): string {
-    return this.user.profilePictureUrl ?? '../../../../assets/img/avatars/noavatar.png';
+    return this.user.basicInfo.profilePictureUrl ?? '../../../../assets/img/avatars/noavatar.png';
   }
 
   triggerClearProfilePicture(): void{
@@ -108,10 +103,11 @@ export class BasicInfoComponent implements OnInit {
   }
 
   private applyDefaultUserInfo() {
+    console.log('user info: ', this.user);
     this.userInfoForm.setValue({
-      firstName: this.user?.firstName ?? '',
-      lastName: this.user?.lastName ?? '',
-      email: this.user?.email ?? ''
+      firstName: this.user?.basicInfo.firstName ?? '',
+      lastName: this.user?.basicInfo.lastName ?? '',
+      email: this.user?.basicInfo.email ?? ''
     });
 
     this.userInfoForm.disable();

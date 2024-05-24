@@ -1,11 +1,11 @@
-<div class="flex">
+<!-- <div class="flex">
     <h1 class="display-2 font-bold mt-0 mb-8 flex items-center flex-auto">
         <span class="block">Basic Info</span>
     </h1>
     <div class="flex-auto">
         <img [src]="getProfilePicture()" class="avatar h-36 w-36 mx-auto" />
     </div>
-</div>
+</div> -->
 
 <div class="form-container">
     <form (ngSubmit)="saveUserInfo()" [formGroup]="userInfoForm">
@@ -19,7 +19,7 @@
                 </div>
                 <div class="item-input flex flex-col sm:flex-row">
                     <mat-form-field class="item-input-field" style="width: 100%" appearance="outline">
-                        <input cdkFocusInitial formControlName="firstName" matInput [value]="user.firstName"/>
+                        <input cdkFocusInitial formControlName="firstName" matInput/>
                     </mat-form-field>
                     <button class="flex-auto edit-field-button" type="button">
                         <mat-icon matIconPrefix svgIcon="mat:edit" (click)="enableField('firstName')"></mat-icon>
@@ -37,7 +37,7 @@
                 </div>
                 <div class="item-input flex flex-col sm:flex-row">
                     <mat-form-field class="item-input-field" style="width: 100%" appearance="outline">
-                        <input cdkFocusInitial formControlName="lastName" matInput [value]="user.lastName"/>
+                        <input cdkFocusInitial formControlName="lastName" matInput/>
                     </mat-form-field>
                     <button class="flex-auto edit-field-button" type="button">
                         <mat-icon matIconPrefix svgIcon="mat:edit" (click)="enableField('lastName')"></mat-icon>
@@ -53,7 +53,7 @@
                 </div>
                 <div class="item-input flex flex-col sm:flex-row">
                     <mat-form-field class="item-input-field" style="width: 100%" appearance="outline">
-                        <input cdkFocusInitial formControlName="email" matInput [value]="user.email"/>
+                        <input cdkFocusInitial formControlName="email" matInput/>
                     </mat-form-field>
                     <button class="flex-auto edit-field-button" type="button">
                         <mat-icon matIconPrefix svgIcon="mat:edit" (click)="enableField('email')"></mat-icon>
@@ -68,7 +68,8 @@
                     </h2>
                 </div>
                 <div>
-                    <file-drag-and-drop [maxNumFiles]="1" [overwriteFilesOnSelect]="true" [clearFilesEvent]="clearProfilePicture.asObservable()" (selectedFiles)="setSelectedFile($event)" />
+                    <file-drag-and-drop [maxNumFiles]="1" [overwriteFilesOnSelect]="true" 
+                        [clearFilesEvent]="clearProfilePicture.asObservable()" (selectedFiles)="setSelectedFile($event)" />
                 </div>
             </div>
         
@@ -87,15 +88,3 @@
         </mat-dialog-actions>
     </form>
 </div>
-
-
-<!-- <div>
-    <div class="item-title">
-        <h2 class="display-1 headline font-bold mt-2 mb-2 flex items-center">
-            First Name
-        </h2>
-    </div>
-    <div class="item-value">
-        <input type="text" class="input" [(ngModel)]="user.firstName" />
-    </div>
-</div> -->
