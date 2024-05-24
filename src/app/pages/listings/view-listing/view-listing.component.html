@@ -42,7 +42,9 @@
             </div>
             <div class="p-4" style="flex-basis: 100%;"></div>
             <div class="p-4" style="flex-basis: 100%;"></div>
-            <div class="p-6 flex items-end justify-center" style="flex-basis: 100%;">
+            <div class="p-6 flex items-end justify-center" 
+                style="flex-basis: 100%;" 
+                [title]="!currentUser ? 'You must be signed in to request transaction' : 'Request transaction'">
                 <button
                 id="createListingBtn"
                 class="flex justify-center flex-end p-6"

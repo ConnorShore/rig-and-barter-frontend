@@ -6,6 +6,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { IUserBillingInfoRequest } from 'src/app/model/user-info/user-billing-info-request';
+import { IUserBillingInfoResponse } from 'src/app/model/user-info/user-billing-info-response';
 import { IUserResponse } from 'src/app/model/user-info/user-response';
 import { NotificationService } from 'src/app/services/notification.service';
 import { UserService } from 'src/app/services/user.service';
@@ -52,8 +54,17 @@ export class BillingInfoComponent implements OnInit {
   }
 
   saveBillingInfo() {
-    // Save billing info
-    console.log('Saving billing info: ', this.billingInfoForm.value);
+    const billingInfoRequest: IUserBillingInfoRequest = {
+      nameOnCard: this.billingInfoForm.get('nameOnCard')?.value as string,
+      cardNumber: this.billingInfoForm.get('cardNumber')?.value as string,
+      expirationDate: this.billingInfoForm.get('expirationDate')?.value as string,
+      cvv: this.billingInfoForm.get('cvv')?.value as string
+    };
+
+    this.userService.setUserBillingInfo(this.user.id, billingInfoRequest).subscribe(updatedbillingInfo => {
+      this.setBillingInfoFromResponse(updatedbillingInfo);
+      this.notificationService.showSuccess('Billing info updated successfully');
+    });
   }
 
   revertChanges() {
@@ -64,14 +75,28 @@ export class BillingInfoComponent implements OnInit {
     this.billingInfoForm.enable();
   }
 
-  private applyDefaultBillingInfo() {
+  private setBillingInfoFromResponse(billingInfo: IUserBillingInfoResponse) {
     this.billingInfoForm.setValue({
-      nameOnCard: this.user?.billingInfo?.nameOnCard ?? '',
-      cardNumber: this.user?.billingInfo?.cardNumber ?? '',
-      expirationDate: this.user?.billingInfo?.experationDate ?? '',
-      cvv: this.user?.billingInfo?.cvv ?? ''
+      nameOnCard: billingInfo.nameOnCard,
+      cardNumber: billingInfo.cardNumber,
+      expirationDate: billingInfo.expirationDate,
+      cvv: billingInfo.cvv
     });
 
     this.billingInfoForm.disable();
+  }
+
+  private applyDefaultBillingInfo() {
+    console.log('user info: ', this.user);
+
+    this.billingInfoForm.setValue({
+      nameOnCard: this.user?.billingInfo?.nameOnCard ?? '',
+      cardNumber: this.user?.billingInfo?.cardNumber ?? '',
+      expirationDate: this.user?.billingInfo?.expirationDate ?? '',
+      cvv: this.user?.billingInfo?.cvv ?? ''
+    });
+
+    if(this.user?.billingInfo)
+      this.billingInfoForm.disable();
   }
 }

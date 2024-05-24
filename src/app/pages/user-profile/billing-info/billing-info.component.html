@@ -1,8 +1,8 @@
-<div class="flex">
+<!-- <div class="flex">
     <h1 class="display-2 font-bold mt-0 mb-8 flex items-center flex-auto">
         <span class="block">Billing Info</span>
     </h1>
-</div>
+</div> -->
 
 <div class="form-container">
     <form (ngSubmit)="saveBillingInfo()" [formGroup]="billingInfoForm">
@@ -31,37 +31,40 @@
                 </div>
                 <div class="item-input flex flex-col sm:flex-row">
                     <mat-form-field class="item-input-field" style="width: 100%" appearance="outline">
-                        <input cdkFocusInitial formControlName="cardNumber" matInput/>
+                        <input cdkFocusInitial formControlName="cardNumber" matInput maxlength="16"/>
                     </mat-form-field>
                 </div>
             </div>
 
             <!-- TODO: Make these two smaller side-by-side columns-->
-            <div class="item-container">
-                <div class="item-title">
-                    <h2 class="display-1 headline font-bold mt-2 mb-2 flex items-center">
-                        Expiration Date
-                    </h2>
+            <div class="flex flex-col gap-4 sm:flex-row">
+                <div class="item-container-col">
+                    <div class="item-title">
+                        <h2 class="display-1 headline font-bold mt-2 mb-2 flex items-center">
+                            Expiration Date
+                        </h2>
+                    </div>
+                    <div class="item-input flex flex-col sm:flex-row">
+                        <mat-form-field class="item-input-field" style="width: 100%" appearance="outline">
+                            <input cdkFocusInitial formControlName="expirationDate" matInput/>
+                        </mat-form-field>
+                    </div>
                 </div>
-                <div class="item-input flex flex-col sm:flex-row">
-                    <mat-form-field class="item-input-field" style="width: 100%" appearance="outline">
-                        <input cdkFocusInitial formControlName="expirationDate" matInput/>
-                    </mat-form-field>
+    
+                <div class="item-container-col">
+                    <div class="item-title">
+                        <h2 class="display-1 headline font-bold mt-2 mb-2 flex items-center">
+                            CVV
+                        </h2>
+                    </div>
+                    <div class="item-input flex flex-col sm:flex-row">
+                        <mat-form-field class="item-input-field" style="width: 100%" appearance="outline">
+                            <input cdkFocusInitial formControlName="cvv" matInput/>
+                        </mat-form-field>
+                    </div>
                 </div>
             </div>
-
-            <div class="item-container">
-                <div class="item-title">
-                    <h2 class="display-1 headline font-bold mt-2 mb-2 flex items-center">
-                        CVV
-                    </h2>
-                </div>
-                <div class="item-input flex flex-col sm:flex-row">
-                    <mat-form-field class="item-input-field" style="width: 100%" appearance="outline">
-                        <input cdkFocusInitial formControlName="cvv" matInput/>
-                    </mat-form-field>
-                </div>
-            </div>
+            
             <!-- ------------------------------------------------ -->
         
         </mat-dialog-content>

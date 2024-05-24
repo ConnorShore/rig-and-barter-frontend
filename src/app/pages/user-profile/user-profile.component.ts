@@ -51,6 +51,10 @@ export class UserProfileComponent implements OnInit {
     return this.SUB_PAGES[this.selectedSubPageIndex];
   }
 
+  getProfilePicture(): string {
+    return this.user.basicInfo.profilePictureUrl ?? '../../../../assets/img/avatars/noavatar.png';
+  }
+
   private initSubPages() {
     this.SUB_PAGES = [
       {

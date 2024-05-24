@@ -17,6 +17,14 @@
             }
         </div>
         <div class="bg-app-bar dark:bg-base main-content" style="grid-column: span 4;">
+            <div class="flex">
+                <h1 class="display-2 font-bold mt-0 mb-8 flex items-center flex-auto">
+                    <span class="block">{{getSelectedSubPage().title}}</span>
+                </h1>
+                <div class="flex-auto">
+                    <img [src]="getProfilePicture()" class="avatar h-36 w-36 mx-auto" />
+                </div>
+            </div>
             <ng-container *ngComponentOutlet="getSelectedSubPage().component; inputs: getSelectedSubPage().inputs"/>
         </div>
     </div>

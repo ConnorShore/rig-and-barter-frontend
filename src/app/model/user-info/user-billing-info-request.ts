@@ -2,6 +2,6 @@
 export interface IUserBillingInfoRequest {
     nameOnCard: string;
     cardNumber: string;
-    experationDate: string;
+    expirationDate: string;
     cvv: string;
 }
