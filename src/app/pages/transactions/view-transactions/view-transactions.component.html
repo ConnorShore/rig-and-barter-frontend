@@ -1,0 +1,78 @@
+<vex-page-layout>
+    <vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
+      <div class="w-full flex flex-col sm:flex-row justify-between container">
+        <div>
+          <h1 class="title mt-0 mb-1">Transactions</h1>
+        </div>
+      </div>
+    </vex-page-layout-header>
+  
+    <vex-page-layout-content class="container -mt-6">
+        <div class="card overflow-auto -mt-16">
+            <div class="bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
+            <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4  rtl:border-l hidden sm:block flex-none">
+                <span>Transactions</span>
+            </h2>
+            </div>
+            
+            <!-- TODO: Make this a sub component so can have same thing for active and completed/cancelled transactions (one day make them collapsable)-->
+            <div class="active-transactions">
+                <div class="grid grid-cols-4 ">
+                    <div class="title centered ml-4">
+                        Title
+                    </div>
+                    <div class="title centered">
+                        Creation Date
+                    </div>
+                    <div class="title centered">
+                        Status
+                    </div>
+                    <div class="title centered mr-4">
+                        Actions
+                    </div>
+                </div>
+        
+                <!-- TODO: Have a column called "Accepted" (or something like that) and the value is a pill for the buyer and seller
+                        and the pill is an outline if they haven't accepted and is filled in if they have accepted-->
+        
+                @for(transaction of transactions; track transaction.uniqueId) {
+                    <div class="row-container p-4 grid grid-cols-4">
+                        <div class="text-secondary font-medium cell">
+                            {{transaction.title}}
+                        </div>
+                        <div class="text-secondary font-medium cell centered">
+                            {{transaction.creationDate}}
+                        </div>
+                        <div mat-cell class="text-secondary font-medium cell centered">
+                            {{transaction.state}}
+                        </div>
+                        <div mat-cell class="text-secondary font-medium cell centered justify-center">
+                            @if(isTransactionCompleteable(transaction)) {
+                                <button
+                                class="ustify-center p-6"
+                                color="primary"
+                                mat-flat-button
+                                [disabled]="(userId === transaction.buyerId && transaction.buyerAccepted) || (userId === transaction.sellerId && transaction.sellerAccepted)"
+                                (click)="acceptTransaction(transaction)"
+                                type="button">
+                                    Accept
+                                </button>
+                            } @else {
+                                <button
+                                class="ustify-center p-6"
+                                color="primary"
+                                mat-flat-button
+                                [disabled]="(userId === transaction.buyerId && transaction.buyerAccepted) || (userId === transaction.sellerId && transaction.sellerAccepted)"
+                                (click)="completeTransaction(transaction)"
+                                type="button">
+                                    Complete
+                                </button>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </vex-page-layout-content>
+  </vex-page-layout>
+  

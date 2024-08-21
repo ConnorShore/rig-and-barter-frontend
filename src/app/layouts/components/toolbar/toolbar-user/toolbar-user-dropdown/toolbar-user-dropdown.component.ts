@@ -63,10 +63,10 @@ export class ToolbarUserDropdownComponent implements OnInit {
     {
       id: '3',
       icon: 'mat:list_alt',
-      label: 'My Projects',
+      label: 'Active Transactions',
       description: 'Tasks & Active Projects',
       colorClass: 'text-amber-600',
-      route: '/apps/scrumboard'
+      route: '/transactions'
     },
     {
       id: '4',
@@ -127,6 +127,8 @@ export class ToolbarUserDropdownComponent implements OnInit {
   logoutUser() {
     this.authService.logout();
     this.close();
+
+    // TODO: Route to home page
   }
 
   close() {

@@ -37,10 +37,10 @@ export const appRoutes: VexRoutes = [
         path: 'listings',
         loadChildren: () => import('./pages/listings/listings.routes').then(r => r.LISTING_ROUTES)
       },
-      // {
-      //   path: 'auth',
-      //   loadChildren: () => import('./pages/auth/auth.routes').then(r => r.AUTH_ROUTES) // TODO: This may not need to be lazy loaded (have route for login/register)
-      // }
+      {
+        path: 'transactions',
+        loadChildren: () => import('./pages/transactions/transactions.routes').then(r => r.TRANSACTION_ROUTES)
+      }
     ]
   },
 ];
