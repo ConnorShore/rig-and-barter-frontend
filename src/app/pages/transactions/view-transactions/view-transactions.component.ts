@@ -1,17 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
-import { Router } from 'express';
 import { ITransaction } from 'src/app/model/transaction';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { VexPageLayoutContentDirective } from "../../../../@vex/components/vex-page-layout/vex-page-layout-content.directive";
 import { VexPageLayoutHeaderDirective } from "../../../../@vex/components/vex-page-layout/vex-page-layout-header.directive";
 import { VexPageLayoutComponent } from "../../../../@vex/components/vex-page-layout/vex-page-layout.component";
-import { MatList, MatListItem, MatListModule } from '@angular/material/list';
+import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from 'src/app/services/auth.service';
 import { TransactionState } from 'src/app/model/transaction-state';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'view-transactions',
@@ -26,7 +24,8 @@ import { TransactionState } from 'src/app/model/transaction-state';
         VexPageLayoutHeaderDirective,
         VexPageLayoutComponent,
         MatListModule,
-        MatButtonModule
+        MatButtonModule,
+        DatePipe
     ]
 })
 export class ViewTransactionsComponent implements OnInit {
@@ -67,7 +66,7 @@ export class ViewTransactionsComponent implements OnInit {
     });
   }
 
-  isTransactionCompleteable(transaction: ITransaction) {
-    return transaction.sellerAccepted && transaction.buyerAccepted;
+  public get TransactionState() {
+    return TransactionState;
   }
 }
