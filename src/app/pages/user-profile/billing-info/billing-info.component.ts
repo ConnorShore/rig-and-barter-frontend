@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -12,29 +12,35 @@ import { IUserResponse } from 'src/app/model/user-info/user-response';
 import { NotificationService } from 'src/app/services/notification.service';
 import { UserService } from 'src/app/services/user.service';
 import { FileDragAndDropComponent } from 'src/app/shared/components/file-drag-and-drop/file-drag-and-drop.component';
+import { StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
+import { StripeCardComponent, injectStripe, StripeElementsDirective } from 'ngx-stripe';
+import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'rb-billing-info',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatButtonModule,
-    FileDragAndDropComponent,
-    NgIf
-  ],
-  providers: [
-    UserService,
-    NotificationService
-  ],
-  templateUrl: './billing-info.component.html',
-  styleUrl: './billing-info.component.scss'
+    selector: 'rb-billing-info',
+    standalone: true,
+    providers: [
+        UserService,
+        NotificationService
+    ],
+    templateUrl: './billing-info.component.html',
+    styleUrl: './billing-info.component.scss',
+    imports: [
+        ReactiveFormsModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatButtonModule,
+        FileDragAndDropComponent,
+        NgIf,
+        StripeElementsDirective,
+        StripeCardComponent,
+    ]
 })
 export class BillingInfoComponent implements OnInit {
   @Input() user!: IUserResponse;
+  @ViewChild(StripeCardComponent) cardElement!: StripeCardComponent;
 
   billingInfoForm = new FormGroup({
     nameOnCard: new FormControl(''),
@@ -42,6 +48,28 @@ export class BillingInfoComponent implements OnInit {
     expirationDate: new FormControl(''),
     cvv: new FormControl('')
   });
+
+  cardOptions: StripeCardElementOptions = {
+    style: {
+      base: {
+        iconColor: '#FFFFFF',
+        color: '#FF0000',
+        fontWeight: '300',
+        backgroundColor: '#FFFFFF',
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSize: '18px',
+        '::placeholder': {
+        }
+      }
+    }
+  };
+
+  elementsOptions: StripeElementsOptions = {
+    locale: 'en'
+  };
+
+  // Replace with your own public key
+  stripe = injectStripe(environment.stripeApiKey);
 
   constructor(
     private readonly userService: UserService,
@@ -54,16 +82,39 @@ export class BillingInfoComponent implements OnInit {
   }
 
   saveBillingInfo() {
-    const billingInfoRequest: IUserBillingInfoRequest = {
-      nameOnCard: this.billingInfoForm.get('nameOnCard')?.value as string,
-      cardNumber: this.billingInfoForm.get('cardNumber')?.value as string,
-      expirationDate: this.billingInfoForm.get('expirationDate')?.value as string,
-      cvv: this.billingInfoForm.get('cvv')?.value as string
-    };
 
-    this.userService.setUserBillingInfo(this.user.id, billingInfoRequest).subscribe(updatedbillingInfo => {
-      this.setBillingInfoFromResponse(updatedbillingInfo);
-      this.notificationService.showSuccess('Billing info updated successfully');
+    this.getStripeToken(this.billingInfoForm.get('nameOnCard')?.value as string)
+      .then(token => {
+        const billingInfoRequest: IUserBillingInfoRequest = {
+          name: this.billingInfoForm.get('nameOnCard')?.value as string,
+          stripeCardToken: token,
+          // cardNumber: token,
+          // expirationDate: this.billingInfoForm.get('expirationDate')?.value as string,
+          // cvv: this.billingInfoForm.get('cvv')?.value as string
+        };
+
+        this.userService.setUserBillingInfo(this.user.id, billingInfoRequest).subscribe(updatedbillingInfo => {
+          this.setBillingInfoFromResponse(updatedbillingInfo);
+          this.notificationService.showSuccess('Billing info updated successfully');
+        });
+      })
+      .catch(error => {
+        this.notificationService.showError(error);
+      }
+    );
+  }
+
+  private getStripeToken(name: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      this.stripe
+        .createToken(this.cardElement.element, { name })
+        .subscribe((result) => {
+          if (result.token) {
+            resolve(result.token.id);
+          } else if (result.error) {
+            reject(result.error.message);
+          }
+        });
     });
   }
 
@@ -82,6 +133,8 @@ export class BillingInfoComponent implements OnInit {
       expirationDate: billingInfo.expirationDate,
       cvv: billingInfo.cvv
     });
+
+    this.user.billingInfo = billingInfo;
 
     this.billingInfoForm.disable();
   }
