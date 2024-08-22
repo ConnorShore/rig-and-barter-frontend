@@ -21,13 +21,25 @@
                 </div>
             </div>
 
-            <!-- STRIPE CARD -->
-            <ngx-stripe-elements
-                [stripe]="stripe"
-                [elementsOptions]="elementsOptions">
-                <ngx-stripe-card [options]="cardOptions" />
-            </ngx-stripe-elements>
+            <div class="item-container">
+                <div class="item-title">
+                    <h2 class="display-1 headline font-bold mt-2 mb-2 flex items-center">
+                        Card Info
+                    </h2>
+                </div>
+                <div style="border: 1px #383750 solid; border-radius: 5px; padding: 15px;">
+                    <!-- STRIPE CARD -->
+                    <ngx-stripe-elements [stripe]="stripe" [elementsOptions]="elementsOptions">
+                        <ngx-stripe-card [options]="cardOptions"/>
+                    </ngx-stripe-elements>
+                </div>
+            </div>
 
+            <div>
+                TODO: Have button to add a card and that pops up a modal with stripe card element in it
+                <br>
+                TODO: Then show a list of cards the user has added on this screen
+            </div>
 
             <!-- OLD CARD APPROACH-->
         

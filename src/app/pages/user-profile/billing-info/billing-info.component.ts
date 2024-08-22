@@ -52,13 +52,13 @@ export class BillingInfoComponent implements OnInit {
   cardOptions: StripeCardElementOptions = {
     style: {
       base: {
-        iconColor: '#FFFFFF',
-        color: '#FF0000',
+        iconColor: '#666EE8',
+        color: '#d7d7d7',
         fontWeight: '300',
-        backgroundColor: '#FFFFFF',
         fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
         fontSize: '18px',
         '::placeholder': {
+          color: '#7a7a90'
         }
       }
     }
