@@ -15,13 +15,16 @@ import { FileDragAndDropComponent } from 'src/app/shared/components/file-drag-an
 import { StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
 import { StripeCardComponent, injectStripe, StripeElementsDirective } from 'ngx-stripe';
 import { environment } from 'src/environments/environment';
+import { PaymentService } from 'src/app/services/payement.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'rb-billing-info',
     standalone: true,
     providers: [
         UserService,
-        NotificationService
+        NotificationService,
+        PaymentService
     ],
     templateUrl: './billing-info.component.html',
     styleUrl: './billing-info.component.scss',
@@ -73,7 +76,8 @@ export class BillingInfoComponent implements OnInit {
 
   constructor(
     private readonly userService: UserService,
-    private readonly notificationService: NotificationService
+    private readonly notificationService: NotificationService,
+    private readonly paymentService: PaymentService
   ) { }
 
   ngOnInit(): void {
@@ -124,6 +128,13 @@ export class BillingInfoComponent implements OnInit {
 
   enableForm() {
     this.billingInfoForm.enable();
+  }
+
+  createAccountForUser() {
+    this.paymentService.createAccountForUser().subscribe((url) => {
+      console.log('Account created successfully');
+      window.location.href = url;
+    });
   }
 
   private setBillingInfoFromResponse(billingInfo: IUserBillingInfoResponse) {

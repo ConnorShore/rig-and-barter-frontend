@@ -114,4 +114,15 @@
             </mat-dialog-actions>
         }
     </form>
+    <br>
+    <h2 class="display-1 headline font-bold mt-2 mb-2 flex items-center">
+        Connected Account
+    </h2>
+    @if(user.stripeInfo?.accountId) {
+        <span>Status: </span><span style="color: green">Connected!</span>
+    } @else {
+        <span>Status: </span><span style="color: red">Not Connected</span>
+        <br>
+        <button mat-flat-button type="button" color="primary" (click)="createAccountForUser()">Setup Account</button>
+    }
 </div>
