@@ -1,8 +1,5 @@
 
 export interface IUserBillingInfoRequest {
-    name: string;
+    nameOnCard: string;
     stripeCardToken: string;
-    // cardNumber: string;
-    // expirationDate: string;
-    // cvv: string;
 }

@@ -1,7 +1,6 @@
 
 export interface IUserBillingInfoResponse {
     nameOnCard: string;
-    cardNumber: string;
-    expirationDate: string;
-    cvv: string;
+    last4Digits: string;
+    stripeCardToken: string;
 }

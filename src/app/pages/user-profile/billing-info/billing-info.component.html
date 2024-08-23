@@ -5,121 +5,45 @@
 </div> -->
 
 <div class="form-container">
-    <form (ngSubmit)="saveBillingInfo()" [formGroup]="billingInfoForm">
-        <mat-dialog-content>
-        
-            <div class="item-container">
-                <div class="item-title">
-                    <h2 class="display-1 headline font-bold mt-2 mb-2 flex items-center">
-                        Name On Card
-                    </h2>
-                </div>
-                <div class="item-input flex flex-col sm:flex-row">
-                    <mat-form-field class="item-input-field" style="width: 100%" appearance="outline">
-                        <input cdkFocusInitial formControlName="nameOnCard" matInput/>
-                    </mat-form-field>
-                </div>
-            </div>
 
-            <div class="item-container">
-                <div class="item-title">
-                    <h2 class="display-1 headline font-bold mt-2 mb-2 flex items-center">
-                        Card Info
-                    </h2>
-                </div>
-                <div style="border: 1px #383750 solid; border-radius: 5px; padding: 15px;">
-                    <!-- STRIPE CARD -->
-                    <ngx-stripe-elements [stripe]="stripe" [elementsOptions]="elementsOptions">
-                        <ngx-stripe-card [options]="cardOptions"/>
-                    </ngx-stripe-elements>
-                </div>
-            </div>
+    <p>
+        TODO: 
+        Make this page look better with a list of all payment options and
+        ability to add a new card.
+        <br>
+        Also need to make the connected account section look better
+        <br>
+        Have some kind of verified badge next to user stuff when they get payment setup
+    </p>
 
-            <div>
-                TODO: Have button to add a card and that pops up a modal with stripe card element in it
-                <br>
-                TODO: Then show a list of cards the user has added on this screen
-            </div>
+    <div style="padding: 24px; border:1px solid white; border-radius: 10px;">
+        <div style="margin-bottom: 10px;">
+            <h3 class="display-2 headline" font-bold>
+                Payment Methods
+            </h3>
+        </div>
+        <mat-card appearance="outlined">
+            <!-- @for(let paymentMethod of paymentMethods; track paymentMethod.id) -->
+            <mat-card-header>
+              <mat-card-title> Australian Shepherd</mat-card-title>
+              <mat-card-subtitle>Herding group</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-actions>
+              <button mat-button>Learn More</button>
+            </mat-card-actions>
+          </mat-card>
+    </div>
 
-            <!-- OLD CARD APPROACH-->
-        
-            <!-- <div class="item-container">
-                <div class="item-title">
-                    <h2 class="display-1 headline font-bold mt-2 mb-2 flex items-center">
-                        Card Number
-                    </h2>
-                </div>
-                <div class="item-input flex flex-col sm:flex-row">
-                    <mat-form-field class="item-input-field" style="width: 100%" appearance="outline">
-                        <input cdkFocusInitial formControlName="cardNumber" matInput maxlength="16"/>
-                    </mat-form-field>
-                </div>
-            </div> -->
 
-            <!-- TODO: Make these two smaller side-by-side columns-->
-            <!-- <div class="flex flex-col gap-4 sm:flex-row">
-                <div class="item-container-col">
-                    <div class="item-title">
-                        <h2 class="display-1 headline font-bold mt-2 mb-2 flex items-center">
-                            Expiration Date
-                        </h2>
-                    </div>
-                    <div class="item-input flex flex-col sm:flex-row">
-                        <mat-form-field class="item-input-field" style="width: 100%" appearance="outline">
-                            <input cdkFocusInitial formControlName="expirationDate" matInput/>
-                        </mat-form-field>
-                    </div>
-                </div>
-    
-                <div class="item-container-col">
-                    <div class="item-title">
-                        <h2 class="display-1 headline font-bold mt-2 mb-2 flex items-center">
-                            CVV
-                        </h2>
-                    </div>
-                    <div class="item-input flex flex-col sm:flex-row">
-                        <mat-form-field class="item-input-field" style="width: 100%" appearance="outline">
-                            <input cdkFocusInitial formControlName="cvv" matInput/>
-                        </mat-form-field>
-                    </div>
-                </div>
-            </div>
-             -->
-            <!-- ------------------------------------------------ -->
-        
-        </mat-dialog-content>
-    
-        @if(billingInfoForm.disabled) {
-            <mat-dialog-actions class="flex justify-start" style="margin-bottom: 12px; margin-right: 12px;">
-                <button
-                (click)="enableForm()"
-                class="mr-2"
-                color="primary"
-                mat-flat-button
-                type="button">
-                    Edit Info
-                </button>
-            </mat-dialog-actions>
-        }
-        @else {
-            <mat-dialog-actions class="flex justify-start" style="margin-bottom: 12px; margin-right: 12px;">
-                <button
-                class="mr-2"
-                color="primary"
-                mat-flat-button
-                type="submit">
-                    Save Info
-                </button>
-                <button mat-button type="button" (click)="revertChanges()">Cancel</button>
-            </mat-dialog-actions>
-        }
-    </form>
+    <button color="primary" mat-flat-button type="button" (click)="openDialog()">Add Card</button>    
     <br>
     <h2 class="display-1 headline font-bold mt-2 mb-2 flex items-center">
         Connected Account
     </h2>
     @if(user.stripeInfo?.accountId) {
         <span>Status: </span><span style="color: green">Connected!</span>
+        <br>
+        <button mat-stroked-button type="button" color="error" style="outline: red;" (click)="disconnectAccount()">Disconnect Account</button>
     } @else {
         <span>Status: </span><span style="color: red">Not Connected</span>
         <br>
