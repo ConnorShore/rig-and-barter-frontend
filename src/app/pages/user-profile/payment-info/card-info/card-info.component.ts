@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
 import { StripeCardComponent, StripeElementsDirective, injectStripe } from 'ngx-stripe';
-import { IUserBillingInfoRequest } from 'src/app/model/user-info/user-billing-info-request';
+import { IStripePaymentMethodRequest } from 'src/app/model/user-info/stripe/stripe-payment-method-request';
 import { NotificationService } from 'src/app/services/notification.service';
 import { FileDragAndDropComponent } from 'src/app/shared/components/file-drag-and-drop/file-drag-and-drop.component';
 import { environment } from 'src/environments/environment';
@@ -74,12 +74,12 @@ export class CardInfoComponent {
 
     this.getStripeToken(this.paymentInfoForm.get('nameOnCard')?.value as string)
       .then(token => {
-        const billingInfoRequest: IUserBillingInfoRequest = {
+        const paymentInfoRequest: IStripePaymentMethodRequest = {
           nameOnCard: this.paymentInfoForm.get('nameOnCard')?.value as string,
-          stripeCardToken: token,
+          cardToken: token,
         };
 
-        this.closeDialog(billingInfoRequest);
+        this.closeDialog(paymentInfoRequest);
       })
       .catch(error => {
         this.notificationService.showError(error);
@@ -105,7 +105,7 @@ export class CardInfoComponent {
     this.closeDialog(undefined);
   }
 
-  closeDialog(cardInfo?: IUserBillingInfoRequest) {
+  closeDialog(cardInfo?: IStripePaymentMethodRequest) {
     this.dialogRef.close(cardInfo);
   }
 }

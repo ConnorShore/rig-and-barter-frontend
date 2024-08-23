@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BasicInfoComponent } from './basic-info/basic-info.component';
-import { BillingInfoComponent } from './billing-info/billing-info.component';
+import { PaymentInfoComponent } from './payment-info/payment-info.component';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { IUserResponse } from 'src/app/model/user-info/user-response';
 
@@ -36,6 +36,17 @@ export class UserProfileComponent implements OnInit {
     this.activatedRoute.data.subscribe(({user}) => {
       this.user = user;
       this.initSubPages();
+
+      this.activatedRoute.params.subscribe(params => {
+        switch(params["section"]) {
+          case 'payment-info':
+            this.selectSubPage(1)
+            break;
+          default:
+            this.selectSubPage(0);
+            break;
+        }
+      });
     });
   }
 
@@ -66,7 +77,7 @@ export class UserProfileComponent implements OnInit {
       },
       {
         title: 'Payment Info',
-        component: BillingInfoComponent,
+        component: PaymentInfoComponent,
         inputs: {
           'user': this.user
         }

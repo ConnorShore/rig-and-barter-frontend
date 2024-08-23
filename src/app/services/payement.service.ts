@@ -3,7 +3,9 @@ import { Injectable } from "@angular/core";
 import { ConfigurationService } from "./configuration.service";
 import { createBackendRequest } from "../shared/http.utils";
 import { Observable } from "rxjs";
-import { IUserStripeInfo } from "../model/user-info/stripe-info";
+import { IStripeCustomer } from "../model/user-info/stripe/stripe-customer";
+import { IStripePaymentMethod } from "../model/user-info/stripe/stripe-payment-method";
+import { IStripePaymentMethodRequest } from "../model/user-info/stripe/stripe-payment-method-request";
 
 @Injectable({
     providedIn: 'root'
@@ -17,8 +19,13 @@ export class PaymentService {
         return this.httpClient.put(url, null, ({responseType: 'text'}));
     }
 
-    getStripeInfoForUser(): Observable<IUserStripeInfo> {
-        let url = createBackendRequest(this.configService.apiGatewayUrl, `api/payment/profile`);
-        return this.httpClient.get<IUserStripeInfo>(url);
+    addPaymentMethodForUser(paymentInfo: IStripePaymentMethodRequest): Observable<IStripePaymentMethod> {
+        let url = createBackendRequest(this.configService.apiGatewayUrl, `api/payment`);
+        return this.httpClient.post<IStripePaymentMethod>(url, paymentInfo);
+    }
+
+    getStripeInfoForUser(userId: string): Observable<IStripeCustomer> {
+        let url = createBackendRequest(this.configService.apiGatewayUrl, `api/payment/${userId}/profile`);
+        return this.httpClient.get<IStripeCustomer>(url);
     }
 }

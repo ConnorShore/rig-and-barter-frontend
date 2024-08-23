@@ -1,29 +1,28 @@
-import { NgIf } from '@angular/common';
-import { Component, Input, signal } from '@angular/core';
+import { NgFor, NgIf } from '@angular/common';
+import { Component, Input, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { IUserResponse } from 'src/app/model/user-info/user-response';
 import { NotificationService } from 'src/app/services/notification.service';
-import { UserService } from 'src/app/services/user.service';
 import { FileDragAndDropComponent } from 'src/app/shared/components/file-drag-and-drop/file-drag-and-drop.component';
 import { PaymentService } from 'src/app/services/payement.service';
 import { CardInfoComponent } from './card-info/card-info.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { IStripePaymentMethod } from 'src/app/model/user-info/stripe/stripe-payment-method';
 
 @Component({
-    selector: 'rb-billing-info',
+    selector: 'rb-payment-info',
     standalone: true,
     providers: [
-        UserService,
         NotificationService,
         PaymentService
     ],
-    templateUrl: './billing-info.component.html',
-    styleUrl: './billing-info.component.scss',
+    templateUrl: './payment-info.component.html',
+    styleUrl: './payment-info.component.scss',
     imports: [
         MatDialogModule,
         MatIconModule,
@@ -34,23 +33,29 @@ import { MatGridListModule } from '@angular/material/grid-list';
         MatGridListModule,
         MatIconModule,
         FileDragAndDropComponent,
-        NgIf
+        NgIf,
+        NgFor
     ]
 })
-export class BillingInfoComponent {
+export class PaymentInfoComponent implements OnInit {
   @Input() user!: IUserResponse;
+
+  paymentMethods: IStripePaymentMethod[];
   
   readonly panelOpenState = signal(false);
 
   constructor(
     private readonly paymentService: PaymentService,
-    private readonly userService: UserService,
     private readonly notificationService: NotificationService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
   ) { }
 
+  ngOnInit(): void {
+    this.paymentMethods = this.user.stripeInfo?.paymentMethods ? this.user.stripeInfo.paymentMethods : [];
+  }
+
   createAccountForUser() {
-    //TODO: HAve some kind of loading spinner until redirect happens
+    //TODO: Have some kind of loading spinner until redirect happens
     this.paymentService.createAccountForUser().subscribe((url) => {
       console.log('Account created successfully');
       window.location.href = url;
@@ -65,6 +70,13 @@ export class BillingInfoComponent {
     // TODO: Removes the payment method from the user and stripe
   }
 
+  trackItem(index: number, item: IStripePaymentMethod) {
+    if(item === null)
+      return Math.random() * 100000;
+
+    return item.stripePaymentId;
+  }
+
   openDialog() {
     this.dialog.open(CardInfoComponent, {
       width: '600px',
@@ -77,7 +89,8 @@ export class BillingInfoComponent {
     .afterClosed()
     .subscribe(cardInfo => {
       if(cardInfo) {
-        this.userService.setUserBillingInfo(this.user.id, cardInfo).subscribe(updatedbillingInfo => {
+        this.paymentService.addPaymentMethodForUser(cardInfo).subscribe(fullPaymentMethod => {
+          this.paymentMethods?.push(fullPaymentMethod);
           this.notificationService.showSuccess('Successfully added new Payment Method!');
         });
       }

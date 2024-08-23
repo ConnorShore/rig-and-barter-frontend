@@ -31,7 +31,7 @@
             }
         </div>
     </div>
-
+    
     <mat-accordion>
         <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
 
@@ -42,37 +42,55 @@
                 </mat-panel-description>
             </mat-expansion-panel-header>
 
+
             <!--1 TODO: Make this a forloop over all payment methods-->
-            @if(!user.billingInfo) {
-                <mat-card appearance="outlined">
-                    <mat-grid-list cols="8" rowHeight="96px">
-                        <mat-grid-tile [colspan]="7" [rowspan]="1">
-                            <div style="width: 100% !important; padding-left: 24px">
-                                    <mat-card-title>x4242</mat-card-title>
-                                <mat-card-subtitle>Test Stevens</mat-card-subtitle>
-                            </div>
-                        </mat-grid-tile>
-                        <mat-grid-tile [colspan]="1" [rowspan]="1">
-                            <button
-                                (click)="deletePaymentMethod()"
-                                class="button"
-                                mat-icon-button
-                                type="button">
-                                <mat-icon svgIcon="mat:delete"></mat-icon>
-                            </button>
-                        </mat-grid-tile>
-                    </mat-grid-list>
-                </mat-card>
-            } @else {
-                <p style="font-size: 16px; text-align: center;">Currently there are no Payment Methods setup.</p>
+            @if(paymentMethods !== undefined && paymentMethods.length > 0) {
+                @for(paymentMethod of paymentMethods; track paymentMethod.stripePaymentId) {
+                    <mat-card appearance="outlined" style="margin-bottom: 12px;">
+                        <mat-grid-list cols="8" rowHeight="96px">
+                            <mat-grid-tile [colspan]="7" [rowspan]="1">
+                                <div style="width: 100% !important; padding-left: 24px">
+                                        <mat-card-title>{{paymentMethod.last4Digits}}</mat-card-title>
+                                    <mat-card-subtitle>{{paymentMethod.nameOnCard}}</mat-card-subtitle>
+                                </div>
+                            </mat-grid-tile>
+                            <mat-grid-tile [colspan]="1" [rowspan]="1">
+                                <button
+                                    (click)="deletePaymentMethod()"
+                                    class="button"
+                                    mat-icon-button
+                                    type="button">
+                                    <mat-icon svgIcon="mat:delete"></mat-icon>
+                                </button>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </mat-card>
+                }
+
                 <button 
                     color="primary" 
                     mat-stroked-button 
                     type="button" 
                     (click)="openDialog()"
-                    style="padding: 10px 50px; margin-top: 10px; margin-right: auto; margin-left: auto;">
+                    style="padding: 10px 50px; margin-top: 10px;;">
                     Add Payment Method
                 </button>
+            } @else {
+                <div class="flex" style="flex-direction: column; align-items: center;">
+                    <div style="display:flex; flex: 1">
+                        <p style="font-size: 16px; text-align: center;">Currently there are no Payment Methods setup.</p>
+                    </div>
+                    <div class="flex-col" style="display:flex; flex: 1">
+                        <button 
+                            color="primary" 
+                            mat-stroked-button 
+                            type="button" 
+                            (click)="openDialog()"
+                            style="padding: 10px 50px; margin-top: 10px;;">
+                            Add Payment Method
+                        </button>
+                    </div>
+                </div>
             }
 
         </mat-expansion-panel>

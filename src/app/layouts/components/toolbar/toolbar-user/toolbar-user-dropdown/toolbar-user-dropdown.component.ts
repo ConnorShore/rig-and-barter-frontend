@@ -54,11 +54,11 @@ export class ToolbarUserDropdownComponent implements OnInit {
     },
     {
       id: '2',
-      icon: 'mat:move_to_inbox',
-      label: 'My Inbox',
-      description: 'Messages & Latest News',
-      colorClass: 'text-primary-600',
-      route: '/apps/chat'
+      icon: 'mat:table_chart',
+      label: 'Payment Information',
+      description: 'Cards and Account details',
+      colorClass: 'text-purple-600',
+      route: '/profile/payment-info'
     },
     {
       id: '3',
@@ -70,12 +70,12 @@ export class ToolbarUserDropdownComponent implements OnInit {
     },
     {
       id: '4',
-      icon: 'mat:table_chart',
-      label: 'Billing Information',
-      description: 'Pricing & Current Plan',
-      colorClass: 'text-purple-600',
-      route: '/pages/pricing'
-    }
+      icon: 'mat:move_to_inbox',
+      label: 'My Inbox',
+      description: 'Messages & Latest News',
+      colorClass: 'text-primary-600',
+      route: '/apps/chat'
+    },
   ];
 
   statuses: OnlineStatus[] = [

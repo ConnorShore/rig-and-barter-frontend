@@ -34,6 +34,16 @@ export const appRoutes: VexRoutes = [
         }
       },
       {
+        path: 'profile/:section',
+        component: UserProfileComponent,
+        providers: [
+            UserService
+        ],
+        resolve: {
+            user: userProfileResolver
+        }
+      },
+      {
         path: 'listings',
         loadChildren: () => import('./pages/listings/listings.routes').then(r => r.LISTING_ROUTES)
       },

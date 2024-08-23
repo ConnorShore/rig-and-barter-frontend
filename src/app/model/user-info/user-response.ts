@@ -1,10 +1,8 @@
-import { IUserStripeInfo } from "./stripe-info";
+import { IStripeCustomer } from "./stripe/stripe-customer";
 import { IUserBasicInfoResponse } from "./user-basic-info-response";
-import { IUserBillingInfoResponse } from "./user-billing-info-response";
 
 export interface IUserResponse {
     id: string;
     basicInfo: IUserBasicInfoResponse;
-    billingInfo?: IUserBillingInfoResponse;
-    stripeInfo?: IUserStripeInfo;
+    stripeInfo?: IStripeCustomer;
 }
