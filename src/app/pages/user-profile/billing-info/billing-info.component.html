@@ -1,52 +1,81 @@
-<!-- <div class="flex">
-    <h1 class="display-2 font-bold mt-0 mb-8 flex items-center flex-auto">
-        <span class="block">Billing Info</span>
-    </h1>
-</div> -->
-
 <div class="form-container">
 
-    <p>
-        TODO: 
-        Make this page look better with a list of all payment options and
-        ability to add a new card.
-        <br>
-        Also need to make the connected account section look better
-        <br>
-        Have some kind of verified badge next to user stuff when they get payment setup
-    </p>
+    <div class="flex-col" 
+            style="border-width: 1px; border-radius: 10px; padding:24px; margin: 36px 0px;" 
+            [style]="user.stripeInfo?.accountId ? 'border-color: green' : 'border-color: #8c8b9d'">
 
-    <div style="padding: 24px; border:1px solid white; border-radius: 10px;">
-        <div style="margin-bottom: 10px;">
-            <h3 class="display-2 headline" font-bold>
-                Payment Methods
-            </h3>
+        <div class="flex flex-col sm:flex-row">
+            <div class="flex items-center">
+                <h2 class="display-1 headline">
+                    Connected Payments Account
+                </h2>
+            </div>
+            <div class="flex-auto items-right" style="text-align: end;">
+                @if(user.stripeInfo?.accountId) {
+                    <h2 class="display-2 headline" style="color: green">
+                        Connected
+                    </h2>
+                } @else {
+                    <h2 class="display-2 headline" style="color: red; font-size: 18px;">
+                        Not Connected
+                    </h2>
+                }
+            </div>
         </div>
-        <mat-card appearance="outlined">
-            <!-- @for(let paymentMethod of paymentMethods; track paymentMethod.id) -->
-            <mat-card-header>
-              <mat-card-title> Australian Shepherd</mat-card-title>
-              <mat-card-subtitle>Herding group</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-actions>
-              <button mat-button>Learn More</button>
-            </mat-card-actions>
-          </mat-card>
+
+        <div class="flex flex-col sm:flex-row" style="margin-top:12px; align-self: flex-end;"> 
+            @if(user.stripeInfo?.accountId) {
+                <button mat-stroked-button type="button" color="red" (click)="disconnectAccount()">Disconnect Account</button>
+            } @else {
+                <button mat-stroked-button type="button" color="primary" (click)="createAccountForUser()">Setup Account</button>
+            }
+        </div>
     </div>
 
+    <mat-accordion>
+        <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
 
-    <button color="primary" mat-flat-button type="button" (click)="openDialog()">Add Card</button>    
-    <br>
-    <h2 class="display-1 headline font-bold mt-2 mb-2 flex items-center">
-        Connected Account
-    </h2>
-    @if(user.stripeInfo?.accountId) {
-        <span>Status: </span><span style="color: green">Connected!</span>
-        <br>
-        <button mat-stroked-button type="button" color="error" style="outline: red;" (click)="disconnectAccount()">Disconnect Account</button>
-    } @else {
-        <span>Status: </span><span style="color: red">Not Connected</span>
-        <br>
-        <button mat-flat-button type="button" color="primary" (click)="createAccountForUser()">Setup Account</button>
-    }
+            <mat-expansion-panel-header [collapsedHeight]="'64px'" [expandedHeight]="'82px'">
+                <mat-panel-title style="font-size: 24px;">Payment Methods</mat-panel-title>
+                <mat-panel-description>
+                    Click to {{panelOpenState() ? 'close' : 'open'}} the panel
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <!--1 TODO: Make this a forloop over all payment methods-->
+            @if(!user.billingInfo) {
+                <mat-card appearance="outlined">
+                    <mat-grid-list cols="8" rowHeight="96px">
+                        <mat-grid-tile [colspan]="7" [rowspan]="1">
+                            <div style="width: 100% !important; padding-left: 24px">
+                                    <mat-card-title>x4242</mat-card-title>
+                                <mat-card-subtitle>Test Stevens</mat-card-subtitle>
+                            </div>
+                        </mat-grid-tile>
+                        <mat-grid-tile [colspan]="1" [rowspan]="1">
+                            <button
+                                (click)="deletePaymentMethod()"
+                                class="button"
+                                mat-icon-button
+                                type="button">
+                                <mat-icon svgIcon="mat:delete"></mat-icon>
+                            </button>
+                        </mat-grid-tile>
+                    </mat-grid-list>
+                </mat-card>
+            } @else {
+                <p style="font-size: 16px; text-align: center;">Currently there are no Payment Methods setup.</p>
+                <button 
+                    color="primary" 
+                    mat-stroked-button 
+                    type="button" 
+                    (click)="openDialog()"
+                    style="padding: 10px 50px; margin-top: 10px; margin-right: auto; margin-left: auto;">
+                    Add Payment Method
+                </button>
+            }
+
+        </mat-expansion-panel>
+    </mat-accordion>
+    
 </div>

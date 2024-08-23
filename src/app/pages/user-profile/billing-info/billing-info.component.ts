@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,6 +11,8 @@ import { FileDragAndDropComponent } from 'src/app/shared/components/file-drag-an
 import { PaymentService } from 'src/app/services/payement.service';
 import { CardInfoComponent } from './card-info/card-info.component';
 import { MatCardModule } from '@angular/material/card';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @Component({
     selector: 'rb-billing-info',
@@ -28,12 +30,17 @@ import { MatCardModule } from '@angular/material/card';
         MatInputModule,
         MatButtonModule,
         MatCardModule,
+        MatExpansionModule,
+        MatGridListModule,
+        MatIconModule,
         FileDragAndDropComponent,
         NgIf
     ]
 })
 export class BillingInfoComponent {
   @Input() user!: IUserResponse;
+  
+  readonly panelOpenState = signal(false);
 
   constructor(
     private readonly paymentService: PaymentService,
@@ -41,7 +48,6 @@ export class BillingInfoComponent {
     private readonly notificationService: NotificationService,
     private readonly dialog: MatDialog
   ) { }
-
 
   createAccountForUser() {
     //TODO: HAve some kind of loading spinner until redirect happens
@@ -52,7 +58,11 @@ export class BillingInfoComponent {
   }
 
   disconnectAccount() {
+    // TODO: Removes the account from the user and stripe
+  }
 
+  deletePaymentMethod() {
+    // TODO: Removes the payment method from the user and stripe
   }
 
   openDialog() {

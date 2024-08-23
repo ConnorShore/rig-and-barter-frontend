@@ -65,7 +65,7 @@ export class UserProfileComponent implements OnInit {
         }
       },
       {
-        title: 'Billing Info',
+        title: 'Payment Info',
         component: BillingInfoComponent,
         inputs: {
           'user': this.user
