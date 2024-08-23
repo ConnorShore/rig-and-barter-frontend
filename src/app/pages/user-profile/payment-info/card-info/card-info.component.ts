@@ -40,7 +40,7 @@ export class CardInfoComponent {
   @ViewChild(StripeCardComponent) cardElement!: StripeCardComponent;
 
   paymentInfoForm = new FormGroup({
-    nameOnCard: new FormControl(''),
+    nickname: new FormControl(''),
   });
 
   cardOptions: StripeCardElementOptions = {
@@ -72,10 +72,10 @@ export class CardInfoComponent {
 
   savePaymentInfo() {
 
-    this.getStripeToken(this.paymentInfoForm.get('nameOnCard')?.value as string)
+    this.getStripeToken(this.paymentInfoForm.get('nickname')?.value as string)
       .then(token => {
         const paymentInfoRequest: IStripePaymentMethodRequest = {
-          nameOnCard: this.paymentInfoForm.get('nameOnCard')?.value as string,
+          nickname: this.paymentInfoForm.get('nickname')?.value as string,
           cardToken: token,
         };
 

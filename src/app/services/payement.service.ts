@@ -24,6 +24,16 @@ export class PaymentService {
         return this.httpClient.post<IStripePaymentMethod>(url, paymentInfo);
     }
 
+    deletePayment(paymentId: string) {
+        let url = createBackendRequest(this.configService.apiGatewayUrl, `api/payment/${paymentId}`);
+        return this.httpClient.delete(url);
+    }
+
+    deleteAccount(accountId: string) {
+        let url = createBackendRequest(this.configService.apiGatewayUrl, `api/payment/account/${accountId}`);
+        return this.httpClient.delete(url);
+    }
+
     getStripeInfoForUser(userId: string): Observable<IStripeCustomer> {
         let url = createBackendRequest(this.configService.apiGatewayUrl, `api/payment/${userId}/profile`);
         return this.httpClient.get<IStripeCustomer>(url);

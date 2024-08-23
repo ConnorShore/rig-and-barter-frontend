@@ -1,5 +1,5 @@
 
 export interface IStripePaymentMethodRequest {
-    nameOnCard: string;
+    nickname: string;
     cardToken: string;
 }

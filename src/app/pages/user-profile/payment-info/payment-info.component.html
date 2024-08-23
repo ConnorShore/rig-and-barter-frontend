@@ -25,7 +25,7 @@
 
         <div class="flex flex-col sm:flex-row" style="margin-top:12px; align-self: flex-end;"> 
             @if(user.stripeInfo?.accountId) {
-                <button mat-stroked-button type="button" color="red" (click)="disconnectAccount()">Disconnect Account</button>
+                <button mat-stroked-button type="button" style="color: rgb(212, 45, 45)" (click)="confirmDisconnectAccount()">Disconnect Account</button>
             } @else {
                 <button mat-stroked-button type="button" color="primary" (click)="createAccountForUser()">Setup Account</button>
             }
@@ -42,21 +42,20 @@
                 </mat-panel-description>
             </mat-expansion-panel-header>
 
-
-            <!--1 TODO: Make this a forloop over all payment methods-->
             @if(paymentMethods !== undefined && paymentMethods.length > 0) {
-                @for(paymentMethod of paymentMethods; track paymentMethod.stripePaymentId) {
+                @for(paymentMethod of paymentMethods; track paymentMethod.stripePaymentId;) {
                     <mat-card appearance="outlined" style="margin-bottom: 12px;">
                         <mat-grid-list cols="8" rowHeight="96px">
                             <mat-grid-tile [colspan]="7" [rowspan]="1">
                                 <div style="width: 100% !important; padding-left: 24px">
-                                        <mat-card-title>{{paymentMethod.last4Digits}}</mat-card-title>
-                                    <mat-card-subtitle>{{paymentMethod.nameOnCard}}</mat-card-subtitle>
+                                        <mat-card-title>XXXX-XXXX-XXXX-{{paymentMethod.last4Digits}}</mat-card-title>
+                                    <mat-card-subtitle>{{paymentMethod.nickname}}</mat-card-subtitle>
+                                    <mat-card-subtitle>{{paymentMethod.expirationMonth | number: '2.0'}}/{{paymentMethod.expirationYear}}</mat-card-subtitle>
                                 </div>
                             </mat-grid-tile>
                             <mat-grid-tile [colspan]="1" [rowspan]="1">
                                 <button
-                                    (click)="deletePaymentMethod()"
+                                    (click)="confirmDeletePayment($index)"
                                     class="button"
                                     mat-icon-button
                                     type="button">

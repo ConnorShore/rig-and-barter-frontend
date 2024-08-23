@@ -1,7 +1,7 @@
-import { NgFor, NgIf } from '@angular/common';
-import { Component, Input, OnInit, signal } from '@angular/core';
+import { DecimalPipe, NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Inject, inject, Input, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogModule, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { IUserResponse } from 'src/app/model/user-info/user-response';
@@ -34,7 +34,7 @@ import { IStripePaymentMethod } from 'src/app/model/user-info/stripe/stripe-paym
         MatIconModule,
         FileDragAndDropComponent,
         NgIf,
-        NgFor
+        DecimalPipe
     ]
 })
 export class PaymentInfoComponent implements OnInit {
@@ -48,6 +48,7 @@ export class PaymentInfoComponent implements OnInit {
     private readonly paymentService: PaymentService,
     private readonly notificationService: NotificationService,
     private readonly dialog: MatDialog,
+    private readonly deleteDialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -63,18 +64,45 @@ export class PaymentInfoComponent implements OnInit {
   }
 
   disconnectAccount() {
-    // TODO: Removes the account from the user and stripe
+    this.paymentService.deleteAccount(this.user.stripeInfo?.accountId as string).subscribe(() => {
+      this.notificationService.showSuccess('Successfully disconnected Account!');
+      if(this.user.stripeInfo)
+        this.user.stripeInfo!.accountId = undefined;
+    });
   }
 
-  deletePaymentMethod() {
-    // TODO: Removes the payment method from the user and stripe
+  deletePaymentMethod(index: number) {
+    this.paymentService.deletePayment(this.paymentMethods[index].stripePaymentId).subscribe(() => {
+      this.paymentMethods.splice(index, 1);
+      this.notificationService.showSuccess('Successfully deleted Payment Method!');
+    });
   }
 
-  trackItem(index: number, item: IStripePaymentMethod) {
-    if(item === null)
-      return Math.random() * 100000;
+  confirmDeletePayment(index: number): void {
+    this.dialog.open(DeleteConfirmationDialog, {
+      width: '250px'
+    })
+    .afterClosed()
+    .subscribe(result => {
+      if(result) {
+        this.deletePaymentMethod(index);
+      }
+    });
+  }
 
-    return item.stripePaymentId;
+  confirmDisconnectAccount(): void {
+    this.deleteDialog.open(DeleteConfirmationDialog, {
+      width: '350px',
+      data: {
+        isAccount: true
+      }
+    })
+    .afterClosed()
+    .subscribe(result => {
+      if(result) {
+        this.disconnectAccount();
+      }
+    });
   }
 
   openDialog() {
@@ -83,7 +111,7 @@ export class PaymentInfoComponent implements OnInit {
       minHeight: '350px',
       maxHeight: '350px',
       data: {
-        user: this.user
+        isAccount: false
       }
     })
     .afterClosed()
@@ -96,4 +124,33 @@ export class PaymentInfoComponent implements OnInit {
       }
     });
   }
+}
+
+@Component({
+  selector: 'rb-delete-confirmation-dialog',
+  template: `
+
+    @if(data && data.isAccount) {
+     <h1 mat-dialog-title>Are you sure you want to disconnect this account?</h1>
+    } @else {
+      <h1 mat-dialog-title>Are you sure you want to delete this payment method?</h1>
+    }
+
+    <div mat-dialog-actions>
+
+      @if(data && data.isAccount) {
+        <button mat-flat-button color="primary" (click)="dialogRef.close(true)" style="margin: 10px; padding: 10px;">Disconnect</button>
+      } @else {
+        <button mat-flat-button color="primary" (click)="dialogRef.close(true)" style="margin: 10px; padding: 10px;">Delete</button>
+      }
+      <button mat-stroked-button (click)="dialogRef.close()">Cancel</button>
+    </div>
+  `,
+  standalone: true,
+  imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class DeleteConfirmationDialog {
+  readonly dialogRef = inject(MatDialogRef<PaymentInfoComponent>);
+  data = inject(MAT_DIALOG_DATA);
 }
