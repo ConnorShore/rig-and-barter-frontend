@@ -29,8 +29,6 @@ import { DatePipe } from '@angular/common';
     ]
 })
 export class ViewTransactionsComponent implements OnInit {
-[x: string]: any;
-
   PAGE_TITLE = 'Active Transactions';
 
   transactions: ITransaction[] = [];
