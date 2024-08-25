@@ -61,12 +61,14 @@ export class ViewTransactionsComponent implements OnInit {
   // TODO: For updating transacitons, make server return the updated transaction so we can reflect it client-side
   //  without having to re-load the page to get updated info
   acceptTransaction(transaction: ITransaction) {
-    this.transactionService.acceptTransaction(transaction.uniqueId).subscribe(() => {
-      if(transaction.buyerId === this.userId) {
-        transaction.buyerAccepted = true;
-      } else {
-        transaction.sellerAccepted = true;
-      }
+    this.transactionService.acceptTransaction(transaction.uniqueId).subscribe((tran) => {
+      console.log('updated transactino: ', tran);
+      this.transactions[this.transactions.indexOf(transaction)] = tran;
+      // if(transaction.buyerId === this.userId) {
+      //   transaction.buyerAccepted = true;
+      // } else {
+      //   transaction.sellerAccepted = true;
+      // }
       this.notificationService.showSuccess('Transaction has been accepted');
     });
   }
@@ -102,8 +104,10 @@ export class ViewTransactionsComponent implements OnInit {
       paymentMethodId: paymentMethodId  // This will be null if seller is completing the transaction request
     };
 
-    this.transactionService.completeTransaction(request).subscribe(() => {
-      transaction.state = TransactionState.COMPLETED;
+    this.transactionService.completeTransaction(request).subscribe((tran) => {
+      // transaction.state = TransactionState.COMPLETED;
+        console.log('completed transaction: ', tran);
+        this.transactions[this.transactions.indexOf(transaction)] = tran;
     });
   }
 

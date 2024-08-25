@@ -18,14 +18,14 @@ export class TransactionService {
         return this.httpClient.post(url, transactionRequest, {responseType: 'text'});
     }
 
-    acceptTransaction(transactionId: string): Observable<any> {
+    acceptTransaction(transactionId: string): Observable<ITransaction> {
         let url = createBackendRequest(this.configService.apiGatewayUrl, `api/transaction/${transactionId}/accept`);
-        return this.httpClient.put(url, null);
+        return this.httpClient.put<ITransaction>(url, null);
     }
 
-    completeTransaction(transactioRequest: ICompleteTransactionRequest): Observable<any> {
+    completeTransaction(transactioRequest: ICompleteTransactionRequest): Observable<ITransaction> {
         let url = createBackendRequest(this.configService.apiGatewayUrl, `api/transaction/${transactioRequest.transactionId}/complete`);
-        return this.httpClient.put(url, transactioRequest);
+        return this.httpClient.put<ITransaction>(url, transactioRequest);
     }
 
     getAllActiveTransactions(): Observable<ITransaction[]> {
