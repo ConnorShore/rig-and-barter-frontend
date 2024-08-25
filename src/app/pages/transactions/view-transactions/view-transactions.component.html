@@ -7,6 +7,7 @@
       </div>
     </vex-page-layout-header>
   
+    <!-- TODO: Make this expandable like payment methods. Have one for active transactions and one for completed/cancelled transactions-->
     <vex-page-layout-content class="container -mt-6">
         <div class="card overflow-auto -mt-16">
             <div class="bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
@@ -47,7 +48,9 @@
                             {{transaction.state}}
                         </div>
                         <div mat-cell class="text-secondary font-medium cell centered justify-center">
-                            @if(transaction.state !== TransactionState.COMPLETED && transaction.state !== TransactionState.CANCELLED) {
+                            @if(transaction.state !== TransactionState.COMPLETED 
+                                    && transaction.state !== TransactionState.IN_PROGRESS 
+                                    && transaction.state !== TransactionState.CANCELLED) {
                                 <button
                                 class="ustify-center p-6"
                                 color="primary"
@@ -59,15 +62,19 @@
                                 </button>
                             } @else {
                                 <button
-                                class="ustify-center p-6"
+                                class="justify-center p-6"
                                 color="primary"
                                 mat-flat-button
-                                [disabled]="transaction.state === TransactionState.COMPLETED"
-                                (click)="completeTransaction(transaction)"
+                                [disabled]="transaction.state === TransactionState.COMPLETED || userHasCompleted(transaction)"
+                                (click)="selectPaymentMethod(transaction)"
                                 type="button">
                                     @if(transaction.state === TransactionState.COMPLETED) {
                                         Completed
-                                    } @else {
+                                    } 
+                                    @else if(userHasCompleted(transaction)) {
+                                        Awaiting Completion
+                                    }
+                                    @else {
                                         Complete
                                     }
                                 </button>

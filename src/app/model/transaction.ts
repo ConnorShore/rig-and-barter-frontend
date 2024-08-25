@@ -10,5 +10,7 @@ export interface ITransaction {
     completionDate: Date;
     buyerAccepted: boolean;
     sellerAccepted: boolean;
+    buyerCompleted: boolean;
+    sellerCompleted: boolean;
     state: TransactionState;
 }

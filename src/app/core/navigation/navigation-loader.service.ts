@@ -38,6 +38,12 @@ export class NavigationLoaderService {
         //   }
         // ]
       },
+      {
+        type: 'link',
+        label: 'View Transactions',
+        route: '/transactions',
+        icon: 'logo:reciept',
+      }
     ]);
   }
 }

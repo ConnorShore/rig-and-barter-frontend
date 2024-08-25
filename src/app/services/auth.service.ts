@@ -32,7 +32,7 @@ export class AuthService {
     }
 
     logout() {
-        this.keycloakService.logout();
+        this.keycloakService.logout(location.origin + '/listings');
     }
 
     isLoggedIn(): boolean {

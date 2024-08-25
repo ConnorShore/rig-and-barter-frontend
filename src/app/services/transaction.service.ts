@@ -5,6 +5,7 @@ import { Observable } from "rxjs";
 import { ConfigurationService } from "./configuration.service";
 import { createBackendRequest } from "../shared/http.utils";
 import { ITransaction } from "../model/transaction";
+import { ICompleteTransactionRequest } from "../model/complete-transaction-request";
 
 
 @Injectable()
@@ -22,9 +23,9 @@ export class TransactionService {
         return this.httpClient.put(url, null);
     }
 
-    completeTransaction(transactionId: string): Observable<any> {
-        let url = createBackendRequest(this.configService.apiGatewayUrl, `api/transaction/${transactionId}/complete`);
-        return this.httpClient.put(url, null);
+    completeTransaction(transactioRequest: ICompleteTransactionRequest): Observable<any> {
+        let url = createBackendRequest(this.configService.apiGatewayUrl, `api/transaction/${transactioRequest.transactionId}/complete`);
+        return this.httpClient.put(url, transactioRequest);
     }
 
     getAllActiveTransactions(): Observable<ITransaction[]> {

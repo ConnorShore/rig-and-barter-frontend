@@ -34,8 +34,8 @@ export class PaymentService {
         return this.httpClient.delete(url);
     }
 
-    getStripeInfoForUser(userId: string): Observable<IStripeCustomer> {
-        let url = createBackendRequest(this.configService.apiGatewayUrl, `api/payment/${userId}/profile`);
+    getStripeInfoForUser(): Observable<IStripeCustomer> {
+        let url = createBackendRequest(this.configService.apiGatewayUrl, `api/payment/profile`);
         return this.httpClient.get<IStripeCustomer>(url);
     }
 }
