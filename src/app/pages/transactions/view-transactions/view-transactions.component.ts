@@ -12,12 +12,13 @@ import { DatePipe } from '@angular/common';
 import { TransactionTableComponent } from './transaction-table/transaction-table.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { TransactionState } from 'src/app/model/transaction-state';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
     selector: 'view-transactions',
     standalone: true,
     providers: [
-        TransactionService
+        NotificationService
     ],
     templateUrl: './view-transactions.component.html',
     styleUrl: './view-transactions.component.scss',
@@ -44,6 +45,7 @@ export class ViewTransactionsComponent implements OnInit {
   constructor(
     private readonly activatedRoute: ActivatedRoute,
     private readonly authService: AuthService,
+    private readonly notificationService: NotificationService
   ) { }
 
   ngOnInit(): void {
@@ -61,5 +63,6 @@ export class ViewTransactionsComponent implements OnInit {
   onTransactionCancelled(transaction: ITransaction) {
     this.activeTransactions.splice(this.activeTransactions.indexOf(transaction), 1);
     this.finishedTransactions.push(transaction);
+    this.notificationService.showSuccess('Transaction has been cancelled successfully');
   }
 }

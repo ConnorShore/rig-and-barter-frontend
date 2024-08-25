@@ -39,10 +39,15 @@
                             class="justify-center p-6"
                             color="primary"
                             mat-flat-button
-                            [disabled]="(userId === transaction.buyerId && transaction.buyerAccepted) || (userId === transaction.sellerId && transaction.sellerAccepted)"
+                            [disabled]="userHasAccepted(transaction)"
                             (click)="acceptTransaction(transaction)"
                             type="button">
-                                Accept
+                                @if(userHasAccepted(transaction)) {
+                                    Awaiting {{userIsBuyer(transaction) ? 'Seller': 'Buyer' }} Acceptance
+                                }
+                                @else {
+                                    Accept
+                                }
                             </button>
                         } @else {
                             <button
@@ -56,7 +61,7 @@
                                     Completed
                                 } 
                                 @else if(userHasCompleted(transaction)) {
-                                    Awaiting Completion
+                                    Awaiting {{userIsBuyer(transaction) ? 'Seller': 'Buyer' }} Completion
                                 }
                                 @else {
                                     Complete
@@ -64,7 +69,7 @@
                             </button>
                         }
                         <button
-                        class="justify-center p-6 ml-2"
+                        class="justify-center p-6 ml-2 mt-2"
                         mat-stroked-button
                         color="warn"
                         (click)="cancelTransaction(transaction)"

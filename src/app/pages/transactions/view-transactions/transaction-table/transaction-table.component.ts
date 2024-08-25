@@ -52,11 +52,6 @@ export class TransactionTableComponent {
     this.transactionService.acceptTransaction(transaction.uniqueId).subscribe((tran) => {
       console.log('updated transactino: ', tran);
       this.transactions[this.transactions.indexOf(transaction)] = tran;
-      // if(transaction.buyerId === this.userId) {
-      //   transaction.buyerAccepted = true;
-      // } else {
-      //   transaction.sellerAccepted = true;
-      // }
       this.notificationService.showSuccess('Transaction has been accepted');
     });
   }
@@ -101,8 +96,6 @@ export class TransactionTableComponent {
   cancelTransaction(transaction: ITransaction) {
     this.transactionService.cancelTransaction(transaction.uniqueId).subscribe((tran) => {
       this.transactionCancelled.emit(tran);
-      // this.transactions.splice(this.transactions.indexOf(transaction), 1);
-      // this.notificationService.showSuccess('Transaction has been cancelled');
     });
   }
 
@@ -110,6 +103,19 @@ export class TransactionTableComponent {
   userHasCompleted(transaction: ITransaction) {
     return transaction.state === TransactionState.IN_PROGRESS 
               && ((this.userId == transaction.buyerId && transaction.buyerCompleted) || (this.userId == transaction.sellerId && transaction.sellerCompleted));
+  }
+
+  userHasAccepted(transaction: ITransaction) {
+    return transaction.state === TransactionState.REQUESTED 
+              && ((this.userId == transaction.buyerId && transaction.buyerAccepted) || (this.userId == transaction.sellerId && transaction.sellerAccepted));
+  }
+
+  userIsBuyer(transaction: ITransaction) {
+    return this.userId === transaction.buyerId;
+  }
+
+  userIsSeller(transaction: ITransaction) {
+    return this.userId === transaction.sellerId;
   }
 
   public get TransactionState() {
