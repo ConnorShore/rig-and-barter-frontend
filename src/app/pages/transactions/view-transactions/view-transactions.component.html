@@ -1,0 +1,45 @@
+<vex-page-layout>
+    <vex-page-layout-header class="pb-4 flex flex-col items-start justify-center">
+      <div class="w-full flex flex-col sm:flex-row justify-between container">
+        <div>
+          <h1 class="title mt-0 mb-1">Transactions</h1>
+        </div>
+      </div>
+    </vex-page-layout-header>
+  
+    <!-- TODO: Make this expandable like payment methods. Have one for active transactions and one for completed/cancelled transactions-->
+    <vex-page-layout-content class="container -mt-12">
+        <mat-accordion>
+            <mat-expansion-panel expanded="true" (opened)="activePanelOpenState.set(true)" (closed)="activePanelOpenState.set(false)">
+    
+                <mat-expansion-panel-header [collapsedHeight]="'64px'" [expandedHeight]="'82px'">
+                    <mat-panel-title style="font-size: 24px;">Active Transactions</mat-panel-title>
+                    <mat-panel-description>
+                        Click to {{activePanelOpenState() ? 'close' : 'open'}} the panel
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <rb-transaction-table (transactionCancelled)="onTransactionCancelled($event)" [userId]="userId" [transactions]="activeTransactions"/>
+            
+            </mat-expansion-panel>
+        </mat-accordion>
+
+        <div class="mt-12 mb-12"></div>
+        
+        <mat-accordion>
+            <mat-expansion-panel (opened)="finishedPanelOpenState.set(true)" (closed)="finishedPanelOpenState.set(false)">
+    
+                <mat-expansion-panel-header [collapsedHeight]="'64px'" [expandedHeight]="'82px'">
+                    <mat-panel-title style="font-size: 24px;">In-Active Transactions</mat-panel-title>
+                    <mat-panel-description>
+                        Click to {{finishedPanelOpenState() ? 'close' : 'open'}} the panel
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <rb-transaction-table [userId]="userId" [transactions]="finishedTransactions"/>
+            
+            </mat-expansion-panel>
+        </mat-accordion>
+    </vex-page-layout-content>
+  </vex-page-layout>
+  

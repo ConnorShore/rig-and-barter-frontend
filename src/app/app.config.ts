@@ -24,6 +24,9 @@ import { ErrorInterceptor } from './shared/error.interceptor';
 import { KeycloakAngularModule, KeycloakBearerInterceptor, KeycloakService } from 'keycloak-angular';
 import { ConfigurationService } from './services/configuration.service';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { provideNgxStripe } from 'ngx-stripe';
+import { environment } from '../environments/environment';
+import e from 'express';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -126,6 +129,7 @@ export const appConfig: ApplicationConfig = {
         ]
       }
     }),
+    provideNgxStripe(environment.stripeApiKey),
     // { 
     //   provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, 
     //   useValue: { 

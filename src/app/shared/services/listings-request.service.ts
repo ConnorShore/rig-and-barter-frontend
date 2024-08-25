@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
-import { ListingService } from "src/app/services/listing.service";
 
 @Injectable()
 export class ListingsRequestService {

@@ -1,7 +1,6 @@
 import { TransactionState } from "./transaction-state";
 
 export interface ITransaction {
-    id: number;
     uniqueId: string;
     title: string;
     buyerId: string;
@@ -9,5 +8,9 @@ export interface ITransaction {
     listingId: string;
     creationDate: Date;
     completionDate: Date;
+    buyerAccepted: boolean;
+    sellerAccepted: boolean;
+    buyerCompleted: boolean;
+    sellerCompleted: boolean;
     state: TransactionState;
 }

@@ -12,7 +12,7 @@ import { FileDragAndDropComponent } from '../../../shared/components/file-drag-a
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { NotificationService } from 'src/app/services/notification.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { IListing } from 'src/app/model/listing';
 
 @Component({
   selector: 'create-listing',
@@ -51,8 +51,7 @@ export class CreateListingComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<CreateListingComponent>,
     private listingService: ListingService,
-    private notificationService: NotificationService,
-    private authService: AuthService) { }
+    private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.componentCategories = Object.keys(ComponentCategory);
@@ -70,9 +69,9 @@ export class CreateListingComponent implements OnInit {
     console.log('Creating listing data: ', listingRequest);
     console.log('Creating listing images: ', this.listingImages);
 
-    this.listingService.createListing(listingRequest, this.listingImages).subscribe(listingId => {
-      this.notificationService.showSuccess('Your listing is now available to the public', 'Listing Created', 'View', `/listings/${listingId}`);
-      this.closeDialog(true);
+    this.listingService.createListing(listingRequest, this.listingImages).subscribe(listing => {
+      this.notificationService.showSuccess('Your listing is now available to the public', 'Listing Created', 'View', `/listings/${listing.id}`);
+      this.closeDialog(listing);
     })
   }
 
@@ -80,7 +79,7 @@ export class CreateListingComponent implements OnInit {
     this.listingImages = files;
   }
 
-  closeDialog(createdListing: boolean) {
-    this.dialogRef.close(createdListing);
+  closeDialog(listing: IListing | undefined) {
+    this.dialogRef.close(listing);
   }
 }

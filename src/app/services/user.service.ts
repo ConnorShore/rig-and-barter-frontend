@@ -7,8 +7,6 @@ import { ConfigurationService } from "./configuration.service";
 import { IUserResponse } from "../model/user-info/user-response";
 import { IUserBasicInfoRequest } from "../model/user-info/user-basic-info-request";
 import { IUserBasicInfoResponse } from "../model/user-info/user-basic-info-response";
-import { IUserBillingInfoRequest } from "../model/user-info/user-billing-info-request";
-import { IUserBillingInfoResponse } from "../model/user-info/user-billing-info-response";
 
 
 @Injectable({
@@ -39,12 +37,5 @@ export class UserService {
         return this.httpClient.post<IUserBasicInfoResponse>(
             createBackendRequest(this.configService.apiGatewayUrl, `api/user/${userId}/info/basic`), 
             formData);
-    }
-
-    setUserBillingInfo(userId: string, userBillingInfo: IUserBillingInfoRequest) {
-        console.log('saving billing info: ', userBillingInfo);
-        return this.httpClient.post<IUserBillingInfoResponse>(
-            createBackendRequest(this.configService.apiGatewayUrl,`api/user/${userId}/info/billing`),
-            userBillingInfo);
     }
 }

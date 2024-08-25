@@ -1,0 +1,88 @@
+<div class="active-transactions">
+    <!-- TODO: Have a column called "Accepted" (or something like that) and the value is a pill for the buyer and seller
+            and the pill is an outline if they haven't accepted and is filled in if they have accepted-->
+    @if(transactions.length === 0) {
+        <div class="centered mt-4">
+            <p class="text-secondary">No transactions to display</p>
+        </div>
+    } 
+    @else {
+        <div class="grid grid-cols-4 ">
+            <div class="title centered ml-4">
+                Title
+            </div>
+            <div class="title centered">
+                Creation Date
+            </div>
+            <div class="title centered">
+                Status
+            </div>
+            <div class="title centered mr-4">
+                Actions
+            </div>
+        </div>
+        @for(transaction of transactions; track transaction.uniqueId) {
+            <div class="row-container p-4 grid grid-cols-4">
+                <div class="text-secondary font-medium cell justify-center">
+                    {{transaction.title}}
+                </div>
+                <div class="text-secondary font-medium cell centered">
+                    {{transaction.creationDate | date}}
+                </div>
+                <div mat-cell class="text-secondary font-medium cell centered">
+                    {{transaction.state}}
+                </div>
+                @if(transaction.state !== TransactionState.CANCELLED) {
+                    <div mat-cell class="text-secondary font-medium cell centered justify-center">
+                        @if(transaction.state !== TransactionState.COMPLETED && transaction.state !== TransactionState.IN_PROGRESS) {
+                            <button
+                            class="justify-center p-6"
+                            color="primary"
+                            mat-flat-button
+                            [disabled]="userHasAccepted(transaction)"
+                            (click)="acceptTransaction(transaction)"
+                            type="button">
+                                @if(userHasAccepted(transaction)) {
+                                    Awaiting {{userIsBuyer(transaction) ? 'Seller': 'Buyer' }} Acceptance
+                                }
+                                @else {
+                                    Accept
+                                }
+                            </button>
+                        } @else {
+                            <button
+                            class="justify-center p-6"
+                            color="primary"
+                            mat-flat-button
+                            [disabled]="transaction.state === TransactionState.COMPLETED || userHasCompleted(transaction)"
+                            (click)="selectPaymentMethod(transaction)"
+                            type="button">
+                                @if(transaction.state === TransactionState.COMPLETED) {
+                                    Completed
+                                } 
+                                @else if(userHasCompleted(transaction)) {
+                                    Awaiting {{userIsBuyer(transaction) ? 'Seller': 'Buyer' }} Completion
+                                }
+                                @else {
+                                    Complete
+                                }
+                            </button>
+                        }
+                        <button
+                        class="justify-center p-6 ml-2 mt-2"
+                        mat-stroked-button
+                        color="warn"
+                        (click)="cancelTransaction(transaction)"
+                        type="button">
+                            Cancel
+                        </button>
+                    </div>
+                } @else {
+                    <div class="text-secondary font-medium cell centered">
+                        N/A
+                    </div>
+                }
+            </div>
+        }
+    }
+</div>

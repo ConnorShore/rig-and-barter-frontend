@@ -1,0 +1,49 @@
+<form (ngSubmit)="savePaymentInfo()" [formGroup]="paymentInfoForm">
+    <div class="flex items-center" mat-dialog-title>
+        <h2 class="headline m-0 flex-auto">
+          Add Payment Method
+        </h2>
+    
+        <button
+          class="text-secondary"
+          mat-dialog-close
+          mat-icon-button
+          type="button">
+          <mat-icon svgIcon="mat:close"></mat-icon>
+        </button>
+    </div>
+    
+    <mat-divider class="text-border"></mat-divider>
+        <div class="card-container">
+
+            <mat-dialog-content>
+
+                <mat-form-field class="flex-auto" style appearance="outline" floatLabel="always" style="width: 100%">
+                    <mat-label>Card Nickname</mat-label>
+                    <input cdkFocusInitial formControlName="nickname" matInput placeholder="Nickname for the card" required/>
+                    <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+                </mat-form-field>
+
+                <div class="item-container">
+                    <div class="stripe-card-widget-container ">
+                        <!-- STRIPE CARD -->
+                        <ngx-stripe-elements [stripe]="stripe" [elementsOptions]="elementsOptions">
+                            <ngx-stripe-card [options]="cardOptions"/>
+                        </ngx-stripe-elements>
+                    </div>
+                </div>
+            
+            </mat-dialog-content>
+        </div>
+
+        <mat-dialog-actions class="flex justify-start" style="margin-left: 10px;">
+            <button
+            class="mr-2"
+            color="primary"
+            mat-flat-button
+            type="submit">
+                Save Card
+            </button>
+            <button mat-button type="button" (click)="cancel()">Cancel</button>
+        </mat-dialog-actions>
+    </form>

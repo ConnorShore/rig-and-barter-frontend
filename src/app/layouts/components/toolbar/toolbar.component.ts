@@ -31,6 +31,7 @@ import { CreateListingComponent } from 'src/app/pages/listings/create-listing/cr
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NotificationService } from 'src/app/services/notification.service';
 import { IFrontEndNotification } from 'src/app/model/notification/front-end-notification';
+import { IListing } from 'src/app/model/listing';
 
 @Component({
   selector: 'vex-toolbar',
@@ -61,7 +62,7 @@ export class ToolbarComponent implements OnInit {
   @HostBinding('class.shadow-b')
   showShadow: boolean = false;
 
-  @Output() listingCreated = new EventEmitter<void>();
+  @Output() listingCreated = new EventEmitter<IListing>();
 
   navigationItems$: Observable<NavigationItem[]> =
     this.navigationService.items$;
@@ -159,7 +160,7 @@ export class ToolbarComponent implements OnInit {
     .afterClosed()
     .subscribe(createdListing => {
       // if(createdListing) {
-        this.listingCreated.emit();
+        this.listingCreated.emit(createdListing);
       // }
     });
   }

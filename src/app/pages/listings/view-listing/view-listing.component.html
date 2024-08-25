@@ -40,6 +40,14 @@
                     {{ listing.creationDate | date }}
                 </p>
             </div>
+            <div class="p-4" style="flex-basis: 100%;">
+                <h2 class="title font-medium m-0 select-none" style="font-weight: bold;">
+                    Seller Info:
+                </h2>
+                <p class="body-1 m-0 mt-2">
+                    {{ listing.userInfo.firstName }} {{ listing.userInfo.lastName }}
+                </p>
+            </div>
             <div class="p-4" style="flex-basis: 100%;"></div>
             <div class="p-4" style="flex-basis: 100%;"></div>
             <div class="p-6 flex items-end justify-center" 
@@ -49,7 +57,7 @@
                 id="createListingBtn"
                 class="flex justify-center flex-end p-6"
                 style="width: 100%; vertical-align: bottom;"
-                [disabled]="!currentUser"
+                [disabled]="!currentUser || currentUser.id === listing.userId"
                 (click)="createTransaction()"
                 color="primary"
                 mat-flat-button

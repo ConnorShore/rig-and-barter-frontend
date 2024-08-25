@@ -19,7 +19,6 @@ import { MatDrawerMode, MatSidenavModule } from '@angular/material/sidenav';
 import { SearchComponent } from '../components/toolbar/search/search.component';
 import { VexProgressBarComponent } from '@vex/components/vex-progress-bar/vex-progress-bar.component';
 import { VexConfig } from '@vex/config/vex-config.interface';
-import { ListingsGalleryComponent } from 'src/app/pages/listings/listings-gallery/listings-gallery.component';
 import { ListingsRequestService } from 'src/app/shared/services/listings-request.service';
 
 @Component({
@@ -74,7 +73,7 @@ export class LayoutComponent {
   ) {}
 
   onListingCreated() {
-    console.log('listinr grequest service set to true');
+    console.log('listing request service set to true');
     this.listingRequestService.listingsRequested.next();
   }
 
