@@ -28,6 +28,11 @@ export class TransactionService {
         return this.httpClient.put<ITransaction>(url, transactioRequest);
     }
 
+    cancelTransaction(transactionId: string): Observable<ITransaction> {
+        let url = createBackendRequest(this.configService.apiGatewayUrl, `api/transaction/${transactionId}/cancel`);
+        return this.httpClient.put<ITransaction>(url, null);
+    }
+
     getAllActiveTransactions(): Observable<ITransaction[]> {
         let url = createBackendRequest(this.configService.apiGatewayUrl, `api/transaction`);
         return this.httpClient.get<ITransaction[]>(url);

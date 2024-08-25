@@ -1,5 +1,5 @@
 <vex-page-layout>
-    <vex-page-layout-header class="pb-16 flex flex-col items-start justify-center">
+    <vex-page-layout-header class="pb-4 flex flex-col items-start justify-center">
       <div class="w-full flex flex-col sm:flex-row justify-between container">
         <div>
           <h1 class="title mt-0 mb-1">Transactions</h1>
@@ -8,82 +8,38 @@
     </vex-page-layout-header>
   
     <!-- TODO: Make this expandable like payment methods. Have one for active transactions and one for completed/cancelled transactions-->
-    <vex-page-layout-content class="container -mt-6">
-        <div class="card overflow-auto -mt-16">
-            <div class="bg-app-bar px-6 h-16 border-b sticky left-0 flex items-center">
-                <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4  rtl:border-l hidden sm:block flex-none">
-                    <span>Transactions</span>
-                </h2>
-            </div>
+    <vex-page-layout-content class="container -mt-12">
+        <mat-accordion>
+            <mat-expansion-panel expanded="true" (opened)="activePanelOpenState.set(true)" (closed)="activePanelOpenState.set(false)">
+    
+                <mat-expansion-panel-header [collapsedHeight]="'64px'" [expandedHeight]="'82px'">
+                    <mat-panel-title style="font-size: 24px;">Active Transactions</mat-panel-title>
+                    <mat-panel-description>
+                        Click to {{activePanelOpenState() ? 'close' : 'open'}} the panel
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <rb-transaction-table (transactionCancelled)="onTransactionCancelled($event)" [userId]="userId" [transactions]="activeTransactions"/>
             
-            <!-- TODO: Make this a sub component so can have same thing for active and completed/cancelled transactions (one day make them collapsable)-->
-            <div class="active-transactions">
-                <div class="grid grid-cols-4 ">
-                    <div class="title centered ml-4">
-                        Title
-                    </div>
-                    <div class="title centered">
-                        Creation Date
-                    </div>
-                    <div class="title centered">
-                        Status
-                    </div>
-                    <div class="title centered mr-4">
-                        Actions
-                    </div>
-                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+
+        <div class="mt-12 mb-12"></div>
         
-                <!-- TODO: Have a column called "Accepted" (or something like that) and the value is a pill for the buyer and seller
-                        and the pill is an outline if they haven't accepted and is filled in if they have accepted-->
-        
-                @for(transaction of transactions; track transaction.uniqueId) {
-                    <div class="row-container p-4 grid grid-cols-4">
-                        <div class="text-secondary font-medium cell justify-center">
-                            {{transaction.title}}
-                        </div>
-                        <div class="text-secondary font-medium cell centered">
-                            {{transaction.creationDate | date}}
-                        </div>
-                        <div mat-cell class="text-secondary font-medium cell centered">
-                            {{transaction.state}}
-                        </div>
-                        <div mat-cell class="text-secondary font-medium cell centered justify-center">
-                            @if(transaction.state !== TransactionState.COMPLETED 
-                                    && transaction.state !== TransactionState.IN_PROGRESS 
-                                    && transaction.state !== TransactionState.CANCELLED) {
-                                <button
-                                class="ustify-center p-6"
-                                color="primary"
-                                mat-flat-button
-                                [disabled]="(userId === transaction.buyerId && transaction.buyerAccepted) || (userId === transaction.sellerId && transaction.sellerAccepted)"
-                                (click)="acceptTransaction(transaction)"
-                                type="button">
-                                    Accept
-                                </button>
-                            } @else {
-                                <button
-                                class="justify-center p-6"
-                                color="primary"
-                                mat-flat-button
-                                [disabled]="transaction.state === TransactionState.COMPLETED || userHasCompleted(transaction)"
-                                (click)="selectPaymentMethod(transaction)"
-                                type="button">
-                                    @if(transaction.state === TransactionState.COMPLETED) {
-                                        Completed
-                                    } 
-                                    @else if(userHasCompleted(transaction)) {
-                                        Awaiting Completion
-                                    }
-                                    @else {
-                                        Complete
-                                    }
-                                </button>
-                            }
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
+        <mat-accordion>
+            <mat-expansion-panel (opened)="finishedPanelOpenState.set(true)" (closed)="finishedPanelOpenState.set(false)">
+    
+                <mat-expansion-panel-header [collapsedHeight]="'64px'" [expandedHeight]="'82px'">
+                    <mat-panel-title style="font-size: 24px;">Finished Transactions</mat-panel-title>
+                    <mat-panel-description>
+                        Click to {{finishedPanelOpenState() ? 'close' : 'open'}} the panel
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <rb-transaction-table [userId]="userId" [transactions]="finishedTransactions"/>
+            
+            </mat-expansion-panel>
+        </mat-accordion>
     </vex-page-layout-content>
   </vex-page-layout>
   

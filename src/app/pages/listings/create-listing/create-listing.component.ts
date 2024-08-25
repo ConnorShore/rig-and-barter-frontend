@@ -79,7 +79,7 @@ export class CreateListingComponent implements OnInit {
     this.listingImages = files;
   }
 
-  closeDialog(listing: IListing) {
+  closeDialog(listing: IListing | undefined) {
     this.dialogRef.close(listing);
   }
 }
