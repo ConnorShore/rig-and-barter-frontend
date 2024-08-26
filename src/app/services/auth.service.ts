@@ -44,7 +44,7 @@ export class AuthService {
     }
 
     getUserProfile(): KeycloakProfile {
-        return this.userProfile;
+        return this.getCurrentUser();
     }
 
     fetchUserProfile(): void {
@@ -56,6 +56,9 @@ export class AuthService {
     }
 
     getCurrentUser() {
+        if(!this.userProfile)
+            this.fetchUserProfile();
+
         return this.userProfile;
     }
 

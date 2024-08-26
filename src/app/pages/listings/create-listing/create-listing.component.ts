@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { NotificationService } from 'src/app/services/notification.service';
 import { IListing } from 'src/app/model/listing';
+import { ListingsRequestService } from 'src/app/shared/services/listings-request.service';
 
 @Component({
   selector: 'create-listing',
@@ -29,7 +30,8 @@ import { IListing } from 'src/app/model/listing';
     FileDragAndDropComponent
   ],
   providers: [
-    ListingService
+    ListingService,
+    ListingsRequestService
   ],
   templateUrl: './create-listing.component.html',
   styleUrl: './create-listing.component.scss'
@@ -51,6 +53,7 @@ export class CreateListingComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<CreateListingComponent>,
     private listingService: ListingService,
+    private listingRequestService: ListingsRequestService,
     private notificationService: NotificationService) { }
 
   ngOnInit(): void {
@@ -80,6 +83,9 @@ export class CreateListingComponent implements OnInit {
   }
 
   closeDialog(listing: IListing | undefined) {
+    if(listing)
+      this.listingRequestService.listingsRequested.next();
+    
     this.dialogRef.close(listing);
   }
 }

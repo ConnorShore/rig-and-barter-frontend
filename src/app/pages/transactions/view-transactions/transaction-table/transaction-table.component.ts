@@ -136,8 +136,8 @@ export class TransactionTableComponent {
               <mat-grid-list cols="4" rowHeight="96px">
                   <mat-grid-tile [colspan]="3" [rowspan]="1">
                       <div style="width: 100% !important; padding-left: 24px">
-                              <mat-card-title>XXXX-XXXX-XXXX-{{paymentMethod.last4Digits}}</mat-card-title>
-                          <mat-card-subtitle>{{paymentMethod.nickname}}</mat-card-subtitle>
+                          <mat-card-title>{{paymentMethod.nickname}}</mat-card-title>
+                          <mat-card-subtitle>XXXX-XXXX-XXXX-{{paymentMethod.last4Digits}}</mat-card-subtitle>
                           <mat-card-subtitle>{{paymentMethod.expirationMonth | number: '2.0'}}/{{paymentMethod.expirationYear}}</mat-card-subtitle>
                       </div>
                   </mat-grid-tile>

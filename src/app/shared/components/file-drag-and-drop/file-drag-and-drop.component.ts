@@ -33,9 +33,9 @@ export class FileDragAndDropComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isDragging = false;
     this.currentSelectedFiles = [];
-    this.clearEventSubscription = this.clearFilesEvent.subscribe(() => {
+    this.clearEventSubscription = this.clearFilesEvent ? this.clearFilesEvent.subscribe(() => {
       this.currentSelectedFiles = [];
-    });
+    }) : new Subscription();
   }
 
   ngOnDestroy(): void {

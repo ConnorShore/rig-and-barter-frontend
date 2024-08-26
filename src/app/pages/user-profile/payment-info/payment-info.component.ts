@@ -13,6 +13,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { IStripePaymentMethod } from 'src/app/model/user-info/stripe/stripe-payment-method';
+import { DeleteConfirmationDialogComponent } from 'src/app/shared/components/delete-confirmation-dialog/delete-confirmation-dialog.component';
 
 @Component({
     selector: 'rb-payment-info',
@@ -79,8 +80,13 @@ export class PaymentInfoComponent implements OnInit {
   }
 
   confirmDeletePayment(index: number): void {
-    this.dialog.open(DeleteConfirmationDialog, {
-      width: '250px'
+    this.dialog.open(DeleteConfirmationDialogComponent<PaymentInfoComponent>, {
+      width: '250px',
+      data: {
+        title: "Delete Payment Method",
+        body: "Are you sure you want to delete this payment method?",
+        confirmButtonText: "Delete"
+      }
     })
     .afterClosed()
     .subscribe(result => {
@@ -91,10 +97,12 @@ export class PaymentInfoComponent implements OnInit {
   }
 
   confirmDisconnectAccount(): void {
-    this.deleteDialog.open(DeleteConfirmationDialog, {
+    this.deleteDialog.open(DeleteConfirmationDialogComponent<PaymentInfoComponent>, {
       width: '350px',
       data: {
-        isAccount: true
+        title: "Disconnect Account",
+        body: "Are you sure you want to disconnect this account?",
+        confirmButtonText: "Disconnect"
       }
     })
     .afterClosed()
@@ -124,33 +132,4 @@ export class PaymentInfoComponent implements OnInit {
       }
     });
   }
-}
-
-@Component({
-  selector: 'rb-delete-confirmation-dialog',
-  template: `
-
-    @if(data && data.isAccount) {
-     <h1 mat-dialog-title>Are you sure you want to disconnect this account?</h1>
-    } @else {
-      <h1 mat-dialog-title>Are you sure you want to delete this payment method?</h1>
-    }
-
-    <div mat-dialog-actions>
-
-      @if(data && data.isAccount) {
-        <button mat-flat-button color="primary" (click)="dialogRef.close(true)" style="margin: 10px; padding: 10px;">Disconnect</button>
-      } @else {
-        <button mat-flat-button color="primary" (click)="dialogRef.close(true)" style="margin: 10px; padding: 10px;">Delete</button>
-      }
-      <button mat-stroked-button (click)="dialogRef.close()">Cancel</button>
-    </div>
-  `,
-  standalone: true,
-  imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class DeleteConfirmationDialog {
-  readonly dialogRef = inject(MatDialogRef<PaymentInfoComponent>);
-  data = inject(MAT_DIALOG_DATA);
 }
