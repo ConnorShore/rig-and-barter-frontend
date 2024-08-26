@@ -39,6 +39,10 @@ export class ListingService {
         return this.httpClient.get<IListing>(createBackendRequest(this.configService.apiGatewayUrl, `api/listing/${listingId}`));
     }
 
+    deleteListingById(listingId: string, deleteTransaction: boolean): Observable<void> {
+        return this.httpClient.delete<void>(createBackendRequest(this.configService.apiGatewayUrl, `api/listing/${listingId}?deleteTransaction=${deleteTransaction}`));
+    }
+
     checkHealth(): Observable<string> {
         return this.httpClient.get(createBackendRequest(this.configService.apiGatewayUrl, 'api/listing/status'), {responseType: 'text'});
     }

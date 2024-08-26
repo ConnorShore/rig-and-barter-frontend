@@ -1,73 +1,92 @@
 <div class="h-full flex flex-col">
-    <div class="p-6 pb-0 bg-foreground shadow-b border-b">
-        <div>
-          <h1 class="display-1 font-bold mt-0 mb-4 flex items-center">
-            <span class="block">{{listing.title}}</span>
-          </h1>
-        </div>
+  <div class="p-6 pb-0 bg-foreground shadow-b border-b">
+    <div>
+      <h1 class="display-1 font-bold mt-0 mb-4 flex items-center">
+        <span class="block">{{ listing.title }}</span>
+      </h1>
     </div>
-    <div class="p-6 gap-6 grid grid-cols-3 h-full mb-6 mr-6">
-        <div class="bg-app-bar dark:bg-base dark:border" style="display: inline-flex; flex-wrap: wrap;">
-            <div class="p-4" style="flex-basis: 100%;">
-                <h1 class="title font-medium m-0 select-none" style="font-weight: bold;">
-                    Description
-                </h1>
-                <p class="body-1 m-0 mt-2">
-                    {{ listing.description }}
-                </p>
-            </div>
-            <div class="p-4" style="flex-basis: 100%;">
-                <h1 class="title font-medium m-0 select-none" style="font-weight: bold;">
-                    Category
-                </h1>
-                <p class="body-1 m-0 mt-2">
-                    {{ listing.componentCategory }}
-                </p>
-            </div>
-            <div class="p-4" style="flex-basis: 100%;">
-                <h2 class="title font-medium m-0 select-none" style="font-weight: bold;">
-                    Price
-                </h2>
-                <p class="body-1 m-0 mt-2">
-                    {{ listing.price | currency: 'USD' }}
-                </p>
-            </div>
-            <div class="p-4" style="flex-basis: 100%;">
-                <h2 class="title font-medium m-0 select-none" style="font-weight: bold;">
-                    Listing Date
-                </h2>
-                <p class="body-1 m-0 mt-2">
-                    {{ listing.creationDate | date }}
-                </p>
-            </div>
-            <div class="p-4" style="flex-basis: 100%;">
-                <h2 class="title font-medium m-0 select-none" style="font-weight: bold;">
-                    Seller Info:
-                </h2>
-                <p class="body-1 m-0 mt-2">
-                    {{ listing.userInfo.firstName }} {{ listing.userInfo.lastName }}
-                </p>
-            </div>
-            <div class="p-4" style="flex-basis: 100%;"></div>
-            <div class="p-4" style="flex-basis: 100%;"></div>
-            <div class="p-6 flex items-end justify-center" 
-                style="flex-basis: 100%;" 
-                [title]="!currentUser ? 'You must be signed in to request transaction' : 'Request transaction'">
-                <button
-                id="createListingBtn"
-                class="flex justify-center flex-end p-6"
-                style="width: 100%; vertical-align: bottom;"
-                [disabled]="!currentUser || currentUser.id === listing.userId"
-                (click)="createTransaction()"
-                color="primary"
-                mat-flat-button
-                type="button">
-                    Request Purchase
-                </button>
-            </div>
-        </div>
-        <div class="bg-app-bar dark:bg-base" style="grid-column: span 2;">
-            <rb-carousel [images]="listing.imageUrls" />
-        </div>
+  </div>
+  <div class="p-6 gap-6 grid grid-cols-3 h-full mb-6 mr-6">
+    <div
+      class="bg-app-bar dark:bg-base dark:border"
+      style="display: inline-flex; flex-wrap: wrap">
+      <div class="p-4" style="flex-basis: 100%">
+        <h1 class="title font-medium m-0 select-none" style="font-weight: bold">
+          Description
+        </h1>
+        <p class="body-1 m-0 mt-2">
+          {{ listing.description }}
+        </p>
+      </div>
+      <div class="p-4" style="flex-basis: 100%">
+        <h1 class="title font-medium m-0 select-none" style="font-weight: bold">
+          Category
+        </h1>
+        <p class="body-1 m-0 mt-2">
+          {{ listing.componentCategory }}
+        </p>
+      </div>
+      <div class="p-4" style="flex-basis: 100%">
+        <h2 class="title font-medium m-0 select-none" style="font-weight: bold">
+          Price
+        </h2>
+        <p class="body-1 m-0 mt-2">
+          {{ listing.price | currency: "USD" }}
+        </p>
+      </div>
+      <div class="p-4" style="flex-basis: 100%">
+        <h2 class="title font-medium m-0 select-none" style="font-weight: bold">
+          Listing Date
+        </h2>
+        <p class="body-1 m-0 mt-2">
+          {{ listing.creationDate | date }}
+        </p>
+      </div>
+      <div class="p-4" style="flex-basis: 100%">
+        <h2 class="title font-medium m-0 select-none" style="font-weight: bold">
+          Seller Info:
+        </h2>
+        <p class="body-1 m-0 mt-2">
+          {{ listing.userInfo.firstName }} {{ listing.userInfo.lastName }}
+        </p>
+      </div>
+      <div class="p-4" style="flex-basis: 100%"></div>
+      <div class="p-4" style="flex-basis: 100%"></div>
+      <div
+        class="p-6 flex items-end justify-center"
+        style="flex-basis: 100%"
+        [title]="
+          !currentUser
+            ? 'You must be signed in to request transaction'
+            : 'Request transaction'">
+        @if (currentUser && currentUser.id === listing.userId) {
+          <button
+            id="createListingBtn"
+            class="flex justify-center flex-end p-6"
+            style="width: 100%; vertical-align: bottom"
+            (click)="confirmDeleteListing()"
+            color="warn"
+            mat-flat-button
+            type="button">
+            Delete Listing
+          </button>
+        } @else {
+          <button
+            id="createListingBtn"
+            class="flex justify-center flex-end p-6"
+            style="width: 100%; vertical-align: bottom"
+            [disabled]="!currentUser || currentUser.id === listing.userId"
+            (click)="createTransaction()"
+            color="primary"
+            mat-flat-button
+            type="button">
+            Request Purchase
+          </button>
+        }
+      </div>
     </div>
+    <div class="bg-app-bar dark:bg-base" style="grid-column: span 2">
+      <rb-carousel [images]="listing.imageUrls" />
+    </div>
+  </div>
 </div>

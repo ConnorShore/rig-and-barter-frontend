@@ -44,8 +44,16 @@ export class ListingsGalleryComponent implements OnInit, OnDestroy {
       console.log('listings: ', this.listings);
     });
 
+    // TODO: Need to figure out how to get this working so new components are shown in gallery instantly
     this.listingRequestedSubscription = this.listingRequestedService.allListingsRequested().subscribe(() => {
       console.log('on listing requested triggered in gallery V2');
+      this.listingService.getAllListings().subscribe(listings => {
+        this.listings = listings;
+      });
+    });
+
+    this.listingRequestedService.listingsRequested.subscribe(() => {    
+      console.log('on listing requested triggered in gallery NEW METHOD');
       this.listingService.getAllListings().subscribe(listings => {
         this.listings = listings;
       });
