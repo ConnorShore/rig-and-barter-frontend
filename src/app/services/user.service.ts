@@ -1,12 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
-import { IUserRegisterRequest } from "../model/user-register-request";
+import { IUserRegisterRequest } from "../models/user-register-request";
 import { createBackendRequest } from "../shared/http.utils";
 import { ConfigurationService } from "./configuration.service";
-import { IUserResponse } from "../model/user-info/user-response";
-import { IUserBasicInfoRequest } from "../model/user-info/user-basic-info-request";
-import { IUserBasicInfoResponse } from "../model/user-info/user-basic-info-response";
+import { IUserResponse } from "../models/user-info/user-response";
+import { IUserBasicInfoRequest } from "../models/user-info/user-basic-info-request";
+import { IUserBasicInfoResponse } from "../models/user-info/user-basic-info-response";
 
 
 @Injectable({

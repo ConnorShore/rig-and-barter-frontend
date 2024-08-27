@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { IListing } from "../model/listing";
+import { IListing } from "../models/listing";
 import { Observable } from "rxjs";
-import { IListingRequest } from "../model/listing-request";
+import { IListingRequest } from "../models/listing-request";
 import { AuthService } from "./auth.service";
 import { createBackendRequest } from "../shared/http.utils";
 import { ConfigurationService } from "./configuration.service";

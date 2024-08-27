@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { StripeCardElementOptions, StripeElementsOptions } from '@stripe/stripe-js';
 import { StripeCardComponent, StripeElementsDirective, injectStripe } from 'ngx-stripe';
-import { IStripePaymentMethodRequest } from 'src/app/model/user-info/stripe/stripe-payment-method-request';
+import { IStripePaymentMethodRequest } from 'src/app/models/user-info/stripe/stripe-payment-method-request';
 import { NotificationService } from 'src/app/services/notification.service';
 import { FileDragAndDropComponent } from 'src/app/shared/components/file-drag-and-drop/file-drag-and-drop.component';
 import { environment } from 'src/environments/environment';

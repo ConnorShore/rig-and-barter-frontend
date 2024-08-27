@@ -1,6 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ITransaction } from 'src/app/model/transaction';
+import { ITransaction } from 'src/app/models/transaction';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { VexPageLayoutContentDirective } from "../../../../@vex/components/vex-page-layout/vex-page-layout-content.directive";
 import { VexPageLayoutHeaderDirective } from "../../../../@vex/components/vex-page-layout/vex-page-layout-header.directive";
@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { DatePipe } from '@angular/common';
 import { TransactionTableComponent } from './transaction-table/transaction-table.component';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { TransactionState } from 'src/app/model/transaction-state';
+import { TransactionState } from 'src/app/models/transaction-state';
 import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({

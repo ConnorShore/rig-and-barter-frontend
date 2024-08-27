@@ -1,6 +1,6 @@
 import { inject } from "@angular/core";
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from "@angular/router";
-import { IUserResponse } from "src/app/model/user-info/user-response";
+import { IUserResponse } from "src/app/models/user-info/user-response";
 import { AuthService } from "src/app/services/auth.service";
 import { UserService } from "src/app/services/user.service";
 

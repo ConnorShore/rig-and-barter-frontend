@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { NotificationService } from "./notification.service";
-import { FrontEndNotificationType, IFrontEndNotification } from "../model/notification/front-end-notification";
+import { FrontEndNotificationType, IFrontEndNotification } from "../models/notification/front-end-notification";
 
 
 @Injectable({
@@ -11,7 +11,6 @@ export class NotificationHandlerService {
     constructor(private notificationService: NotificationService) { }
 
     handleFrontEndNotification(notification: IFrontEndNotification) {
-        console.log('Handling front-end notification: ', notification);
         switch (notification.notificationType) {
             case FrontEndNotificationType.INFO:
                 this.notificationService.showInfo(notification.body, notification.title, 'View', notification.actionUrl);

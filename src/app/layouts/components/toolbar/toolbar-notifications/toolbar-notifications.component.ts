@@ -11,7 +11,7 @@ import { VexPopoverService } from '@vex/components/vex-popover/vex-popover.servi
 import { ToolbarNotificationsDropdownComponent } from './toolbar-notifications-dropdown/toolbar-notifications-dropdown.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { IFrontEndNotification } from 'src/app/model/notification/front-end-notification';
+import { IFrontEndNotification } from 'src/app/models/notification/front-end-notification';
 
 @Component({
   selector: 'vex-toolbar-notifications',

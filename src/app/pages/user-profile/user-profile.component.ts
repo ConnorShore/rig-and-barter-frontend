@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BasicInfoComponent } from './basic-info/basic-info.component';
 import { PaymentInfoComponent } from './payment-info/payment-info.component';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { IUserResponse } from 'src/app/model/user-info/user-response';
+import { IUserResponse } from 'src/app/models/user-info/user-response';
 
 interface ISubPage {
   title: string;

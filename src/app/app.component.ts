@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { StompService } from './services/stomp.service';
 import { NotificationHandlerService } from './services/notification-handler.service';
-import { IFrontEndNotification } from './model/notification/front-end-notification';
+import { IFrontEndNotification } from './models/notification/front-end-notification';
 import { AuthService } from './services/auth.service';
 
 @Component({
@@ -22,13 +22,8 @@ export class AppComponent implements OnInit {
      * TODO: Move endpoint to config value
      */
     this.stompService.subscribe('/topic/frontend', (notification: IFrontEndNotification) => {
-      console.log('about to handle notificaiton: ', notification);
       if(this.authService.isLoggedIn() && notification.targetUser === this.authService.getCurrentUser().id)
         this.notificationHandlerService.handleFrontEndNotification(notification);
-      else {
-        console.log('notification is targeted at different user: ', this.authService.getCurrentUser());
-        console.log('seller id: ', notification.targetUser);
-      }
     });
   }
   

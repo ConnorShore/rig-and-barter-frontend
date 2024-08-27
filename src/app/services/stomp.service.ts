@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 
 import * as SockJs from 'sockjs-client';
 import * as Stomp from 'stompjs';
-import { FrontEndNotificationType, IFrontEndNotification } from "../model/notification/front-end-notification";
+import { FrontEndNotificationType, IFrontEndNotification } from "../models/notification/front-end-notification";
 
 
 @Injectable({

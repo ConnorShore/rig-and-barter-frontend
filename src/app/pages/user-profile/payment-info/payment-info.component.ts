@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogModule, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { IUserResponse } from 'src/app/model/user-info/user-response';
+import { IUserResponse } from 'src/app/models/user-info/user-response';
 import { NotificationService } from 'src/app/services/notification.service';
 import { FileDragAndDropComponent } from 'src/app/shared/components/file-drag-and-drop/file-drag-and-drop.component';
 import { PaymentService } from 'src/app/services/payement.service';
@@ -12,7 +12,7 @@ import { CardInfoComponent } from './card-info/card-info.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { IStripePaymentMethod } from 'src/app/model/user-info/stripe/stripe-payment-method';
+import { IStripePaymentMethod } from 'src/app/models/user-info/stripe/stripe-payment-method';
 import { DeleteConfirmationDialogComponent } from 'src/app/shared/components/delete-confirmation-dialog/delete-confirmation-dialog.component';
 
 @Component({

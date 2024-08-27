@@ -30,8 +30,8 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CreateListingComponent } from 'src/app/pages/listings/create-listing/create-listing.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NotificationService } from 'src/app/services/notification.service';
-import { IFrontEndNotification } from 'src/app/model/notification/front-end-notification';
-import { IListing } from 'src/app/model/listing';
+import { IFrontEndNotification } from 'src/app/models/notification/front-end-notification';
+import { IListing } from 'src/app/models/listing';
 
 @Component({
   selector: 'vex-toolbar',
