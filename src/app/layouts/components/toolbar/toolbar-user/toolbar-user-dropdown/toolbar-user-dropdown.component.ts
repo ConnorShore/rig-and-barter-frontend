@@ -71,10 +71,10 @@ export class ToolbarUserDropdownComponent implements OnInit {
     {
       id: '4',
       icon: 'mat:move_to_inbox',
-      label: 'My Inbox',
+      label: 'Messages',
       description: 'Messages & Latest News',
       colorClass: 'text-primary-600',
-      route: '/apps/chat'
+      route: '/messages'
     },
   ];
 
