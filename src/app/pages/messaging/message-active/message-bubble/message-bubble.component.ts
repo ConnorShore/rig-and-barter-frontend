@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { IMessageResponse } from 'src/app/models/message/message-response';
 import { DateTimePipe } from 'src/app/shared/pipes/date-time-pipe';
 
@@ -11,7 +11,8 @@ import { DateTimePipe } from 'src/app/shared/pipes/date-time-pipe';
   providers: [
   ],
   templateUrl: './message-bubble.component.html',
-  styles: []
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MessageBubbleComponent {
 

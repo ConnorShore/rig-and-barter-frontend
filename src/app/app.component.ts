@@ -32,10 +32,7 @@ export class AppComponent implements OnInit {
         this.notificationHandlerService.handleFrontEndNotification(notification);
     });
 
-    this.messageStompService.subscribe('message', (payload: any) => {
-      console.log('got a message from message topic: ', payload);
-      this.notificationService.showInfo("GOT A MESSAGE FROM MESSAGE TOPIC")
-    });
+    this.messageStompService.connect();
   }
 
 }
