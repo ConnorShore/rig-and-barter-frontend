@@ -19,5 +19,9 @@ export class MessageService {
     getAllMessageGroupsForUser(): Observable<IMessageGroupResponse[]> {
         return this.httpClient.get<IMessageGroupResponse[]>(createBackendRequest(this.configService.apiGatewayUrl, 'api/message/group'));
     }
+
+    getMessageGroupForUser(groupId: string): Observable<IMessageGroupResponse> {
+        return this.httpClient.get<IMessageGroupResponse>(createBackendRequest(this.configService.apiGatewayUrl, `api/message/group/${groupId}`));
+    }
 }
     

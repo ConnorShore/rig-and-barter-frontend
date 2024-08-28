@@ -50,10 +50,8 @@ export class ViewListingComponent implements OnInit {
   ngOnInit() {
     console.log('this.activatedRoute.data: ', this.activatedRoute.data);
     this.activatedRoute.data.subscribe(({listing}) => {
-      console.log('listing in component: ', this.listing);
       this.listing = listing;
       this.currentUser = this.authService.getUserProfile();
-      console.log('current user: ', this.currentUser);
     });
   }
 

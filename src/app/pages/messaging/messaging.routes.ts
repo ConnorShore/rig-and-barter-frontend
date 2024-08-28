@@ -2,8 +2,9 @@ import { MessageService } from "src/app/services/message.service";
 import { MessageActiveComponent } from "./message-active/message-active.component";
 import { MessagingComponent } from "./messaging.component";
 import { Routes } from "@angular/router";
-import { messageGroupResolver } from "./resolvers/message.resolver";
+import { messageGroupsResolver } from "./resolvers/message.resolver";
 import { MessageEmptyComponent } from "./message-empty/message-empty.component";
+import { messageGroupResolver } from "./resolvers/message-group.resolver";
 
 
 export const MESSAGING_ROUTES: Routes = [
@@ -14,7 +15,7 @@ export const MESSAGING_ROUTES: Routes = [
             MessageService
         ],
         resolve: {
-            messageGroups: messageGroupResolver
+            messageGroups: messageGroupsResolver
         },
         children: [
             {
@@ -23,8 +24,11 @@ export const MESSAGING_ROUTES: Routes = [
             },
             {
               path: ':groupId',
-              component: MessageActiveComponent
+              component: MessageActiveComponent,
+              resolve: {
+                messageGroup: messageGroupResolver
+              }
             }
-          ]
+        ] 
     }
 ];

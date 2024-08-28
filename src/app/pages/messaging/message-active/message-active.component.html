@@ -12,47 +12,27 @@
   
     <vex-scrollbar class="flex-1">
       <div class="flex flex-col space-y-2 p-8 justify-end">
-
-        <div
-          class="px-4 py-3 rounded-xl bg-primary-600 text-white inline-flex self-end max-w-[350px]">
-          Wow, how did you do this so fast?! 👀
-        </div>
-        <div
-          class="px-4 py-3 rounded-xl rounded-br-none bg-primary-600 text-white inline-flex self-end max-w-[350px]">
-          Thanks a lot! I'll have a look and update the page. 👍
-        </div>
-        <div class="self-end flex items-center gap-2">
-          <mat-icon class="icon-xs" svgIcon="mat:done_all"></mat-icon>
-          <div class="text-xs font-medium">09:04 am</div>
-        </div>
-  
-        <div class="flex gap-2">
-          <div class="flex flex-col space-y-2">
-            <div
-              class="px-4 py-3 rounded-xl rounded-bl-none bg-gray-200 dark:bg-gray-800 inline-flex self-start max-w-[350px]">
-              Here's the full compilation in a zip file. Let me know if you need
-              anything else. 🤗
-            </div>
-            <div class="flex items-center">
-              <div class="text-xs font-medium">09:08 am</div>
-            </div>
-          </div>
-        </div>
+        
+        @for(message of messageGroup?.messages; track message.id) {
+            <rb-message-bubble [message]="message" [isSender]="message.senderId === user.id" />
+        }
+        
       </div>
     </vex-scrollbar>
   
-    <div class="flex-none bg-foreground border-t">
+    <form [formGroup]="messageForm" class="flex-none bg-foreground border-t" (ngSubmit)="sendMessage()">
       <div class="relative h-16 flex items-center justify-between">
   
         <input
           class="z-0 absolute top-0 right-0 bottom-0 left-0 h-full w-full border-0 focus:border-0 px-20 bg-transparent"
           placeholder="Type your message ..."
+          formControlName="message"
           type="text" />
   
-        <button class="relative z-10 mr-4 ml-4" mat-icon-button type="button">
+        <button class="relative z-10 mr-4 ml-4" mat-icon-button type="submit">
           <mat-icon svgIcon="mat:send"></mat-icon>
         </button>
       </div>
-    </div>
+    </form>
   </div>
   

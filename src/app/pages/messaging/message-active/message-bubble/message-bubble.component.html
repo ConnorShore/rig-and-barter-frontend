@@ -1,0 +1,22 @@
+
+@if(isSender) {
+    <div class="px-4 py-3 rounded-xl rounded-br-none bg-primary-600 text-white inline-flex self-end max-w-[350px]">
+        {{message.content}}
+    </div>
+    <div class="self-end flex items-center gap-2">
+        <!-- <mat-icon class="icon-xs" svgIcon="mat:done_all"></mat-icon> -->
+        <div class="text-xs font-medium">{{message.timestamp | dateTime}}</div>
+    </div>
+}
+@else {
+    <div class="flex gap-2">
+        <div class="flex flex-col space-y-2">
+        <div class="px-4 py-3 rounded-xl rounded-bl-none bg-gray-200 dark:bg-gray-800 inline-flex self-start max-w-[350px]">
+            {{message.content}}
+        </div>
+        <div class="flex items-center">
+            <div class="text-xs font-medium">{{message.timestamp | dateTime}}</div>
+        </div>
+        </div>
+    </div>
+}

@@ -48,7 +48,6 @@ export class MessagingComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({messageGroups}) => {
-      console.log('message groups for user: ', messageGroups);
       this.messageGroups = messageGroups;
     });
   }

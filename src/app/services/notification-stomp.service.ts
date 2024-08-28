@@ -8,23 +8,32 @@ import { FrontEndNotificationType, IFrontEndNotification } from "../models/notif
 @Injectable({
     providedIn: 'root'
 })
-export class StompService {
+export class NotificationStompService {
     socket = new SockJs('http://localhost:8080/socket');
     stompClient = Stomp.over(this.socket);
 
-    subscribe(topic: string, callback: any): void {
+    sendMessage(topic: string, message: any): void {
+        let finalTopic = `app/${topic}`;
+        this.stompClient.send(finalTopic, {}, JSON.stringify(message));
+        console.log('sent stom message to: ', finalTopic);
+        console.log('with payloadL: ', message);
+    }
+
+    subscribe(callback: any): void {
         const connected = this.stompClient.connected;
         if(connected) {
-            this.subscribeToTopic(topic, callback);
+            this.subscribeToNotificationTopic(callback);
             return;
         }
         
         this.stompClient.connect({}, () => {
-            this.subscribeToTopic(topic, callback);
+            this.subscribeToNotificationTopic(callback);
         });
     }
 
-    private subscribeToTopic(topic: string, callback: any): void {
+    private subscribeToNotificationTopic(callback: any): void {
+        console.log('subscribed to notification topic');
+        let topic = '/topic/frontend';
         this.stompClient.subscribe(topic, (response: any) => {
             let notification: IFrontEndNotification = JSON.parse(response.body) as IFrontEndNotification;
             notification.notificationType = FrontEndNotificationType[notification.notificationType as unknown as keyof typeof FrontEndNotificationType]
