@@ -11,8 +11,6 @@ import { RouterLinkActive, RouterLink, RouterOutlet, ActivatedRoute } from '@ang
 import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
 import { stagger80ms } from '@vex/animations/stagger.animation';
 import { VexScrollbarComponent } from '@vex/components/vex-scrollbar/vex-scrollbar.component';
-import { VexLayoutService } from '@vex/services/vex-layout.service';
-import { BehaviorSubject } from 'rxjs';
 import { IMessageGroupResponse } from 'src/app/models/message/message-group-response';
 
 @Component({
@@ -45,7 +43,6 @@ export class MessagingComponent implements OnInit {
   messageGroups: IMessageGroupResponse[];;
 
   constructor(
-    private readonly layoutService: VexLayoutService,
     private readonly activatedRoute: ActivatedRoute
   ) {}
 

@@ -1,4 +1,4 @@
-<mat-drawer-container class="overflow-hidden h-full w-full">
+<mat-drawer-container class="overflow-hidden h-full w-full drawer-container">
     <mat-drawer
       mode="side"
       opened="true"
@@ -32,8 +32,8 @@
                     <div>
                         No messages availabe
                     </div>
-
                 }
+
                 @for(group of messageGroups; track group.id) {
                     <ng-container>
                         <a

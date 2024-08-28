@@ -9,7 +9,7 @@ import { scaleFadeIn400ms } from '@vex/animations/scale-fade-in.animation';
   standalone: true,
   imports: [MatButtonModule, MatIconModule],
   templateUrl: './message-empty.component.html',
-  styleUrl: './message-empty.component.scss'
+  styles: []
 })
 export class MessageEmptyComponent {
 
