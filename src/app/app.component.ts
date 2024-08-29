@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NotificationStompService } from './services/notification-stomp.service';
 import { NotificationHandlerService } from './services/notification-handler.service';
-import { IFrontEndNotification } from './models/notification/front-end-notification';
+import { FrontEndNotificationType, IFrontEndNotification } from './models/notification/front-end-notification';
 import { AuthService } from './services/auth.service';
-import { NotificationService } from './services/notification.service';
 import { MessageStompService } from './services/message-stomp.service';
 import { IMessageResponse } from './models/message/message-response';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'rb-root',
@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
   constructor(
     private stompService: NotificationStompService,
               private notificationHandlerService: NotificationHandlerService,
-              private notificationService: NotificationService,
+              private notificationStompService: NotificationStompService,
               private messageStompService: MessageStompService,
               private authService: AuthService) { }
 
@@ -35,8 +35,29 @@ export class AppComponent implements OnInit {
 
     this.messageStompService.subscribe('message', (message: IMessageResponse) => {
       console.log('windows path name: ', window.location.pathname);
-      if(window.location.pathname !== '/messages/' + message.groupId)
-        this.notificationService.showInfo('New message recieved', 'New message in ' + message.groupName, 'View', '/messages/' + message.groupId);
+      if(window.location.pathname !== '/messages/' + message.groupId) {
+        let frontEndNotifcation: IFrontEndNotification = {
+          id: this.generateGuid(),
+          targetUser: message.receiverId,
+          title: 'New message recieved',
+          body: 'New message in ' + message.groupName,
+          actionUrl: '/messages/' + message.groupId,
+          creationDate: undefined,
+          seenByUser: false,
+          notificationType: FrontEndNotificationType.INFO
+        };
+
+        this.notificationStompService.sendMessage('notification', frontEndNotifcation);
+      }
+        // this.notificationService.showInfo('New message recieved', 'New message in ' + message.groupName, 'View', '/messages/' + message.groupId);
+    });
+  }
+
+  private generateGuid() : string {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0,
+        v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
     });
   }
 

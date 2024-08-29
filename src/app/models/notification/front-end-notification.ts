@@ -6,7 +6,7 @@ export interface IFrontEndNotification {
     title: string;
     body: string;
     actionUrl: string;
-    creationDate: DateTime;
+    creationDate?: DateTime;
     seenByUser: boolean;
     notificationType: FrontEndNotificationType;
 }

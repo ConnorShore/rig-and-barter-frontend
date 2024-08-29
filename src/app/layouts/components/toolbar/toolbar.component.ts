@@ -124,7 +124,7 @@ export class ToolbarComponent implements OnInit {
       if(this.authService.isLoggedIn()) {
         this.notificationService.getAllNotificationsForUser().subscribe((notifications: IFrontEndNotification[]) => {
           console.log('got all user notifications: ', notifications);
-          this.userNotifications = notifications;
+          this.userNotifications = notifications.reverse();
   
           // TODO: Populate the notification dropdown with the notifications (have default for no notifications or "user needs to login in order to see notifications")
         });

@@ -13,9 +13,9 @@ export class NotificationStompService {
     stompClient = Stomp.over(this.socket);
 
     sendMessage(topic: string, message: any): void {
-        let finalTopic = `app/${topic}`;
+        let finalTopic = `/app/${topic}`;
         this.stompClient.send(finalTopic, {}, JSON.stringify(message));
-        console.log('sent stom message to: ', finalTopic);
+        console.log('sent stomp message to: ', finalTopic);
         console.log('with payloadL: ', message);
     }
 
