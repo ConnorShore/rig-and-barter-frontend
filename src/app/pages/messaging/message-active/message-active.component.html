@@ -10,14 +10,12 @@
       </div>
     </div>
   
-    <vex-scrollbar class="flex-1" id="tester">
-      <div class="flex flex-col space-y-2 p-8 justify-end">
+    <vex-scrollbar id="testing" class="flex-1 pb-6" id="tester">
         
         @for(message of messageGroup?.messages; track message.id) {
             <rb-message-bubble [message]="message" [isSender]="message.senderId === user.id" />
         }
         
-      </div>
     </vex-scrollbar>
   
     <form [formGroup]="messageForm" class="flex-none bg-foreground border-t" (ngSubmit)="sendMessage()">

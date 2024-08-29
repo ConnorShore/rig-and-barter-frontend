@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 
 import * as SockJs from 'sockjs-client';
 import * as Stomp from 'stompjs';
+import { IMessageResponse } from "../models/message/message-response";
 
 
 @Injectable({
@@ -38,9 +39,9 @@ export class MessageStompService {
     }
 
     private subscribeToMessageTopic(topic: string, callback: any): void {
-        console.log('subscribing to topic: ', topic);
         this.messageStompClient.subscribe(topic, (response: any) => {
-            callback(response);
+            let message = JSON.parse(response.body) as IMessageResponse;
+            callback(message);
         });
     }
 }

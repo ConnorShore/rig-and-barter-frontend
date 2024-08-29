@@ -155,8 +155,8 @@ function initializeKeycloak(keycloak: KeycloakService) {
       initOptions: {
         onLoad: 'check-sso',
         pkceMethod: 'S256',
-        silentCheckSsoRedirectUri:
-          window.location.origin + '/assets/silent-check-sso.html'
+        // silentCheckSsoRedirectUri:
+        //   window.location.origin + '/assets/silent-check-sso.html'
       },
       enableBearerInterceptor: true,
       bearerPrefix: 'Bearer',

@@ -17,6 +17,7 @@ import { KeycloakProfile } from 'keycloak-js';
 import { ActivatedRoute } from '@angular/router';
 import { IMessageRequest } from 'src/app/models/message/message-request';
 import { MessageStompService } from 'src/app/services/message-stomp.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'rb-message-active',
@@ -40,9 +41,6 @@ export class MessageActiveComponent implements OnInit, OnChanges {
   user: KeycloakProfile;
   messageGroup?: IMessageGroupResponse;
 
-  // TODO: May need to move messageGroup data retrieval to a service or something that is loaded when the message sub-module is loaded and then can be accessed
-  //  by both message-component and message-active component without having to use @input() to pass the data around
-
   messageForm = new FormGroup({
     message: new FormControl<string>('', {
       nonNullable: true
@@ -54,16 +52,13 @@ export class MessageActiveComponent implements OnInit, OnChanges {
   @ViewChild(VexScrollbarComponent)
   scrollbar?: VexScrollbarComponent;
 
-  private readonly destroyRef: DestroyRef = inject(DestroyRef);
-
   constructor(
     private readonly authService: AuthService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly stompService: MessageStompService,
+    private readonly notificationService: NotificationService,
     private readonly ref: ChangeDetectorRef
-  ) {
-
-  }
+  ) { }
 
   ngOnInit(): void {
     this.ref.detectChanges();
@@ -76,6 +71,16 @@ export class MessageActiveComponent implements OnInit, OnChanges {
       console.log('new messages: ', this.messageGroup?.messages);
       this.onMessageRecieved = this.onMessageRecieved.bind(this);
       this.connectToMessageGroup(messageGroup);
+      this.scrollbar?.scrollToBottom();
+      if (this.scrollbar && this.scrollbar.scrollbarRef) {
+        const scrollElement = this.scrollbar.scrollbarRef.getScrollElement();
+        if (scrollElement) {
+          scrollElement.scrollTo(0, scrollElement.scrollHeight);
+          scrollElement.onscroll = () => {
+            console.log('scroll: ', scrollElement.scrollTop);
+          };
+        }
+      }
     });
   }
 
@@ -85,7 +90,6 @@ export class MessageActiveComponent implements OnInit, OnChanges {
 
   sendMessage(): void {
     const message = this.messageForm.value.message;
-    console.log('here: ', message);
     if (!message) {
       return;
     }
@@ -98,22 +102,23 @@ export class MessageActiveComponent implements OnInit, OnChanges {
       receiverId: (isSeller ? this.messageGroup?.buyerId : this.messageGroup?.sellerId) as string
     };
 
-    console.log('sending message: ', messageRequest);
-    
     this.stompService.sendMessage(`chat`, messageRequest);
+
     this.messageForm.get('message')?.reset();
-    document.getElementById('tester')?.focus();
+    this.scrollbar?.scrollToBottom();
   }
 
   private connectToMessageGroup(messageGroup: IMessageGroupResponse): void {
     this.stompService.subscribe(`${messageGroup.id}/queue/message`, this.onMessageRecieved);
-    // this.stompService.subscribe(`message`, this.onMessageRecieved);
   }
 
-  private onMessageRecieved(payload: any): void {
-    const message: IMessageResponse = JSON.parse(payload.body) as IMessageResponse;
-    console.log('message recieved: ', message);
+  private onMessageRecieved(message: IMessageResponse): void {
+    if(message.groupId !== this.messageGroup?.id) {
+      return;
+    }
+
     this.messageGroup?.messages.push(message);
     this.ref.markForCheck();
+    this.scrollbar?.scrollToBottom();
   }
 }

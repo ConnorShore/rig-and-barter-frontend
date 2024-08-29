@@ -6,6 +6,7 @@ import { IFrontEndNotification } from './models/notification/front-end-notificat
 import { AuthService } from './services/auth.service';
 import { NotificationService } from './services/notification.service';
 import { MessageStompService } from './services/message-stomp.service';
+import { IMessageResponse } from './models/message/message-response';
 
 @Component({
   selector: 'rb-root',
@@ -32,7 +33,11 @@ export class AppComponent implements OnInit {
         this.notificationHandlerService.handleFrontEndNotification(notification);
     });
 
-    this.messageStompService.connect();
+    this.messageStompService.subscribe('message', (message: IMessageResponse) => {
+      console.log('windows path name: ', window.location.pathname);
+      if(window.location.pathname !== '/messages/' + message.groupId)
+        this.notificationService.showInfo('New message recieved', 'New message in ' + message.groupName, 'View', '/messages/' + message.groupId);
+    });
   }
 
 }
