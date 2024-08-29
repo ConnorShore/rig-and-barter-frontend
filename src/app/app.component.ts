@@ -12,7 +12,8 @@ import { DateTime } from 'luxon';
   selector: 'rb-root',
   templateUrl: './app.component.html',
   standalone: true,
-  imports: [RouterOutlet]
+  imports: [RouterOutlet],
+  providers: [NotificationHandlerService]
 })
 export class AppComponent implements OnInit {
 
@@ -42,14 +43,13 @@ export class AppComponent implements OnInit {
           title: 'New message recieved',
           body: 'New message in ' + message.groupName,
           actionUrl: '/messages/' + message.groupId,
-          creationDate: undefined,
+          creationDate: undefined,  // set in backend
           seenByUser: false,
           notificationType: FrontEndNotificationType.INFO
         };
 
         this.notificationStompService.sendMessage('notification', frontEndNotifcation);
       }
-        // this.notificationService.showInfo('New message recieved', 'New message in ' + message.groupName, 'View', '/messages/' + message.groupId);
     });
   }
 

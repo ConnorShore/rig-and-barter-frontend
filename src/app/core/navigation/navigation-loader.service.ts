@@ -43,12 +43,6 @@ export class NavigationLoaderService {
         label: 'View Transactions',
         route: '/transactions',
         icon: 'logo:reciept',
-      },
-      {
-        type: 'link',
-        label: 'Messages',
-        route: '/messages',
-        icon: 'logo:reciept',
       }
     ]);
   }

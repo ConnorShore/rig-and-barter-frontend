@@ -26,6 +26,7 @@ export class NotificationHandlerService {
                 break;
             default:
                 console.error('Unknown front-end notification type: ', notification.notificationType);
+                return;
         }
     }
 }
