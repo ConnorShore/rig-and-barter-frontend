@@ -54,11 +54,11 @@ export class ToolbarUserDropdownComponent implements OnInit {
     },
     {
       id: '2',
-      icon: 'mat:table_chart',
-      label: 'Payment Information',
-      description: 'Cards and Account details',
-      colorClass: 'text-purple-600',
-      route: '/profile/payment-info'
+      icon: 'mat:move_to_inbox',
+      label: 'Messages',
+      description: 'Messages & Latest News',
+      colorClass: 'text-primary-600',
+      route: '/messages'
     },
     {
       id: '3',
@@ -70,11 +70,11 @@ export class ToolbarUserDropdownComponent implements OnInit {
     },
     {
       id: '4',
-      icon: 'mat:move_to_inbox',
-      label: 'My Inbox',
-      description: 'Messages & Latest News',
-      colorClass: 'text-primary-600',
-      route: '/apps/chat'
+      icon: 'mat:credit_card',
+      label: 'Payment Information',
+      description: 'Cards and Account details',
+      colorClass: 'text-purple-600',
+      route: '/profile/payment-info'
     },
   ];
 

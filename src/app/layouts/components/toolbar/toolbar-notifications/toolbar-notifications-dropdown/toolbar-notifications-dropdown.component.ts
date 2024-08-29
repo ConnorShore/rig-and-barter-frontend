@@ -6,7 +6,7 @@ import { NgClass, NgFor, NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { FrontEndNotificationType, IFrontEndNotification } from 'src/app/model/notification/front-end-notification';
+import { FrontEndNotificationType, IFrontEndNotification } from 'src/app/models/notification/front-end-notification';
 import { DATA_TOKEN } from '@vex/components/vex-popover/vex-popover.service';
 import { NotificationService } from 'src/app/services/notification.service';
 

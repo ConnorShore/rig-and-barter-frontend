@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { IListing } from '../../../model/listing';
+import { IListing } from '../../../models/listing';
 import { ListingCardComponent } from '../listing-card/listing-card.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TransactionService } from '../../../services/transaction.service';

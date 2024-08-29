@@ -2,9 +2,9 @@ import { Injectable } from "@angular/core";
 import { KeycloakService } from "keycloak-angular";
 import { KeycloakProfile } from "keycloak-js";
 import { UserService } from "./user.service";
-import { IUserRegisterRequest } from "../model/user-register-request";
+import { IUserRegisterRequest } from "../models/user-register-request";
 import { Observable } from "rxjs";
-import { IUserResponse } from "../model/user-info/user-response";
+import { IUserResponse } from "../models/user-info/user-response";
 
 
 @Injectable({

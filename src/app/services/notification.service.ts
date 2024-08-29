@@ -7,7 +7,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { createBackendRequest } from "../shared/http.utils";
 import { ConfigurationService } from "./configuration.service";
 import { Observable } from "rxjs";
-import { IFrontEndNotification } from "../model/notification/front-end-notification";
+import { IFrontEndNotification } from "../models/notification/front-end-notification";
 import { th } from "date-fns/locale";
 
 @Injectable({
@@ -93,7 +93,7 @@ export class NotificationService {
             horizontalPosition: this.horizontalPosition,
             verticalPosition: this.verticalPosition,
             panelClass: [panelClass],
-            duration: this.duration
+            duration: this.duration,
         });
     }
 }

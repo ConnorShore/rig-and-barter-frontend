@@ -1,0 +1,36 @@
+<div class="relative h-full flex flex-col overflow-hidden">
+    <div class="px-6 bg-foreground border-b h-16 flex-none flex items-center">
+      <div class="flex items-center gap-3">
+        <img
+          class="hidden sm:block flex-none w-9 h-9 rounded-full"
+          src="{{ messageGroup?.groupImageUrl }}" />
+        <div class="flex-1 truncate">
+          <div class="font-semibold text-sm truncate">{{ messageGroup?.groupName }}</div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="flex-1 pb-6" style="overflow: scroll; height: xyz;" #scrollFrame>
+      
+      @for(message of messageGroup?.messages; track message.id) {
+          <rb-message-bubble [message]="message" [isSender]="message.senderId === user.id" />
+      }
+      
+    </div>  
+  
+    <form [formGroup]="messageForm" class="flex-none bg-foreground border-t" (ngSubmit)="sendMessage()">
+      <div class="relative h-16 flex items-center justify-between">
+  
+        <input
+          class="z-0 absolute top-0 right-0 bottom-0 left-0 h-full w-full border-0 focus:border-0 px-20 bg-transparent"
+          placeholder="Type your message ..."
+          formControlName="message"
+          type="text" />
+  
+        <button class="relative z-10 mr-4 ml-4" mat-icon-button type="submit">
+          <mat-icon svgIcon="mat:send"></mat-icon>
+        </button>
+      </div>
+    </form>
+  </div>
+  

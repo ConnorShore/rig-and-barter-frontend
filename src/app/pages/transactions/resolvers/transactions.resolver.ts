@@ -1,6 +1,6 @@
 import { inject } from "@angular/core";
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from "@angular/router";
-import { ITransaction } from "src/app/model/transaction";
+import { ITransaction } from "src/app/models/transaction";
 import { TransactionService } from "src/app/services/transaction.service";
 
 export const transactionResolver: ResolveFn<ITransaction[]> = (

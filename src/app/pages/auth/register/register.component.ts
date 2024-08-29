@@ -15,7 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AuthService } from 'src/app/services/auth.service';
-import { IUserRegisterRequest } from 'src/app/model/user-register-request';
+import { IUserRegisterRequest } from 'src/app/models/user-register-request';
 
 @Component({
   selector: 'rb-register',

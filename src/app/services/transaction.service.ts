@@ -1,11 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { ITransactionRequest } from "../model/transaction-request";
+import { ITransactionRequest } from "../models/transaction-request";
 import { Observable } from "rxjs";
 import { ConfigurationService } from "./configuration.service";
 import { createBackendRequest } from "../shared/http.utils";
-import { ITransaction } from "../model/transaction";
-import { ICompleteTransactionRequest } from "../model/complete-transaction-request";
+import { ITransaction } from "../models/transaction";
+import { ICompleteTransactionRequest } from "../models/complete-transaction-request";
 
 
 @Injectable()

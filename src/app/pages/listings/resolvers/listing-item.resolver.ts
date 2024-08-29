@@ -1,5 +1,5 @@
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from "@angular/router";
-import { IListing } from "../../../model/listing";
+import { IListing } from "../../../models/listing";
 import { ListingService } from "../../../services/listing.service";
 import { inject } from "@angular/core";
 

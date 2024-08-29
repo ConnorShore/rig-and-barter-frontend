@@ -45,7 +45,7 @@ export class NotificationComponent {
     if(this.data.actionUrl.startsWith('http'))
       window.open(this.data.actionUrl, '_blank');
     else
-      this.router.navigate([this.data.actionUrl]);
+      this.router.navigate([this.data.actionUrl], {onSameUrlNavigation: 'reload'});
   }
 
   closeNotification() {

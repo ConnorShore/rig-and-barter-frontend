@@ -36,6 +36,12 @@ export class VexScrollbarComponent implements AfterContentInit, OnDestroy {
     });
   }
 
+  scrollToBottom() {
+    console.log('scrolling to bottom');
+    console.log('scroll elem: ', this.scrollbarRef?.getScrollElement());
+    this.scrollbarRef?.getScrollElement()?.scrollTo(0, 999999);
+  }
+
   ngOnDestroy(): void {
     /**
      * Exists, but not typed in the type definition

@@ -52,7 +52,7 @@ const baseConfig: VexConfig = {
     position: 'below-toolbar'
   },
   footer: {
-    visible: true,
+    visible: false,
     fixed: true
   }
 };

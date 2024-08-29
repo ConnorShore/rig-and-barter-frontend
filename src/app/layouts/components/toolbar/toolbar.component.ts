@@ -30,8 +30,9 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CreateListingComponent } from 'src/app/pages/listings/create-listing/create-listing.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NotificationService } from 'src/app/services/notification.service';
-import { IFrontEndNotification } from 'src/app/model/notification/front-end-notification';
-import { IListing } from 'src/app/model/listing';
+import { IFrontEndNotification } from 'src/app/models/notification/front-end-notification';
+import { IListing } from 'src/app/models/listing';
+import { NotificationHandlerService } from 'src/app/services/notification-handler.service';
 
 @Component({
   selector: 'vex-toolbar',
@@ -55,7 +56,8 @@ import { IListing } from 'src/app/model/listing';
     MatTooltipModule
   ],
   providers: [
-    KeycloakService
+    KeycloakService,
+    NotificationHandlerService
   ]
 })
 export class ToolbarComponent implements OnInit {
@@ -123,10 +125,7 @@ export class ToolbarComponent implements OnInit {
 
       if(this.authService.isLoggedIn()) {
         this.notificationService.getAllNotificationsForUser().subscribe((notifications: IFrontEndNotification[]) => {
-          console.log('got all user notifications: ', notifications);
-          this.userNotifications = notifications;
-  
-          // TODO: Populate the notification dropdown with the notifications (have default for no notifications or "user needs to login in order to see notifications")
+          this.userNotifications = notifications.reverse();
         });
       }
   }
@@ -159,9 +158,7 @@ export class ToolbarComponent implements OnInit {
     })
     .afterClosed()
     .subscribe(createdListing => {
-      // if(createdListing) {
-        this.listingCreated.emit(createdListing);
-      // }
+      this.listingCreated.emit(createdListing);
     });
   }
 }

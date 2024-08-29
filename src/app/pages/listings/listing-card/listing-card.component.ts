@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { IListing } from '../../../model/listing';
+import { IListing } from '../../../models/listing';
 import { ListingService } from '../../../services/listing.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';

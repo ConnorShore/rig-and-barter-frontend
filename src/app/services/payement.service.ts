@@ -3,9 +3,9 @@ import { Injectable } from "@angular/core";
 import { ConfigurationService } from "./configuration.service";
 import { createBackendRequest } from "../shared/http.utils";
 import { Observable } from "rxjs";
-import { IStripeCustomer } from "../model/user-info/stripe/stripe-customer";
-import { IStripePaymentMethod } from "../model/user-info/stripe/stripe-payment-method";
-import { IStripePaymentMethodRequest } from "../model/user-info/stripe/stripe-payment-method-request";
+import { IStripeCustomer } from "../models/user-info/stripe/stripe-customer";
+import { IStripePaymentMethod } from "../models/user-info/stripe/stripe-payment-method";
+import { IStripePaymentMethodRequest } from "../models/user-info/stripe/stripe-payment-method-request";
 
 @Injectable({
     providedIn: 'root'

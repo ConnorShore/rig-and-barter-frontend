@@ -50,6 +50,10 @@ export const appRoutes: VexRoutes = [
       {
         path: 'transactions',
         loadChildren: () => import('./pages/transactions/transactions.routes').then(r => r.TRANSACTION_ROUTES)
+      },
+      {
+        path: 'messages',
+        loadChildren: () => import('./pages/messaging/messaging.routes').then(r => r.MESSAGING_ROUTES)
       }
     ]
   },
