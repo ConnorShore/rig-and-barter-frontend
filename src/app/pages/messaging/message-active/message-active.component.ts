@@ -1,5 +1,5 @@
 import { NgIf, NgFor } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -7,7 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { fadeInUp400ms } from '@vex/animations/fade-in-up.animation';
 import { stagger20ms } from '@vex/animations/stagger.animation';
-import { VexScrollbarComponent } from '@vex/components/vex-scrollbar/vex-scrollbar.component';
 import { trackById } from '@vex/utils/track-by';
 import { IMessageGroupResponse } from 'src/app/models/message/message-group-response';
 import { IMessageResponse } from 'src/app/models/message/message-response';
@@ -17,7 +16,6 @@ import { KeycloakProfile } from 'keycloak-js';
 import { ActivatedRoute } from '@angular/router';
 import { IMessageRequest } from 'src/app/models/message/message-request';
 import { MessageStompService } from 'src/app/services/message-stomp.service';
-import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'rb-message-active',
@@ -28,7 +26,6 @@ import { NotificationService } from 'src/app/services/notification.service';
     MatIconModule,
     NgIf,
     MatMenuModule,
-    VexScrollbarComponent,
     NgFor,
     ReactiveFormsModule,
     MatDividerModule,
@@ -37,7 +34,7 @@ import { NotificationService } from 'src/app/services/notification.service';
   templateUrl: './message-active.component.html',
   styleUrl: './message-active.component.scss',
 })
-export class MessageActiveComponent implements OnInit, OnChanges {
+export class MessageActiveComponent implements OnInit, AfterViewInit{
   user: KeycloakProfile;
   messageGroup?: IMessageGroupResponse;
 
@@ -49,14 +46,13 @@ export class MessageActiveComponent implements OnInit, OnChanges {
 
   trackById = trackById;
 
-  @ViewChild(VexScrollbarComponent)
-  scrollbar?: VexScrollbarComponent;
-
+  @ViewChild('scrollFrame', {static: false}) scrollFrame: ElementRef;
+  private scrollContainer: HTMLDivElement;
+  
   constructor(
     private readonly authService: AuthService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly stompService: MessageStompService,
-    private readonly notificationService: NotificationService,
     private readonly ref: ChangeDetectorRef
   ) { }
 
@@ -64,28 +60,25 @@ export class MessageActiveComponent implements OnInit, OnChanges {
     this.ref.detectChanges();
     
     this.activatedRoute.data.subscribe(({messageGroup}) => {
-      console.log('activated route changed: ', messageGroup);
       this.user = this.authService.getCurrentUser();
       this.messageGroup = messageGroup;
-      console.log('new message group: ', this.messageGroup);
-      console.log('new messages: ', this.messageGroup?.messages);
+
       this.onMessageRecieved = this.onMessageRecieved.bind(this);
       this.connectToMessageGroup(messageGroup);
-      this.scrollbar?.scrollToBottom();
-      if (this.scrollbar && this.scrollbar.scrollbarRef) {
-        const scrollElement = this.scrollbar.scrollbarRef.getScrollElement();
-        if (scrollElement) {
-          scrollElement.scrollTo(0, scrollElement.scrollHeight);
-          scrollElement.onscroll = () => {
-            console.log('scroll: ', scrollElement.scrollTop);
-          };
-        }
-      }
+
+      this.scrollToBottom();
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('changes: ', changes);
+  ngAfterViewInit(): void {
+    this.scrollContainer = this.scrollFrame.nativeElement;
+    this.scrollContainer.onscroll = () => {
+      console.log('scroll: ', this.scrollContainer.scrollTop);
+      console.log('scroll hieght: ', this.scrollContainer.scrollHeight);
+      console.log('client height: ', this.scrollContainer.clientHeight);
+      console.log('offset height: ', this.scrollContainer.offsetHeight);
+    }
+    this.scrollToBottom();
   }
 
   sendMessage(): void {
@@ -105,7 +98,7 @@ export class MessageActiveComponent implements OnInit, OnChanges {
     this.stompService.sendMessage(`chat`, messageRequest);
 
     this.messageForm.get('message')?.reset();
-    this.scrollbar?.scrollToBottom();
+    this.scrollToBottom();
   }
 
   private connectToMessageGroup(messageGroup: IMessageGroupResponse): void {
@@ -118,7 +111,19 @@ export class MessageActiveComponent implements OnInit, OnChanges {
     }
 
     this.messageGroup?.messages.push(message);
+    this.scrollToBottom();
+  }
+
+  private scrollToBottom(): void {
+    console.log('scrolling to bottom: ', this.scrollContainer);
+    let amount = this.scrollContainer.scrollHeight;
+    this.scrollContainer?.scrollBy({
+      top: amount,
+      left: 0,
+      behavior: 'smooth'
+    });
+
     this.ref.markForCheck();
-    this.scrollbar?.scrollToBottom();
+    this.ref.detectChanges();
   }
 }

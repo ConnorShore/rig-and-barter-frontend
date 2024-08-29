@@ -10,13 +10,13 @@
       </div>
     </div>
   
-    <vex-scrollbar id="testing" class="flex-1 pb-6" id="tester">
-        
-        @for(message of messageGroup?.messages; track message.id) {
-            <rb-message-bubble [message]="message" [isSender]="message.senderId === user.id" />
-        }
-        
-    </vex-scrollbar>
+    <div class="flex-1 pb-6" style="overflow: scroll; height: xyz;" #scrollFrame>
+      
+      @for(message of messageGroup?.messages; track message.id) {
+          <rb-message-bubble [message]="message" [isSender]="message.senderId === user.id" />
+      }
+      
+    </div>  
   
     <form [formGroup]="messageForm" class="flex-none bg-foreground border-t" (ngSubmit)="sendMessage()">
       <div class="relative h-16 flex items-center justify-between">
