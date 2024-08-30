@@ -1,7 +1,7 @@
 import { DecimalPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Inject, inject, Input, OnInit, signal } from '@angular/core';
+import { Component, Input, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogModule, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { IUserResponse } from 'src/app/models/user-info/user-response';
@@ -16,6 +16,7 @@ import { IStripePaymentMethod } from 'src/app/models/user-info/stripe/stripe-pay
 import { DeleteConfirmationDialogComponent } from 'src/app/shared/components/delete-confirmation-dialog/delete-confirmation-dialog.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { IStripePaymentMethodRequest } from 'src/app/models/user-info/stripe/stripe-payment-method-request';
+import { ListingService } from 'src/app/services/listing.service';
 
 @Component({
     selector: 'rb-payment-info',
@@ -51,6 +52,7 @@ export class PaymentInfoComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly paymentService: PaymentService,
     private readonly notificationService: NotificationService,
+    private readonly listingSerivce: ListingService,
     private readonly dialog: MatDialog,
     private readonly deleteDialog: MatDialog
   ) { }
@@ -64,6 +66,7 @@ export class PaymentInfoComponent implements OnInit {
     this.paymentService.createAccountForUser().subscribe((url) => {
       window.location.href = url;
       this.authService.updateUser();
+      this.listingSerivce.refreshListings();
     });
   }
 
@@ -74,6 +77,7 @@ export class PaymentInfoComponent implements OnInit {
         this.user.stripeInfo!.accountId = undefined;
 
       this.authService.updateUser();
+      this.listingSerivce.refreshListings();
     });
   }
 
@@ -82,6 +86,7 @@ export class PaymentInfoComponent implements OnInit {
       this.paymentMethods.splice(index, 1);
       this.notificationService.showSuccess('Successfully deleted Payment Method!');
       this.authService.updateUser();
+      this.listingSerivce.refreshListings();
     });
   }
 
@@ -90,6 +95,7 @@ export class PaymentInfoComponent implements OnInit {
       this.paymentMethods?.push(fullPaymentMethod);
       this.notificationService.showSuccess('Successfully added new Payment Method!');
       this.authService.updateUser();
+      this.listingSerivce.refreshListings();
     });
   }
 

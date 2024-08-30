@@ -2,6 +2,7 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IListing } from 'src/app/models/listing';
 import { ITransactionRequest } from 'src/app/models/transaction-request';
@@ -11,7 +12,6 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { CarouselComponent } from 'src/app/shared/components/carousel/carousel.component';
 import { DeleteConfirmationDialogComponent } from 'src/app/shared/components/delete-confirmation-dialog/delete-confirmation-dialog.component';
-import { ListingsRequestService } from 'src/app/shared/services/listings-request.service';
 
 @Component({
   selector: 'view-listing',
@@ -21,7 +21,8 @@ import { ListingsRequestService } from 'src/app/shared/services/listings-request
     DatePipe,
     CarouselComponent,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    MatIconModule
   ],
   providers: [
     TransactionService,
@@ -42,7 +43,6 @@ export class ViewListingComponent implements OnInit {
     private readonly transactionService: TransactionService,
     private readonly notificationService: NotificationService,
     private readonly listingService: ListingService,
-    private readonly listingRequestService: ListingsRequestService,
     private readonly deleteDialog: MatDialog,
     private readonly router: Router
   ) { }
@@ -84,7 +84,6 @@ export class ViewListingComponent implements OnInit {
       if(result) {
         this.listingService.deleteListingById(this.listing.id, true).subscribe(() => {
           this.notificationService.showSuccess('Successfully removed listing!');
-          this.listingRequestService.listingsRequested.next();
           this.router.navigate(['/listings'], {onSameUrlNavigation: 'reload'});
         });
       }

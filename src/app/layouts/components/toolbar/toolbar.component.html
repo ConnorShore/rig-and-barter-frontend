@@ -36,8 +36,7 @@
     Create Listing
   </button>
 
-  @if(userProfileTest?.stripeInfo?.verified) {
-    <!-- <div class="ml-8" style="color: rgb(99, 13, 130); font-size: 12pt; font-weight: 700;"> -->
+  @if(userProfile?.stripeInfo?.verified) {
       <div 
         class="flex body-1 font-medium leading-snug ltr:mr-3 rtl:ml-3 hidden sm:block p-4 verified verified-info"
       >

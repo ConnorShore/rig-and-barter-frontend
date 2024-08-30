@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { VexLayoutService } from '@vex/services/vex-layout.service';
 import { VexConfigService } from '@vex/config/vex-config.service';
-import { filter, map, startWith, switchMap } from 'rxjs/operators';
+import { filter, map, startWith } from 'rxjs/operators';
 import { NavigationService } from '../../../core/navigation/navigation.service';
 import { Observable, of } from 'rxjs';
 import { NavigationComponent } from '../navigation/navigation.component';
@@ -93,8 +93,7 @@ export class ToolbarComponent implements OnInit {
   isUserLoggedIn = this.authService.isLoggedIn();
   loggedInUser = this.authService.getCurrentKeycloakUser();
 
-  userProfile = this.authService.getCurrentUserProfile();
-  userProfileTest: IUserResponse | undefined;
+  userProfile: IUserResponse | undefined;
 
   userNotifications: IFrontEndNotification[] = [];
 
@@ -110,12 +109,8 @@ export class ToolbarComponent implements OnInit {
     private readonly notificationService: NotificationService
   ) {
     this.loggedInUser = this.authService.getCurrentKeycloakUser();
-    this.userProfile = this.authService.getCurrentUserProfile();
-    console.log('logged in user: ', this.loggedInUser);
-    console.log('user profile: ', this.userProfile);
-    this.authService.userProfileTest$.subscribe((user) => {
-      console.log('user profile test: ', user);
-      this.userProfileTest = user;
+    this.authService.userProfile$.subscribe((user) => {
+      this.userProfile = user;
     });
   }
 

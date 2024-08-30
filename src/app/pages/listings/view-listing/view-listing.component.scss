@@ -1,3 +1,14 @@
 .disabled {
     pointer-events: all !important;
 }
+
+.verified-info {
+  display: flex; 
+  align-content: center; 
+  align-items: center; 
+  justify-content: left;
+}
+
+.test {
+  margin-bottom: var(--vex-footer-height)
+}

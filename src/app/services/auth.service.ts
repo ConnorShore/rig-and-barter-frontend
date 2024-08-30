@@ -13,10 +13,9 @@ import { IUserResponse } from "../models/user-info/user-response";
 export class AuthService {
 
     keycloakProfile: KeycloakProfile;
-    userProfile: IUserResponse | undefined;
 
-    userProfileTest = new BehaviorSubject<IUserResponse|undefined>(undefined);
-    userProfileTest$ = this.userProfileTest.asObservable();
+    userProfile = new BehaviorSubject<IUserResponse|undefined>(undefined);
+    userProfile$ = this.userProfile.asObservable();
 
     constructor(private readonly keycloakService: KeycloakService, 
         private readonly userService: UserService) {
@@ -31,21 +30,15 @@ export class AuthService {
         });
     }
 
-    getCurrentUserProfile(): IUserResponse | undefined {
-        return this.userProfile;
-    }
-
     setCurrentUserProfile(keycloakProfile: KeycloakProfile) {
         this.userService.getUserById(keycloakProfile.id as string).subscribe(user => {
-            this.userProfile = user
-            this.userProfileTest.next(user);
+            this.userProfile.next(user);
         });
     }
 
     updateUser() {
         this.userService.updateUser(this.keycloakProfile.id as string).subscribe(user => {
-            this.userProfile = user;
-            this.userProfileTest.next(user);
+            this.userProfile.next(user);
         });
     }
 
@@ -55,7 +48,6 @@ export class AuthService {
 
     logout() {
         this.keycloakService.logout(location.origin + '/listings');
-        this.userProfile = undefined;
     }
 
     isLoggedIn(): boolean {

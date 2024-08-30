@@ -11,4 +11,5 @@ export interface IListing {
     imageUrls: string[];
     componentCategory: ComponentCategory;
     userInfo: IUserBasicInfoPublic;
+    userVerified: boolean;
 }
