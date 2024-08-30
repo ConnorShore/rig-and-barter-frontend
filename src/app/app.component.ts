@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
      */
     this.stompService.subscribe((notification: IFrontEndNotification) => {
       console.log('got a message from notification topic: ', notification);
-      if(this.authService.isLoggedIn() && notification.targetUser === this.authService.getCurrentUser().id)
+      if(this.authService.isLoggedIn() && notification.targetUser === this.authService.getCurrentKeycloakUser().id)
         this.notificationHandlerService.handleFrontEndNotification(notification);
     });
 

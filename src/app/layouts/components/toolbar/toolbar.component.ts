@@ -24,7 +24,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { NavigationItem } from '../../../core/navigation/navigation-item.interface';
 import { checkRouterChildsData } from '@vex/utils/check-router-childs-data';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { KeycloakService } from 'keycloak-angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CreateListingComponent } from 'src/app/pages/listings/create-listing/create-listing.component';
@@ -33,6 +32,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { IFrontEndNotification } from 'src/app/models/notification/front-end-notification';
 import { IListing } from 'src/app/models/listing';
 import { NotificationHandlerService } from 'src/app/services/notification-handler.service';
+import { IUserResponse } from 'src/app/models/user-info/user-response';
 
 @Component({
   selector: 'vex-toolbar',
@@ -56,7 +56,6 @@ import { NotificationHandlerService } from 'src/app/services/notification-handle
     MatTooltipModule
   ],
   providers: [
-    KeycloakService,
     NotificationHandlerService
   ]
 })
@@ -92,7 +91,11 @@ export class ToolbarComponent implements OnInit {
   megaMenuOpen$: Observable<boolean> = of(false);
 
   isUserLoggedIn = this.authService.isLoggedIn();
-  loggedInUser = this.authService.getCurrentUser();
+  loggedInUser = this.authService.getCurrentKeycloakUser();
+
+  userProfile = this.authService.getCurrentUserProfile();
+  userProfileTest: IUserResponse | undefined;
+
   userNotifications: IFrontEndNotification[] = [];
 
   private readonly destroyRef: DestroyRef = inject(DestroyRef);
@@ -106,7 +109,14 @@ export class ToolbarComponent implements OnInit {
     private readonly dialog: MatDialog,
     private readonly notificationService: NotificationService
   ) {
-    this.loggedInUser = this.authService.getCurrentUser();
+    this.loggedInUser = this.authService.getCurrentKeycloakUser();
+    this.userProfile = this.authService.getCurrentUserProfile();
+    console.log('logged in user: ', this.loggedInUser);
+    console.log('user profile: ', this.userProfile);
+    this.authService.userProfileTest$.subscribe((user) => {
+      console.log('user profile test: ', user);
+      this.userProfileTest = user;
+    });
   }
 
   ngOnInit() {

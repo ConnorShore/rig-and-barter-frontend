@@ -7,6 +7,7 @@ import { ConfigurationService } from "./configuration.service";
 import { IUserResponse } from "../models/user-info/user-response";
 import { IUserBasicInfoRequest } from "../models/user-info/user-basic-info-request";
 import { IUserBasicInfoResponse } from "../models/user-info/user-basic-info-response";
+import { Observable } from "rxjs";
 
 
 @Injectable({
@@ -21,12 +22,24 @@ export class UserService {
         return this.httpClient.post<IUserResponse>(url, userRegisterRequest);
     }
 
-    getUserById(userId: string) {
+    getUserById(userId: string): Observable<IUserResponse> {
         let url = createBackendRequest(this.configService.apiGatewayUrl, `api/user/${userId}`);
+        console.log('user called url: ', url);
         return this.httpClient.get<IUserResponse>(url);
     }
 
-    setUserBasicInfo(userId: string, userBasicInfoRequest: IUserBasicInfoRequest, profilePicture?: File) {
+    updateUser(userId: string): Observable<IUserResponse> {
+        let url = createBackendRequest(this.configService.apiGatewayUrl, `api/user/${userId}` + "?random="+new Date().getTime() );
+        console.log('updating user: ', url);
+        return this.httpClient.get<IUserResponse>(url, {
+            headers: {
+                "Cache-Control": "no-cache",
+                "Pragma": "no-cache",
+            }
+        });
+    }
+
+    setUserBasicInfo(userId: string, userBasicInfoRequest: IUserBasicInfoRequest, profilePicture?: File): Observable<IUserBasicInfoResponse> {
         const formData:any = new FormData();
         formData.append('userInfo', new Blob([JSON.stringify(userBasicInfoRequest)]), {type: 'application/json'});
         if(profilePicture)

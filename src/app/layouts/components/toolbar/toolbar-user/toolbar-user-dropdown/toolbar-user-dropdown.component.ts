@@ -107,7 +107,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
 
   activeStatus: OnlineStatus = this.statuses[0];
   
-  currentUser = this.authService.getCurrentUser();
+  currentUser = this.authService.getCurrentKeycloakUser();
 
   trackById = trackById;
 

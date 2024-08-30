@@ -33,6 +33,9 @@ import { IUserRegisterRequest } from 'src/app/models/user-register-request';
     MatIconModule,
     MatCheckboxModule,
     RouterLink
+  ],
+  providers: [
+    AuthService
   ]
 })
 export class RegisterComponent {

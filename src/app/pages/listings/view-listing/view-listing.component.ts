@@ -35,7 +35,7 @@ import { ListingsRequestService } from 'src/app/shared/services/listings-request
 export class ViewListingComponent implements OnInit {
 
   listing: IListing;
-  currentUser = this.authService.getCurrentUser();
+  currentUser = this.authService.getCurrentKeycloakUser();
   
   constructor(private activatedRoute: ActivatedRoute, 
     private readonly authService: AuthService,
@@ -51,7 +51,7 @@ export class ViewListingComponent implements OnInit {
     console.log('this.activatedRoute.data: ', this.activatedRoute.data);
     this.activatedRoute.data.subscribe(({listing}) => {
       this.listing = listing;
-      this.currentUser = this.authService.getUserProfile();
+      this.currentUser = this.authService.getCurrentKeycloakUser();
     });
   }
 

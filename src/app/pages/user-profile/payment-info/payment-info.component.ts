@@ -14,13 +14,15 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { IStripePaymentMethod } from 'src/app/models/user-info/stripe/stripe-payment-method';
 import { DeleteConfirmationDialogComponent } from 'src/app/shared/components/delete-confirmation-dialog/delete-confirmation-dialog.component';
+import { AuthService } from 'src/app/services/auth.service';
+import { IStripePaymentMethodRequest } from 'src/app/models/user-info/stripe/stripe-payment-method-request';
 
 @Component({
     selector: 'rb-payment-info',
     standalone: true,
     providers: [
         NotificationService,
-        PaymentService
+        PaymentService,
     ],
     templateUrl: './payment-info.component.html',
     styleUrl: './payment-info.component.scss',
@@ -46,6 +48,7 @@ export class PaymentInfoComponent implements OnInit {
   readonly panelOpenState = signal(false);
 
   constructor(
+    private readonly authService: AuthService,
     private readonly paymentService: PaymentService,
     private readonly notificationService: NotificationService,
     private readonly dialog: MatDialog,
@@ -76,6 +79,15 @@ export class PaymentInfoComponent implements OnInit {
     this.paymentService.deletePayment(this.paymentMethods[index].stripePaymentId).subscribe(() => {
       this.paymentMethods.splice(index, 1);
       this.notificationService.showSuccess('Successfully deleted Payment Method!');
+      this.authService.updateUser();
+    });
+  }
+
+  addPaymentMethod(cardInfo: IStripePaymentMethodRequest) {
+    this.paymentService.addPaymentMethodForUser(cardInfo).subscribe(fullPaymentMethod => {
+      this.paymentMethods?.push(fullPaymentMethod);
+      this.notificationService.showSuccess('Successfully added new Payment Method!');
+      this.authService.updateUser();
     });
   }
 
@@ -125,10 +137,7 @@ export class PaymentInfoComponent implements OnInit {
     .afterClosed()
     .subscribe(cardInfo => {
       if(cardInfo) {
-        this.paymentService.addPaymentMethodForUser(cardInfo).subscribe(fullPaymentMethod => {
-          this.paymentMethods?.push(fullPaymentMethod);
-          this.notificationService.showSuccess('Successfully added new Payment Method!');
-        });
+        this.addPaymentMethod(cardInfo);
       }
     });
   }
