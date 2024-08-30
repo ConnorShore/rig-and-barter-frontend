@@ -62,8 +62,8 @@ export class PaymentInfoComponent implements OnInit {
   createAccountForUser() {
     //TODO: Have some kind of loading spinner until redirect happens
     this.paymentService.createAccountForUser().subscribe((url) => {
-      console.log('Account created successfully');
       window.location.href = url;
+      this.authService.updateUser();
     });
   }
 
@@ -72,6 +72,8 @@ export class PaymentInfoComponent implements OnInit {
       this.notificationService.showSuccess('Successfully disconnected Account!');
       if(this.user.stripeInfo)
         this.user.stripeInfo!.accountId = undefined;
+
+      this.authService.updateUser();
     });
   }
 
