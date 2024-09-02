@@ -30,7 +30,10 @@ import { MessageStompService } from 'src/app/services/message-stomp.service';
     ReactiveFormsModule,
     MatDividerModule,
     MessageBubbleComponent,
-],
+  ],
+  providers: [
+    AuthService
+  ],
   templateUrl: './message-active.component.html',
   styleUrl: './message-active.component.scss',
 })
@@ -60,7 +63,7 @@ export class MessageActiveComponent implements OnInit, AfterViewInit{
     this.ref.detectChanges();
     
     this.activatedRoute.data.subscribe(({messageGroup}) => {
-      this.user = this.authService.getCurrentUser();
+      this.user = this.authService.getCurrentKeycloakUser();
       this.messageGroup = messageGroup;
 
       this.onMessageRecieved = this.onMessageRecieved.bind(this);

@@ -19,7 +19,7 @@ import { MatDrawerMode, MatSidenavModule } from '@angular/material/sidenav';
 import { SearchComponent } from '../components/toolbar/search/search.component';
 import { VexProgressBarComponent } from '@vex/components/vex-progress-bar/vex-progress-bar.component';
 import { VexConfig } from '@vex/config/vex-config.interface';
-import { ListingsRequestService } from 'src/app/shared/services/listings-request.service';
+import { ListingService } from 'src/app/services/listing.service';
 
 @Component({
   selector: 'vex-layout',
@@ -43,9 +43,7 @@ import { ListingsRequestService } from 'src/app/shared/services/listings-request
     SearchComponent,
     VexProgressBarComponent
   ],
-  providers: [
-    ListingsRequestService
-  ],
+  providers: [ListingService],
   standalone: true
 })
 export class LayoutComponent {
@@ -67,14 +65,13 @@ export class LayoutComponent {
   quickpanelOpen$: Observable<boolean> = this.layoutService.quickpanelOpen$;
 
   constructor(
+    private readonly listingService: ListingService,
     private readonly layoutService: VexLayoutService,
-    private readonly configService: VexConfigService,
-    private readonly listingRequestService: ListingsRequestService
+    private readonly configService: VexConfigService
   ) {}
 
   onListingCreated() {
-    console.log('listing request service set to true');
-    this.listingRequestService.listingsRequested.next();
+    this.listingService.refreshListings();
   }
 
   onSidenavClosed(): void {

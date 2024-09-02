@@ -1,16 +1,24 @@
 
-<div class="card overflow-hidden">
+<div class="card overflow-hidden" [style.outline]="listing.userVerified ? '1px solid rgb(147 51 234)' : '1px solid rgb(100, 100, 100)'">
   <div
-    (click)="listingSelected.emit(listing.id)"
+    (click)="listingSelected.emit(listing.id)" 
     class="p-4 text-center hover:bg-hover transition duration-400 ease-out-swift cursor-pointer relative"
     matRipple>
     <img [src]="listing.imageUrls[0]" class="h-64 w-64 listing-card-image mx-auto" />
 
-    <h1 class="title mb-1 mt-3">{{ listing.title }}</h1>
+    <h1 class="title mb-1 mt-3 font-bold">{{ listing.title }}</h1>
     <h2>{{ listing.componentCategory }}</h2>
   </div>
 
   <div class="bg-app-bar p-2 flex items-center justify-beginning">
     <h1 class="listing-price">{{listing.price | currency}}</h1>
+    <span class="flex-1"></span>
+    @if(listing.userVerified) {
+      <div class="flex items-center justify-center bg-primary text-on-primary p-2 rounded-full verified">
+          <mat-icon svgIcon="mat:verified"></mat-icon>
+      </div>
+    }
   </div>
 </div>
+
+<!-- 147 51 234 -->

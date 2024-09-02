@@ -36,6 +36,14 @@
     Create Listing
   </button>
 
+  @if(userProfile?.stripeInfo?.verified) {
+      <div 
+        class="flex body-1 font-medium leading-snug ltr:mr-3 rtl:ml-3 hidden sm:block p-4 verified verified-info"
+      >
+       <mat-icon style="font-size: 10pt" svgIcon="mat:verified"></mat-icon><span>Verified</span>
+    </div>
+  }
+
   <span class="flex-1"></span>
 
   <div class="-mx-1 flex items-center">

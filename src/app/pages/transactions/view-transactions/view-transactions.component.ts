@@ -18,7 +18,8 @@ import { NotificationService } from 'src/app/services/notification.service';
     selector: 'view-transactions',
     standalone: true,
     providers: [
-        NotificationService
+        NotificationService,
+        AuthService
     ],
     templateUrl: './view-transactions.component.html',
     styleUrl: './view-transactions.component.scss',
@@ -57,7 +58,7 @@ export class ViewTransactionsComponent implements OnInit {
       this.finishedTransactions = transactions.filter((t: { state: TransactionState; }) => (t.state === TransactionState.CANCELLED || t.state === TransactionState.COMPLETED));
     });
 
-    this.userId = this.authService.getUserProfile().id as string;
+    this.userId = this.authService.getCurrentKeycloakUser().id as string;
   }
 
   onTransactionCancelled(transaction: ITransaction) {

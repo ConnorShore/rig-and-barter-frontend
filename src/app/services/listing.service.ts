@@ -1,17 +1,19 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { IListing } from "../models/listing";
-import { Observable } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { IListingRequest } from "../models/listing-request";
-import { AuthService } from "./auth.service";
 import { createBackendRequest } from "../shared/http.utils";
 import { ConfigurationService } from "./configuration.service";
 
 
 @Injectable()
 export class ListingService {
+
+    currentListings = new BehaviorSubject<IListing[]>([]);
+    currentListings$ = this.currentListings.asObservable();
     
-    constructor(private httpClient: HttpClient, private authService: AuthService, private configService: ConfigurationService) {}
+    constructor(private httpClient: HttpClient, private configService: ConfigurationService) {}
 
     createListing(listing: IListingRequest, images: File[]): Observable<IListing> {
         const formData:any = new FormData();
@@ -21,7 +23,6 @@ export class ListingService {
     }
 
     getNoAuthEndpoint(): Observable<string> {
-        console.log('token: ', this.authService.getAccessToken());
         const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');
         return this.httpClient.get(createBackendRequest(this.configService.apiGatewayUrl, 'api/listing/noauth'), {headers, responseType: 'text'});
     }
@@ -33,6 +34,19 @@ export class ListingService {
 
     getAllListings(): Observable<IListing[]> {
         return this.httpClient.get<IListing[]>(createBackendRequest(this.configService.apiGatewayUrl, 'api/listing'));
+    }
+
+    refreshListings(): void {
+        let url = createBackendRequest(this.configService.apiGatewayUrl, `api/listing` + "?random="+new Date().getTime() );
+        this.httpClient.get<IListing[]>(url, {
+            headers: {
+                "Cache-Control": "no-cache",
+                "Pragma": "no-cache",
+            }
+        }).subscribe(listings => {
+            console.log('got updated listings: ', listings);
+            this.currentListings.next(listings);
+        });
     }
 
     getListingById(listingId: string): Observable<IListing> {
