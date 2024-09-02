@@ -1,7 +1,7 @@
 import { DecimalPipe, NgIf } from '@angular/common';
-import { Component, Input, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogModule, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { IUserResponse } from 'src/app/models/user-info/user-response';
@@ -54,11 +54,26 @@ export class PaymentInfoComponent implements OnInit {
     private readonly notificationService: NotificationService,
     private readonly listingSerivce: ListingService,
     private readonly dialog: MatDialog,
-    private readonly deleteDialog: MatDialog
+    private readonly deleteDialog: MatDialog,
+    private readonly confirmUnverifyDialog: MatDialog
   ) { }
 
   ngOnInit(): void {
     this.paymentMethods = this.user.stripeInfo?.paymentMethods ? this.user.stripeInfo.paymentMethods : [];
+    this.authService.userProfile$.subscribe(user => {
+      if(user == undefined) {
+        return;
+      }
+      
+      if(this.user.stripeInfo?.verified && !user.stripeInfo?.verified) {
+        this.notificationService.showInfo('You are now Un-Verified');
+      }
+      if(!this.user.stripeInfo?.verified && user.stripeInfo?.verified) {
+        this.notificationService.showInfo('You are now Verified');
+      }
+
+      this.user = user!;
+    });
   }
 
   createAccountForUser() {
@@ -91,6 +106,7 @@ export class PaymentInfoComponent implements OnInit {
   }
 
   addPaymentMethod(cardInfo: IStripePaymentMethodRequest) {
+    console.log('user verified1: ', this.user.stripeInfo?.verified);
     this.paymentService.addPaymentMethodForUser(cardInfo).subscribe(fullPaymentMethod => {
       this.paymentMethods?.push(fullPaymentMethod);
       this.notificationService.showSuccess('Successfully added new Payment Method!');
@@ -100,6 +116,8 @@ export class PaymentInfoComponent implements OnInit {
   }
 
   confirmDeletePayment(index: number): void {
+    const isVerified = this.user.stripeInfo?.verified;
+    console.log('user verified3: ', this.user.stripeInfo?.verified);
     this.dialog.open(DeleteConfirmationDialogComponent<PaymentInfoComponent>, {
       width: '250px',
       data: {
@@ -111,12 +129,28 @@ export class PaymentInfoComponent implements OnInit {
     .afterClosed()
     .subscribe(result => {
       if(result) {
-        this.deletePaymentMethod(index);
+        if(isVerified) {
+          this.confirmUnverifyDialog.open(UnVerifyConfirmationDialog, {
+            width: '350px',
+            data: {
+              type: "Payment Method"
+            }
+          })
+          .afterClosed()
+          .subscribe(result => {
+            if(result) {
+              this.deletePaymentMethod(index);
+            }
+          });
+        } else {
+          this.deletePaymentMethod(index);
+        }
       }
     });
   }
 
   confirmDisconnectAccount(): void {
+    const isVerified = this.user.stripeInfo?.verified;
     this.deleteDialog.open(DeleteConfirmationDialogComponent<PaymentInfoComponent>, {
       width: '350px',
       data: {
@@ -128,7 +162,22 @@ export class PaymentInfoComponent implements OnInit {
     .afterClosed()
     .subscribe(result => {
       if(result) {
-        this.disconnectAccount();
+        if(isVerified) {
+          this.confirmUnverifyDialog.open(UnVerifyConfirmationDialog, {
+            width: '350px',
+            data: {
+              type: "Account"
+            }
+          })
+          .afterClosed()
+          .subscribe(result => {
+            if(result) {
+              this.disconnectAccount();
+            }
+          });
+        } else {
+          this.disconnectAccount();
+        }
       }
     });
   }
@@ -149,4 +198,28 @@ export class PaymentInfoComponent implements OnInit {
       }
     });
   }
+}
+
+@Component({
+  selector: 'rb-unverify-confirmation-dialog',
+  standalone: true,
+  imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styles: [],
+  template: `
+    <mat-dialog-content>
+      <h1 mat-dialog-title>Confirm Verification Loss</h1>
+      <p>By removing your {{data.type}} you will lose your <span class="verified">Verified</span> Status.</p>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <div class="flex justify-center" style="justify-items: center; width: 100%">
+        <button class="flex" mat-button color="warn" [mat-dialog-close]="true">Confirm</button>
+        <button class="flex" mat-button mat-dialog-close>Cancel</button>
+      </div>
+    </mat-dialog-actions>
+  `
+})
+export class UnVerifyConfirmationDialog {
+  readonly dialogRef = inject(MatDialogRef);
+  data: any = inject(MAT_DIALOG_DATA);
 }
