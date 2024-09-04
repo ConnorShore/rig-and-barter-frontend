@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from "@angular/material/snack-bar";
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarRef, MatSnackBarVerticalPosition } from "@angular/material/snack-bar";
 import { NotificationComponent } from "../shared/components/notification/notification.component";
 import { INotificationInfo, NotificationType } from "../shared/components/notification/models/notification-info.model";
 import { HttpClient, HttpParams } from "@angular/common/http";
@@ -16,26 +16,33 @@ export class NotificationService {
     private horizontalPosition: MatSnackBarHorizontalPosition = 'right';
     private verticalPosition: MatSnackBarVerticalPosition = 'top';
 
-    private duration: number = 3500;
+    // private duration: number = 3500;
+    private duration = 10000;
+
+    private notifications: INotificationInfo[] = [];
+    private isShowingNotification: boolean = false;
+
+    private snackBarRef: MatSnackBarRef<NotificationComponent>;
 
     constructor(private snackBar: MatSnackBar,
         private httpClient: HttpClient,
-        private configService: ConfigurationService) { }
+        private configService: ConfigurationService) {
+    }
 
     showInfo(message: string, title?: string, actionLabel?: string, actionUrl?: string) {
-        this.spawnNotification(NotificationType.INFO, message, title, actionLabel, actionUrl);
+        this.pushNotification(NotificationType.INFO, message, title, actionLabel, actionUrl);
     }
 
     showSuccess(message: string, title?: string, actionLabel?: string, actionUrl?: string) {
-        this.spawnNotification(NotificationType.SUCCESS, message, title, actionLabel, actionUrl);
+        this.pushNotification(NotificationType.SUCCESS, message, title, actionLabel, actionUrl);
     }
 
     showWarning(message: string, title?: string, actionLabel?: string, actionUrl?: string) {
-        this.spawnNotification(NotificationType.WARN, message, title, actionLabel, actionUrl);
+        this.pushNotification(NotificationType.WARN, message, title, actionLabel, actionUrl);
     }
 
     showError(message: string, title?: string, actionLabel?: string, actionUrl?: string) {
-        this.spawnNotification(NotificationType.ERROR, message, title, actionLabel, actionUrl);
+        this.pushNotification(NotificationType.ERROR, message, title, actionLabel, actionUrl);
     }
 
     getAllNotificationsForUser(): Observable<IFrontEndNotification[]> {
@@ -61,20 +68,30 @@ export class NotificationService {
     }
 
     showTest() {        
-        this.snackBar.openFromComponent(NotificationComponent, {
-            data: {
-                message: "Test message" + Math.random(), 
-                title: "Test Title",
-                type: NotificationType.INFO
-            } as INotificationInfo,
-            horizontalPosition: this.horizontalPosition,
-            verticalPosition: this.verticalPosition,
-            panelClass: ['info-notification'],
-            duration: 10000,
-        });
+        this.showInfo('Test', 'Here is a test number: ' + Math.random(), undefined, undefined);
     }
 
-    private spawnNotification(type: NotificationType, message: string, title?: string, actionLabel?: string, actionUrl?: string) {
+    private pushNotification(type: NotificationType, message: string, title?: string, actionLabel?: string, actionUrl?: string) {
+        const notification: INotificationInfo = {
+            message: message,
+            title: title,
+            actionLabel: actionLabel,
+            actionUrl: actionUrl,
+            type: type
+        };
+
+        // Save notification to be displayed after current queue
+        if(this.isShowingNotification) {
+            this.notifications.push(notification);
+            return;
+        }
+
+        // If there are no notifications being shown, show the notification
+        this.spawnNotification(notification);
+    }
+
+    private spawnNotification(notification: INotificationInfo) {
+        let type = notification.type;
         let panelClass: string;
         switch (type) {
             case NotificationType.INFO:
@@ -95,18 +112,25 @@ export class NotificationService {
                 break;
         }
 
-        this.snackBar.openFromComponent(NotificationComponent, {
-            data: {
-                message: message, 
-                title: title,
-                actionLabel: actionLabel,
-                actionUrl: actionUrl,
-                type: type
-            } as INotificationInfo,
+        this.snackBarRef = this.snackBar.openFromComponent(NotificationComponent, {
+            data: notification,
             horizontalPosition: this.horizontalPosition,
             verticalPosition: this.verticalPosition,
             panelClass: [panelClass],
             duration: this.duration,
+        });
+
+        this.isShowingNotification = true;
+        setTimeout(() => this.snackBarRef.dismiss(), this.duration);
+
+        // Show other notifications after this one is dismissed
+        this.snackBarRef.afterDismissed().subscribe(() => {
+            if(this.notifications.length === 0)
+                this.isShowingNotification = false;
+            else {
+                console.log('spawning notification');
+                this.spawnNotification(this.notifications.shift() as INotificationInfo);
+            }
         });
     }
 }
