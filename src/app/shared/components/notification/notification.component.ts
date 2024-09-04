@@ -31,6 +31,7 @@ export class NotificationComponent {
   notificationContainerStyle: string;
   notificationIcon: string;
   notificationIconClass: string;
+  closeIconClass: string;
 
   constructor(@Inject(MAT_SNACK_BAR_DATA) public data: INotificationInfo,
               private router: Router) {
@@ -83,18 +84,22 @@ export class NotificationComponent {
       case NotificationType.INFO:
         this.notificationIcon = 'mat:info';
         this.notificationIconClass = "icon-color-info"
+        this.closeIconClass = "close-color-info"
         break;
       case NotificationType.SUCCESS:
         this.notificationIcon = 'mat:check_circle';
         this.notificationIconClass = "icon-color-success"
+        this.closeIconClass = "close-color-success"
         break;
       case NotificationType.WARN:
         this.notificationIcon = 'mat:warning';
         this.notificationIconClass = "icon-color-warning"
+        this.closeIconClass = "close-color-warning"
         break;
       case NotificationType.ERROR:
         this.notificationIcon = 'mat:error';
         this.notificationIconClass = "icon-color-error"
+        this.closeIconClass = "close-color-error"
         break;
     }
   }

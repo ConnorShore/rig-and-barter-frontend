@@ -8,7 +8,6 @@ import { createBackendRequest } from "../shared/http.utils";
 import { ConfigurationService } from "./configuration.service";
 import { Observable } from "rxjs";
 import { IFrontEndNotification } from "../models/notification/front-end-notification";
-import { th } from "date-fns/locale";
 
 @Injectable({
     providedIn: 'root',
@@ -59,6 +58,20 @@ export class NotificationService {
 
     checkHealth(): Observable<string> {
         return this.httpClient.get(createBackendRequest(this.configService.apiGatewayUrl, 'api/notification/status'), {responseType: 'text'});
+    }
+
+    showTest() {        
+        this.snackBar.openFromComponent(NotificationComponent, {
+            data: {
+                message: "Test message" + Math.random(), 
+                title: "Test Title",
+                type: NotificationType.INFO
+            } as INotificationInfo,
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+            panelClass: ['info-notification'],
+            duration: 10000,
+        });
     }
 
     private spawnNotification(type: NotificationType, message: string, title?: string, actionLabel?: string, actionUrl?: string) {
