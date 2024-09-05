@@ -36,3 +36,58 @@
 .icon-color-error {
     color: $error-color;
 }
+
+.close-color-info mat-icon {
+    color: darken($info-color, 20%);
+    transition: color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+        color: lighten($info-color, 20%);
+        transform: scale(1.1);
+    }
+}
+
+.close-color-info mat-icon {
+    color: darken($info-color, 20%);
+    transition: color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+        color: lighten($info-color, 20%);
+        transform: scale(1.1);
+    }
+}
+
+.close-color-success mat-icon {
+    color: darken($success-color, 20%);
+    transition: color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+        color: lighten($success-color, 20%);
+        transform: scale(1.1);
+    }
+}
+
+.close-color-warning mat-icon {
+    color: darken($warning-color, 20%);
+    transition: color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+        color: lighten($warning-color, 20%);
+        transform: scale(1.1);
+    }
+}
+
+.close-color-error mat-icon {
+    color: darken($error-color, 20%);
+    transition: color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+        color: lighten($error-color, 20%);
+        transform: scale(1.1);
+    }
+}
