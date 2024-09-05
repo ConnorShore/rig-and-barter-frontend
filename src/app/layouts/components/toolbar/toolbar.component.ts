@@ -135,10 +135,6 @@ export class ToolbarComponent implements OnInit {
       }
   }
 
-  showTest() {
-    this.notificationService.showTest();
-  }
-
   openQuickpanel(): void {
     this.layoutService.openQuickpanel();
   }
