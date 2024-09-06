@@ -1,1 +1,25 @@
-<p>build-editor works!</p>
+<mat-card appearance="outlined" class="components-container">
+    <mat-card-header >
+        <div class="flex" style="width: 100%">
+            <div class="flex" style="width: 80%">
+                <!-- TODO: Make this an input box to set the build name (look at profile editor)-->
+                <mat-card-title>Build Name</mat-card-title>
+                <br>
+                <input matInput placeholder="Build Name" type="text" style="width: 100%">
+            </div>
+            <div class="flex" style="width: 20%">
+                <button mat-flat-button color="primary" style="width: 100%">Save Build</button>
+            </div>
+        </div>
+    </mat-card-header>
+
+    <rb-component-selector [components]="getComponentsForCategory(ComponentCategory.CASE)" [category]="ComponentCategory.CASE"/>
+    <rb-component-selector [components]="getComponentsForCategory(ComponentCategory.MOTHERBOARD)" [category]="ComponentCategory.MOTHERBOARD"/>
+    <rb-component-selector [components]="getComponentsForCategory(ComponentCategory.CPU)" [category]="ComponentCategory.CPU"/>
+    <rb-component-selector [components]="getComponentsForCategory(ComponentCategory.GPU)" [category]="ComponentCategory.GPU"/>
+    <rb-component-selector [components]="getComponentsForCategory(ComponentCategory.MEMORY)" [maxComponents]="4" [category]="ComponentCategory.MEMORY"/>
+    <rb-component-selector [components]="getComponentsForCategory(ComponentCategory.HARD_DRIVE)" [maxComponents]="3" [category]="ComponentCategory.HARD_DRIVE"/>
+    <rb-component-selector [components]="getComponentsForCategory(ComponentCategory.SOLID_STATE_DRIVE)" [maxComponents]="3" [category]="ComponentCategory.SOLID_STATE_DRIVE"/>
+    <rb-component-selector [components]="getComponentsForCategory(ComponentCategory.POWER_SUPPLY)"[category]="ComponentCategory.POWER_SUPPLY"/>
+
+</mat-card>
