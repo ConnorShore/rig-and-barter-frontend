@@ -54,6 +54,10 @@ export const appRoutes: VexRoutes = [
       {
         path: 'messages',
         loadChildren: () => import('./pages/messaging/messaging.routes').then(r => r.MESSAGING_ROUTES)
+      },
+      {
+        path: 'pc-builder',
+        loadChildren: () => import('./pages/pc-builder/pc-builder.routes').then(r => r.PC_BUIlDER_ROUTES)
       }
     ]
   },

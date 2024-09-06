@@ -1,0 +1,77 @@
+<mat-drawer-container class="overflow-hidden h-full w-full drawer-container">
+    <mat-drawer
+      mode="side"
+      opened="true"
+      class="drawer"
+      position="start">
+      <div class="h-full flex flex-col">
+        <div
+          class="flex-none py-4 bg-gray-50 dark:bg-gray-900 space-y-4 border-b">
+          <div class="flex items-center mx-4">
+            <div class="flex-1 text-3xl font-semibold">My PC Builds</div>
+          </div>
+  
+          <div class="flex px-4">
+            <mat-form-field
+              appearance="outline"
+              class="vex-mat-dense-xs flex-1 bg-foreground"
+              subscriptSizing="dynamic">
+              <mat-icon
+                class="icon-sm"
+                matIconPrefix
+                svgIcon="mat:search"></mat-icon>
+              <input matInput placeholder="Search builds..." type="text" />
+            </mat-form-field>
+          </div>
+        </div>
+  
+        <div class="flex-1 min-h-0" data-simplebar>
+          <div class="pt-2">
+            <div class="space-y-1">
+                @if(build !== undefined) {
+                    <ng-container>
+                        <a
+                          #rla="routerLinkActive"
+                          [ngClass]="{
+                            'text-primary-600 bg-primary-50 dark:text-primary-200 dark:bg-primary-700/20':
+                              rla.isActive
+                          }"
+                          [routerLink]="['./', build?.id]"
+                          class="relative text-sm mx-2 px-3 py-2 rounded hover:bg-primary-100 hover:dark:bg-primary-700/10 flex items-center gap-3 transition ease-out"
+                          matRipple
+                          routerLinkActive>
+                          <div
+                            *ngIf="rla.isActive"
+                            class="w-1 bg-primary-600 absolute left-0 top-0 bottom-0 rounded-full my-1"></div>
+          
+                          <div class="flex-1 select-none truncate">
+                            <div class="truncate flex mb-0.5">
+                              <div class="font-medium flex-1">{{ build?.name }}</div>
+                              <!-- <div class="flex-none text-xs text-gray-500">
+                                {{ chat.timestamp }}
+                              </div> -->
+                            </div>
+                            <!-- <div class="text-xs text-gray-500 truncate">
+                              {{ chat.lastMessage }}
+                            </div> -->
+                          </div>
+                        </a>
+                    </ng-container>
+                }
+                @else {
+                    <div>
+                        No Builds Currently
+                    </div>
+                }
+            
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-drawer>
+  
+    <mat-drawer-content class="relative">
+      <router-outlet></router-outlet>
+    </mat-drawer-content>
+  </mat-drawer-container>
+  

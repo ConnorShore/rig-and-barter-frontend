@@ -14,6 +14,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'vex-sidenav',
@@ -54,14 +55,22 @@ export class SidenavComponent implements OnInit {
 
   items$: Observable<NavigationItem[]> = this.navigationService.items$;
 
+  user: any;
+
   constructor(
     private navigationService: NavigationService,
     private layoutService: VexLayoutService,
     private configService: VexConfigService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly authService: AuthService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.user = this.authService.getCurrentKeycloakUser();
+    this.authService.userProfile$.subscribe((user) => {
+      this.user = user;
+    });
+  }
 
   collapseOpenSidenav() {
     this.layoutService.collapseOpenSidenav();
