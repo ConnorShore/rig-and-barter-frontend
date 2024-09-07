@@ -1,6 +1,10 @@
 
 <mat-dialog-content>
     <h1 mat-dialog-title>Select your {{data.name}}</h1>
+    <div>
+         <input style="color: black" type="text" [formControl]="searchInputTest">
+    </div>
+    <br>
     @for(component of data.components; track component.id) {
         @if(data.category === ComponentCategory.CASE) {
             <rb-case-card [caseComponent]="getTypedComponentCase(component)"></rb-case-card>

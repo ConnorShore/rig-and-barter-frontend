@@ -41,7 +41,7 @@ export class ComponentSelectorComponent implements OnInit{
     console.log('category1: ', this.category);
     console.log('maxComponents1: ', this.maxComponents);
     if(this.category !== undefined) {
-      this.componentService.getPagedComponentsOfCategory(this.category, 0, 20, 'name', false)
+      this.componentService.getPagedComponentsOfCategory(this.category, 0, 20, 'name', false, '')
         .subscribe(pagedComponent => {
           console.log('pagedComponent: ', pagedComponent);
           this.numItems = pagedComponent.numItems;

@@ -15,6 +15,9 @@ import { ISolidStateDriveComponent } from 'src/app/models/pc-builder/solid-state
 import { IVideoCardComponent } from 'src/app/models/pc-builder/video-card-component';
 import { CaseCardComponent } from './case-card/case-card.component';
 import { ComponentService } from 'src/app/services/component.service';
+import { debounceTime, distinctUntilChanged, Subject, Subscription, switchMap } from 'rxjs';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { de } from 'date-fns/locale';
 
 export interface IComponentSelectorData {
   category: ComponentCategory;
@@ -36,25 +39,42 @@ export interface IComponentSelectorData {
     MatDialogContent,
     MatCardModule,
     CaseCardComponent,
-    MatPaginatorModule
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    MatPaginatorModule,
+    ReactiveFormsModule
+  ]
 })
 export class ComponentSelectorDialogComponent {
   readonly dialogRef = inject(MatDialogRef);
-  data: IComponentSelectorData = inject(MAT_DIALOG_DATA);
 
-  constructor(private readonly componentService: ComponentService) { }
+  data: IComponentSelectorData = inject(MAT_DIALOG_DATA);
 
   pageSize = 25;
   pageIndex = 0;
   showFirstLastButtons = true;
 
+  searchInputTest = new FormControl('');
+  inputSubject: Subscription;
+
+  searchInput = new Subject<EventTarget | null>();
+
+  constructor(private readonly componentService: ComponentService) {
+    this.inputSubject = this.searchInputTest.valueChanges
+      .pipe(
+        debounceTime(300), // Wait 300ms after each keystroke
+        distinctUntilChanged() // Only trigger if the value has changed
+      )
+      .subscribe(async (searchTerm) => {
+        this.componentService.getPagedComponentsOfCategory(this.data.category, this.pageIndex, this.pageSize, 'name', false, searchTerm as string)
+        .subscribe(pagedComponent => {
+          this.data.numItems = pagedComponent.numItems;
+          this.data.components = pagedComponent.components;
+        });
+      });
+  }
+
   handlePageEvent(event: PageEvent) {
-    console.log('page event: ', event);
-    this.componentService.getPagedComponentsOfCategory(this.data.category, event.pageIndex, event.pageSize, 'name', false)
+    this.componentService.getPagedComponentsOfCategory(this.data.category, event.pageIndex, event.pageSize, 'name', false, this.searchInputTest.value as string)
       .subscribe(pagedComponent => {
-        console.log('pagedComponent: ', pagedComponent);
         this.data.numItems = pagedComponent.numItems;
         this.data.components = pagedComponent.components;
       });
