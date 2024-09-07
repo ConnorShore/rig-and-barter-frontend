@@ -1,4 +1,4 @@
-<mat-card appearance="outlined" class="component">
+<mat-card appearance="outlined" class="component" *ngIf="components !== undefined">
     <mat-card-title>{{componentToString() | titlecase}}</mat-card-title>
 
     @if(components.length === 0 || components[0] === undefined) {
@@ -11,7 +11,7 @@
         <mat-card-content>
           <div class="flex items-center gap-2">
             <div class="flex-1">{{component.name}}</div>
-            <button color="primary" mat-stroked-button (click)="selectComponent()">Change Component</button>
+            <button color="accent" mat-stroked-button (click)="selectComponent()">Change Component</button>
           </div>
         </mat-card-content>
       }

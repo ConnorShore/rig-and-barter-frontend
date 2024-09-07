@@ -13,7 +13,7 @@
         </div>
     </mat-card-header>
 
-    <rb-component-selector [components]="getComponentsForCategory(ComponentCategory.CASE)" [category]="ComponentCategory.CASE"/>
+    <rb-component-selector [components]="getComponentsForCategory(ComponentCategory.CASE)" [category]="getCase()"/>
     <rb-component-selector [components]="getComponentsForCategory(ComponentCategory.MOTHERBOARD)" [category]="ComponentCategory.MOTHERBOARD"/>
     <rb-component-selector [components]="getComponentsForCategory(ComponentCategory.CPU)" [category]="ComponentCategory.CPU"/>
     <rb-component-selector [components]="getComponentsForCategory(ComponentCategory.GPU)" [category]="ComponentCategory.GPU"/>

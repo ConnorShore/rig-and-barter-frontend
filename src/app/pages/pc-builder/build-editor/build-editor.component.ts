@@ -45,6 +45,10 @@ export class BuildEditorComponent {
         return [];
     }
   }
+
+  getCase(): ComponentCategory {
+    return ComponentCategory.CASE;
+  }
   
   get ComponentCategory() {
     return ComponentCategory;
