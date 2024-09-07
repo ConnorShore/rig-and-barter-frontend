@@ -10,6 +10,7 @@ export interface NavigationLink {
   label: string;
   icon?: string;
   routerLinkActiveOptions?: { exact: boolean };
+  canDisable?: boolean;
   badge?: {
     value: string;
     bgClass: string;
@@ -22,6 +23,7 @@ export interface NavigationDropdown {
   label: string;
   icon?: string;
   children: Array<NavigationLink | NavigationDropdown>;
+  canDisable?: boolean;
   badge?: {
     value: string;
     bgClass: string;
@@ -31,6 +33,7 @@ export interface NavigationDropdown {
 
 export interface NavigationSubheading {
   type: 'subheading';
+  canDisable?: boolean;
   label: string;
   children: Array<NavigationLink | NavigationDropdown>;
 }
