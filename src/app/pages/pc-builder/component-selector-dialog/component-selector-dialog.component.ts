@@ -15,9 +15,19 @@ import { ISolidStateDriveComponent } from 'src/app/models/pc-builder/solid-state
 import { IVideoCardComponent } from 'src/app/models/pc-builder/video-card-component';
 import { CaseCardComponent } from './case-card/case-card.component';
 import { ComponentService } from 'src/app/services/component.service';
-import { debounceTime, distinctUntilChanged, Subject, Subscription, switchMap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { de } from 'date-fns/locale';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { TitleCasePipe } from '@angular/common';
+import { CpuCardComponent } from './cpu-card/cpu-card.component';
+import { GpuCardComponent } from './gpu-card/gpu-card.component';
+import { HardDriveCardComponent } from './hard-drive-card/hard-drive-card.component';
+import { SolidStateDriveCardComponent } from './solid-state-drive-card/solid-state-drive-card.component';
+import { MemoryCardComponent } from './memory-card/memory-card.component';
+import { MotherboardCardComponent } from './motherboard-card/motherboard-card.component';
+import { PowerSupplyCardComponent } from './power-supply-card/power-supply-card.component';
 
 export interface IComponentSelectorData {
   category: ComponentCategory;
@@ -38,9 +48,20 @@ export interface IComponentSelectorData {
     MatDialogTitle, 
     MatDialogContent,
     MatCardModule,
-    CaseCardComponent,
     MatPaginatorModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    TitleCasePipe,
+    CaseCardComponent,
+    CpuCardComponent,
+    GpuCardComponent,
+    HardDriveCardComponent,
+    SolidStateDriveCardComponent,
+    MemoryCardComponent,
+    MotherboardCardComponent,
+    PowerSupplyCardComponent
   ]
 })
 export class ComponentSelectorDialogComponent {
@@ -56,6 +77,7 @@ export class ComponentSelectorDialogComponent {
   inputSubject: Subscription;
 
   searchInput = new Subject<EventTarget | null>();
+  selectedComponent: IComponent;
 
   constructor(private readonly componentService: ComponentService) {
     this.inputSubject = this.searchInputTest.valueChanges
@@ -80,6 +102,14 @@ export class ComponentSelectorDialogComponent {
       });
 
     this.pageIndex = event.pageIndex;
+  }
+
+  createComponent(category: ComponentCategory) {
+    console.log('creating manual component');
+  }
+
+  setSelectedComponent(component: IComponent): void {
+    this.selectedComponent = component;
   }
 
   getTypedComponentCase(component: IComponent): ICaseComponent {

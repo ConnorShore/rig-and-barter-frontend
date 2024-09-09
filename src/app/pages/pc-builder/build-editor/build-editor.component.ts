@@ -6,6 +6,8 @@ import { IPCBuild } from 'src/app/models/pc-builder/pc-build';
 import { IComponent } from 'src/app/models/pc-builder/component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'rb-build-editor',
@@ -14,7 +16,9 @@ import { MatInputModule } from '@angular/material/input';
     ComponentSelectorComponent,
     MatCardModule,
     MatButtonModule,
-    MatInputModule
+    MatInputModule,
+    MatFormFieldModule,
+    ReactiveFormsModule
   ],
   templateUrl: './build-editor.component.html',
   styleUrl: './build-editor.component.scss'
@@ -22,6 +26,13 @@ import { MatInputModule } from '@angular/material/input';
 export class BuildEditorComponent {
 
   @Input() build: IPCBuild | undefined;
+
+  buildName: FormControl;
+
+
+  constructor() {
+    this.buildName = new FormControl(this.build ? this.build.name : 'New Build');
+  }
 
   getComponentsForCategory(categroy: ComponentCategory): IComponent[] {
     switch(categroy) {

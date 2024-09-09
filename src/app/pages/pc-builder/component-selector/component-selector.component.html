@@ -9,9 +9,14 @@
     @else {
       @for(component of components; track component.id) {
         <mat-card-content>
-          <div class="flex items-center gap-2">
-            <div class="flex-1">{{component.name}}</div>
-            <button color="accent" mat-stroked-button (click)="selectComponent()">Change Component</button>
+          <div class="flex items-center gap-2" style="border: 1px solid rgb(100, 100, 100); margin: 4px 0px; padding: 16px;">
+            <div class="flex" style="width: 15%">
+              <img [src]="component.imageUrl" alt="No Image" style="width: 50%; height: 50%">
+            </div>
+            <div class="flex" style="justify-content: start; flex-grow: 1;">{{component.name}}</div>
+            <div class="flex" style="justify-content: flex-end;">
+              <button color="accent" mat-stroked-button (click)="selectComponent()">Change</button>
+            </div>
           </div>
         </mat-card-content>
       }

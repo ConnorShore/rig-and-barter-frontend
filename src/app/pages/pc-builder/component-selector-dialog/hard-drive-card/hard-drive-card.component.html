@@ -1,0 +1,31 @@
+<div 
+    class="card-container"
+    [style.outline]="isSelected ? '1px solid rgb(213, 113, 49)' : '1px solid rgb(100, 100, 100)'"
+    (click)="setComponent()">
+    <mat-card-header style="margin-bottom: 12px">
+        <mat-card-title style="font-weight: bold;">{{hddComponent.name}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="flex items-center gap-2">
+            <div class="flex-1">
+                <img [src]="hddComponent.imageUrl" alt="No Image" style="width: 40%; height: 40%">
+            </div>
+            <div class="flex-1">
+                <h2 style="font-weight: bold;">Manufacturer</h2>
+                {{hddComponent.manufacturer}}
+            </div>
+            <div class="flex-1">
+                <h2 style="font-weight: bold;">Size</h2>
+                {{getSizeString()}}
+            </div>
+            <div class="flex-1">
+                <h2 style="font-weight: bold;">RPM</h2>
+                {{hddComponent.rpm}}
+            </div>
+            <div class="flex-1">
+                <h2 style="font-weight: bold;">Cache Size</h2>
+                {{hddComponent.cacheSize}} Mb
+            </div>
+        </div>
+    </mat-card-content>
+</div>

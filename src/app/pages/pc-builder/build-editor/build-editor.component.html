@@ -2,10 +2,11 @@
     <mat-card-header >
         <div class="flex" style="width: 100%">
             <div class="flex" style="width: 80%">
-                <!-- TODO: Make this an input box to set the build name (look at profile editor)-->
-                <mat-card-title>Build Name</mat-card-title>
-                <br>
-                <input matInput placeholder="Build Name" type="text" style="width: 100%">
+                <mat-form-field class="flex-auto" appearance="outline" floatLabel="auto">
+                    <mat-label>Build Name</mat-label>
+                    <input [formControl]="buildName" matInput>
+                    <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+                </mat-form-field>
             </div>
             <div class="flex" style="width: 20%">
                 <button mat-flat-button color="primary" style="width: 100%">Save Build</button>

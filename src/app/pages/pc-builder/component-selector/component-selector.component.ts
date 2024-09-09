@@ -1,5 +1,5 @@
 import { LowerCasePipe, NgIf, TitleCasePipe } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -35,6 +35,7 @@ export class ComponentSelectorComponent implements OnInit{
   constructor(
     private readonly componentService: ComponentService,
     private readonly componentSelectDialog: MatDialog,
+    private readonly ngDetectorRef: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -65,7 +66,10 @@ export class ComponentSelectorComponent implements OnInit{
     })
     .afterClosed().subscribe(selectedComponent => {
       if(selectedComponent) {
+        // Save to db and update the list of components
+        console.log('selected component: ', selectedComponent);
         this.components.push(selectedComponent);
+        this.ngDetectorRef.detectChanges();
       }
     });
   }

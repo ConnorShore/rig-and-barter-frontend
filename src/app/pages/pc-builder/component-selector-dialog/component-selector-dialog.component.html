@@ -1,19 +1,87 @@
 
-<mat-dialog-content>
-    <h1 mat-dialog-title>Select your {{data.name}}</h1>
-    <div>
-         <input style="color: black" type="text" [formControl]="searchInputTest">
+<div class="flex">
+    <div class="flex" style="justify-content: start; width: 50%">
+        <h1 mat-dialog-title>Select your {{data.name | titlecase}}</h1>
     </div>
-    <br>
+    <div class="flex" style="justify-content: end; justify-items: end; width: 50%; margin-right: 40px; padding-top: 16px">
+        <mat-form-field class="flex-auto" appearance="outline">
+            <input [formControl]="searchInputTest" matInput placeholder="Search for component..."/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+    </div>
+</div>
+<mat-dialog-content style="margin: 0px">
+    @if(data.components.length === 0) {
+        <div class="flex-col" style="justify-content: center; align-items: center; height: 100%">
+            <div class="flex" style="height: 40%"></div>
+            <div class="flex" style="justify-content: center; align-items: center; height: 10%">
+                <h1>No components found</h1>
+            </div>
+            <div class="flex" style="justify-content: center; align-items: center; height: 10%">
+                <button mat-flat-button color="primary" (click)="createComponent(data.category)">Manually Enter Component</button>
+            </div>
+            <div class="flex" style="height: 40%"></div>
+        </div>
+    }
+
     @for(component of data.components; track component.id) {
         @if(data.category === ComponentCategory.CASE) {
-            <rb-case-card [caseComponent]="getTypedComponentCase(component)"></rb-case-card>
+            <rb-case-card 
+                [caseComponent]="getTypedComponentCase(component)" 
+                [isSelected]="selectedComponent === component"
+                (componentSelected)="setSelectedComponent($event)" />
+        }
+        @if(data.category === ComponentCategory.CPU) {
+            <rb-cpu-card 
+                [cpuComponent]="getTypedComponentProcessor(component)" 
+                [isSelected]="selectedComponent === component"
+                (componentSelected)="setSelectedComponent($event)" />
+        }
+        @if(data.category === ComponentCategory.GPU) {
+            <rb-gpu-card 
+                [gpuComponent]="getTypedComponentVideoCard(component)" 
+                [isSelected]="selectedComponent === component"
+                (componentSelected)="setSelectedComponent($event)" />
+        }
+        @if(data.category === ComponentCategory.HARD_DRIVE) {
+            <rb-hard-drive-card 
+                [hddComponent]="getTypedComponentHardDrive(component)" 
+                [isSelected]="selectedComponent === component"
+                (componentSelected)="setSelectedComponent($event)" />
+        }
+        @if(data.category === ComponentCategory.SOLID_STATE_DRIVE) {
+            <rb-solid-state-drive-card 
+                [ssdComponent]="getTypedComponentSolidStateDrive(component)" 
+                [isSelected]="selectedComponent === component"
+                (componentSelected)="setSelectedComponent($event)" />
+        }
+        @if(data.category === ComponentCategory.MEMORY) {
+            <rb-memory-card 
+                [memoryComponent]="getTypedComponentMemory(component)" 
+                [isSelected]="selectedComponent === component"
+                (componentSelected)="setSelectedComponent($event)" />
+        }
+        @if(data.category === ComponentCategory.MOTHERBOARD) {
+            <rb-motherboard-card 
+                [motherboardComponent]="getTypedComponentMotherboard(component)" 
+                [isSelected]="selectedComponent === component"
+                (componentSelected)="setSelectedComponent($event)" />
+        }
+        @if(data.category === ComponentCategory.POWER_SUPPLY) {
+            <rb-power-supply-card 
+                [powerSupplyComponent]="getTypedComponentPowerSupply(component)" 
+                [isSelected]="selectedComponent === component"
+                (componentSelected)="setSelectedComponent($event)" />
         }
     }
-  </mat-dialog-content>
-  <mat-dialog-actions>
-    <div class="flex justify-center" style="justify-items: center; width: 100%">
-         <div class="flex justify-center">
+</mat-dialog-content>
+<mat-dialog-actions align="start" style="padding: 0px">
+    <div class="flex" style="width: 100%; padding: 24px">
+        <div class="flex" style="justify-items: start; width: 30%">
+            <button class="flex" mat-flat-button color="primary" [mat-dialog-close]="selectedComponent">Select</button>
+            <button class="flex" mat-flat-button mat-dialog-close>Cancel</button>
+        </div>
+        <div class="flex" style="width: 70%; justify-content: end; justify-items: end;">
             <mat-paginator
                 (page)="handlePageEvent($event)"
                 [length]="data.numItems"
@@ -24,9 +92,5 @@
                 aria-label="Select page">
             </mat-paginator>
         </div>
-    </div>
-    <div class="flex justify-center" style="justify-items: center; width: 100%">
-        <button class="flex" mat-button color="warn" [mat-dialog-close]="true">Confirm</button>
-        <button class="flex" mat-button mat-dialog-close>Cancel</button>
     </div>
 </mat-dialog-actions>
