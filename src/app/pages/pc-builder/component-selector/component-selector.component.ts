@@ -1,5 +1,5 @@
 import { LowerCasePipe, NgIf, TitleCasePipe } from '@angular/common';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -7,6 +7,12 @@ import { ComponentCategory } from 'src/app/models/component-category';
 import { IComponent } from 'src/app/models/pc-builder/component';
 import { ComponentService } from 'src/app/services/component.service';
 import { ComponentSelectorDialogComponent, IComponentSelectorData } from '../component-selector-dialog/component-selector-dialog.component';
+
+export interface IComponentModifiedData {
+  category: ComponentCategory;
+  component: IComponent;
+  state: 'added' | 'removed';
+}
 
 @Component({
   selector: 'rb-component-selector',
@@ -27,6 +33,8 @@ export class ComponentSelectorComponent implements OnInit{
   @Input() category: ComponentCategory;
   @Input() maxComponents: number = 1;
 
+  @Output() componentModified = new EventEmitter<IComponentModifiedData>();
+
   // TODO: Need to get the current set of compoennts when build is saved (need to pass them to the build editor component)
 
   componentsOfCategory: IComponent[];
@@ -39,21 +47,16 @@ export class ComponentSelectorComponent implements OnInit{
   ) { }
 
   ngOnInit(): void {
-    console.log('category1: ', this.category);
-    console.log('maxComponents1: ', this.maxComponents);
     if(this.category !== undefined) {
       this.componentService.getPagedComponentsOfCategory(this.category, 0, 20, 'name', false, '')
         .subscribe(pagedComponent => {
-          console.log('pagedComponent: ', pagedComponent);
           this.numItems = pagedComponent.numItems;
           this.componentsOfCategory = pagedComponent.components;
         });
     }
   }
 
-  selectComponent(): void {
-    console.log('select category: ', ComponentCategory[this.category]);
-    console.log('select components: ', this.componentsOfCategory);
+  selectComponent(currentComponent?: IComponent): void {
     this.componentSelectDialog.open(ComponentSelectorDialogComponent, {
       width: '80%',
       height: '80%',
@@ -66,12 +69,35 @@ export class ComponentSelectorComponent implements OnInit{
     })
     .afterClosed().subscribe(selectedComponent => {
       if(selectedComponent) {
-        // Save to db and update the list of components
-        console.log('selected component: ', selectedComponent);
-        this.components.push(selectedComponent);
+
+        if(currentComponent) {
+          let data: IComponentModifiedData = {
+            category: this.category,
+            component: currentComponent,
+            state: 'removed'
+          };
+          this.componentModified.emit(data);
+        }
+
+        let data: IComponentModifiedData = {
+          category: this.category,
+          component: selectedComponent,
+          state:  'added'
+        };
+
+        this.componentModified.emit(data);
         this.ngDetectorRef.detectChanges();
       }
     });
+  }
+
+  removeComponent(component: IComponent) {
+    let data: IComponentModifiedData = {
+      category: this.category,
+      component: component,
+      state: 'removed'
+    };
+    this.componentModified.emit(data);
   }
 
   componentToString(): string {

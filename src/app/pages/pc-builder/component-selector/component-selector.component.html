@@ -3,7 +3,7 @@
 
     @if(components.length === 0 || components[0] === undefined) {
       <mat-card-actions>
-        <button color="primary" mat-stroked-button (click)="selectComponent()">Select Component</button>
+        <button color="primary" mat-stroked-button (click)="selectComponent(undefined)">Select Component</button>
       </mat-card-actions>
     }
     @else {
@@ -15,7 +15,8 @@
             </div>
             <div class="flex" style="justify-content: start; flex-grow: 1;">{{component.name}}</div>
             <div class="flex" style="justify-content: flex-end;">
-              <button color="accent" mat-stroked-button (click)="selectComponent()">Change</button>
+              <button class="mr-2" color="accent" mat-stroked-button (click)="selectComponent(component)">Change</button>
+              <button color="warn" mat-stroked-button (click)="removeComponent(component)">Delete</button>
             </div>
           </div>
         </mat-card-content>
@@ -23,7 +24,7 @@
 
       @if(components.length < maxComponents) {
         <mat-card-actions>
-          <button color="primary" mat-stroked-button (click)="selectComponent()">Add Component</button>
+          <button color="primary" mat-stroked-button (click)="selectComponent(undefined)">Add Component</button>
         </mat-card-actions>
       }
     }

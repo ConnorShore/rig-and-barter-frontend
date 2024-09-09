@@ -13,7 +13,7 @@ export const PC_BUIlDER_ROUTES: Routes = [
             PCBuilderService
         ],
         resolve: {
-            messageGroups: pcBuildResolver
+            pcBuild: pcBuildResolver
         },
         children: [
             {
