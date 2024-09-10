@@ -19,8 +19,13 @@ export class PCBuilderService {
         return this.httpClient.post<IPCBuild>(url, build);
     }
 
-    getPCBuild(): Observable<IPCBuild> {
+    getPCBuilds(): Observable<IPCBuild[]> {
         let url = createBackendRequest(this.configService.apiGatewayUrl, `api/pc-builder`);
-        return this.httpClient.get<IPCBuild>(url);
+        return this.httpClient.get<IPCBuild[]>(url);
+    }
+
+    deletePCBuild(buildId: string): Observable<void> {
+        let url = createBackendRequest(this.configService.apiGatewayUrl, `api/pc-builder/${buildId}`);
+        return this.httpClient.delete<void>(url);
     }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ComponentSelectorComponent, IComponentModifiedData } from "../component-selector/component-selector.component";
 import { MatCardModule } from '@angular/material/card';
 import { ComponentCategory } from 'src/app/models/component-category';
@@ -34,7 +34,7 @@ import { PCBuilderService } from 'src/app/services/pc-builder.service';
   templateUrl: './build-editor.component.html',
   styleUrl: './build-editor.component.scss'
 })
-export class BuildEditorComponent implements OnInit {
+export class BuildEditorComponent implements OnInit, OnChanges {
 
   @Input() build: IPCBuild | undefined;
   @Output() buildUpdated = new EventEmitter<IPCBuild>();
@@ -51,19 +51,23 @@ export class BuildEditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildName = new FormControl(this.build ? this.build.name : 'New Build');
-    
-    this.currentBuildComponents[ComponentCategory.CPU] = this.build?.cpuComponent ? [this.build.cpuComponent] : [];
-    this.currentBuildComponents[ComponentCategory.MOTHERBOARD] = this.build?.motherboardComponent ? [this.build.motherboardComponent] : [];
-    this.currentBuildComponents[ComponentCategory.MEMORY] = this.build?.memoryComponents ? this.build.memoryComponents : [];
-    this.currentBuildComponents[ComponentCategory.SOLID_STATE_DRIVE] = this.build?.solidStateDriveComponents ? this.build.solidStateDriveComponents : [];
-    this.currentBuildComponents[ComponentCategory.HARD_DRIVE] = this.build?.hardDriveComponents ? this.build.hardDriveComponents : [];
-    this.currentBuildComponents[ComponentCategory.GPU] = this.build?.gpuComponent ? [this.build.gpuComponent] : [];
-    this.currentBuildComponents[ComponentCategory.POWER_SUPPLY] = this.build?.powerSupplyComponent ? [this.build.powerSupplyComponent] : [];
-    this.currentBuildComponents[ComponentCategory.CASE] = this.build?.caseComponent ? [this.build.caseComponent] : [];
+    this.initializeComponentsForBuild(this.build);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['build']) {
+      let build = changes['build'].currentValue as IPCBuild;
+      console.log('build on changes: ', build);
+      
+      this.build = build;
+      this.buildName = new FormControl(this.build ? this.build.name : 'New Build');
+      this.initializeComponentsForBuild(build);
+    }
   }
 
   saveBuild() {
     let updatedBuild: IPCBuildRequest = {
+      id: this.build?.id || undefined,
       name: this.buildName.value,
       cpuComponent: this.currentBuildComponents[ComponentCategory.CPU][0] as IProcessorComponent,
       motherboardComponent: this.currentBuildComponents[ComponentCategory.MOTHERBOARD][0] as IMotherboardComponent,
@@ -99,5 +103,16 @@ export class BuildEditorComponent implements OnInit {
   
   get ComponentCategory() {
     return ComponentCategory;
+  }
+
+  private initializeComponentsForBuild(build: IPCBuild | undefined) {
+    this.currentBuildComponents[ComponentCategory.CPU] = build?.cpuComponent ? [build.cpuComponent] : [];
+    this.currentBuildComponents[ComponentCategory.MOTHERBOARD] = build?.motherboardComponent ? [build.motherboardComponent] : [];
+    this.currentBuildComponents[ComponentCategory.MEMORY] = build?.memoryComponents ? build.memoryComponents : [];
+    this.currentBuildComponents[ComponentCategory.SOLID_STATE_DRIVE] = build?.solidStateDriveComponents ? build.solidStateDriveComponents : [];
+    this.currentBuildComponents[ComponentCategory.HARD_DRIVE] = build?.hardDriveComponents ? build.hardDriveComponents : [];
+    this.currentBuildComponents[ComponentCategory.GPU] = build?.gpuComponent ? [build.gpuComponent] : [];
+    this.currentBuildComponents[ComponentCategory.POWER_SUPPLY] = build?.powerSupplyComponent ? [build.powerSupplyComponent] : [];
+    this.currentBuildComponents[ComponentCategory.CASE] = build?.caseComponent ? [build.caseComponent] : [];
   }
 }

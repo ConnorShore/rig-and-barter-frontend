@@ -1,7 +1,7 @@
 import { PCBuilderService } from "src/app/services/pc-builder.service";
 import { PcBuilderComponent } from "./pc-builder.component";
 import { Routes } from "@angular/router";
-import { pcBuildResolver } from "./resolvers/pc-build.resolver";
+import { pcBuildsResolver } from "./resolvers/pc-build.resolver";
 import { BuildEditorComponent } from "./build-editor/build-editor.component";
 
 
@@ -13,7 +13,7 @@ export const PC_BUIlDER_ROUTES: Routes = [
             PCBuilderService
         ],
         resolve: {
-            pcBuild: pcBuildResolver
+            pcBuilds: pcBuildsResolver
         },
         children: [
             {

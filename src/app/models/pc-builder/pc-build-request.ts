@@ -8,6 +8,7 @@ import { ISolidStateDriveComponent } from "./solid-state-drive-component";
 import { IVideoCardComponent } from "./video-card-component";
 
 export interface IPCBuildRequest {
+    id?: string;
     name: string;
     caseComponent: ICaseComponent;
     motherboardComponent: IMotherboardComponent;
