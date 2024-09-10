@@ -57,7 +57,6 @@ export class BuildEditorComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['build']) {
       let build = changes['build'].currentValue as IPCBuild;
-      console.log('build on changes: ', build);
       
       this.build = build;
       this.buildName = new FormControl(this.build ? this.build.name : 'New Build');

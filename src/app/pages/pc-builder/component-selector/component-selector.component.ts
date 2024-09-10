@@ -35,8 +35,6 @@ export class ComponentSelectorComponent implements OnInit{
 
   @Output() componentModified = new EventEmitter<IComponentModifiedData>();
 
-  // TODO: Need to get the current set of compoennts when build is saved (need to pass them to the build editor component)
-
   componentsOfCategory: IComponent[];
   numItems: number;
 

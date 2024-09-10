@@ -19,14 +19,7 @@ export const PC_BUIlDER_ROUTES: Routes = [
             {
               path: '',
               component: BuildEditorComponent
-            },
-            // {
-            //   path: ':groupId',
-            //   component: MessageActiveComponent,
-            //   resolve: {
-            //     messageGroup: messageGroupResolver
-            //   }
-            // }
+            }
         ] 
     }
 ];

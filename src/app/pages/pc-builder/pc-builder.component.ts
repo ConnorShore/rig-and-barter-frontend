@@ -90,9 +90,7 @@ export class PcBuilderComponent implements OnInit{
   }
 
   updateBuild(build: IPCBuild): void {
-    // TODO: May need to replace the "New Build" with the created build when creating new builds
     let index = this.builds.findIndex(b => b.id === build.id);
-    console.log('current index for build: ', index);
     if(index != -1) {
       this.builds[index] = build;
       this.selectedBuild = this.builds[index];
