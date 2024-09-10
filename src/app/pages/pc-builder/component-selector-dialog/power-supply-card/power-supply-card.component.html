@@ -1,0 +1,35 @@
+<div 
+    class="card-container"
+    [style.outline]="isSelected ? '1px solid rgb(213, 113, 49)' : '1px solid rgb(100, 100, 100)'"
+    (click)="setComponent()">
+    <mat-card-header style="margin-bottom: 12px">
+        <mat-card-title style="font-weight: bold;">{{powerSupplyComponent.name}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="flex items-center gap-2">
+            <div class="flex-1">
+                <img [src]="powerSupplyComponent.imageUrl" alt="No Image" style="width: 40%; height: 40%">
+            </div>
+            <div class="flex-1">
+                <h2 style="font-weight: bold;">Manufacturer</h2>
+                {{powerSupplyComponent.manufacturer}}
+            </div>
+            <div class="flex-1">
+                <h2 style="font-weight: bold;">Watts</h2>
+                {{powerSupplyComponent.watts}} W
+            </div>
+            <div class="flex-1">
+                <h2 style="font-weight: bold;">Connector</h2>
+                {{powerSupplyComponent.connector}}
+            </div>
+            <div class="flex-1">
+                <h2 style="font-weight: bold;">PCIE Cables 6 Pin</h2>
+                {{powerSupplyComponent.num6PinPCIE}}
+            </div>
+            <div class="flex-1">
+                <h2 style="font-weight: bold;">PCIE Cables 8 Pin</h2>
+                {{powerSupplyComponent.num8PinPCIE}}
+            </div>
+        </div>
+    </mat-card-content>
+</div>

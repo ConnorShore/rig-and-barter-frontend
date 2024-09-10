@@ -1,20 +1,23 @@
-<mat-card appearance="outlined">
-    <mat-card-header>
-        <mat-card-title>{{caseComponent.name}}</mat-card-title>
+<div 
+    class="card-container"
+    [style.outline]="isSelected ? '1px solid rgb(213, 113, 49)' : '1px solid rgb(100, 100, 100)'"
+    (click)="setComponent()">
+    <mat-card-header style="margin-bottom: 12px">
+        <mat-card-title style="font-weight: bold;">{{caseComponent.name}}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
         <div class="flex items-center gap-2">
-            <!-- <div class="flex-1">
-                <img [src]="caseComponent.imageUrl" alt="Case Image" class="w-full h-auto">
-            </div> -->
             <div class="flex-1">
-                <h2>Manufacturer</h2>
+                <img [src]="caseComponent.imageUrl" alt="No Image" style="width: 40%; height: 40%">
+            </div>
+            <div class="flex-1">
+                <h2 style="font-weight: bold;">Manufacturer</h2>
                 {{caseComponent.manufacturer}}
             </div>
             <div class="flex-1">
-                <h2>Windowed</h2>
+                <h2 style="font-weight: bold;">Windowed</h2>
                 {{caseComponent.windowed}}
             </div>
         </div>
     </mat-card-content>
-</mat-card>
+</div>

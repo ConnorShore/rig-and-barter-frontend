@@ -28,7 +28,7 @@ export class ComponentService {
         return this.httpClient.get<IComponent[]>(url);
     }
 
-    getPagedComponentsOfCategory(category: ComponentCategory, page: number, numPerPage: number, sortColumn: string, descending: boolean): Observable<IPagedComponent> {
+    getPagedComponentsOfCategory(category: ComponentCategory, page: number, numPerPage: number, sortColumn: string, descending: boolean, textSeach: string): Observable<IPagedComponent> {
         let categoryName = ComponentCategory[category];
         let url = createBackendRequest(this.configService.apiGatewayUrl, `api/component/${categoryName}/paged`);
         return this.httpClient.get<IPagedComponent>(url, { 
@@ -36,7 +36,8 @@ export class ComponentService {
                 page: page,
                 numPerPage: numPerPage,
                 sortColumn: sortColumn,
-                descending: descending
+                descending: descending,
+                searchTerm: textSeach
             }
         });
     }

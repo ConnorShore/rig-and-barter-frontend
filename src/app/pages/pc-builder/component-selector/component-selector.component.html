@@ -3,22 +3,28 @@
 
     @if(components.length === 0 || components[0] === undefined) {
       <mat-card-actions>
-        <button color="primary" mat-stroked-button (click)="selectComponent()">Select Component</button>
+        <button color="primary" mat-stroked-button (click)="selectComponent(undefined)">Select Component</button>
       </mat-card-actions>
     }
     @else {
       @for(component of components; track component.id) {
         <mat-card-content>
-          <div class="flex items-center gap-2">
-            <div class="flex-1">{{component.name}}</div>
-            <button color="accent" mat-stroked-button (click)="selectComponent()">Change Component</button>
+          <div class="flex items-center gap-2" style="border: 1px solid rgb(100, 100, 100); margin: 4px 0px; padding: 16px;">
+            <div class="flex" style="width: 15%">
+              <img [src]="component.imageUrl" alt="No Image" style="width: 50%; height: 50%">
+            </div>
+            <div class="flex" style="justify-content: start; flex-grow: 1;">{{component.name}}</div>
+            <div class="flex" style="justify-content: flex-end;">
+              <button class="mr-2" color="accent" mat-stroked-button (click)="selectComponent(component)">Change</button>
+              <button color="warn" mat-stroked-button (click)="removeComponent(component)">Delete</button>
+            </div>
           </div>
         </mat-card-content>
       }
 
       @if(components.length < maxComponents) {
         <mat-card-actions>
-          <button color="primary" mat-stroked-button (click)="selectComponent()">Add Component</button>
+          <button color="primary" mat-stroked-button (click)="selectComponent(undefined)">Add Component</button>
         </mat-card-actions>
       }
     }

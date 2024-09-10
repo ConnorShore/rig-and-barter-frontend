@@ -4,10 +4,10 @@ import { IPCBuild } from "src/app/models/pc-builder/pc-build";
 import { PCBuilderService } from "src/app/services/pc-builder.service";
 
 
-export const pcBuildResolver: ResolveFn<IPCBuild> = (
+export const pcBuildsResolver: ResolveFn<IPCBuild[]> = (
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
     pcBuilderService: PCBuilderService = inject(PCBuilderService)
 ) => {
-    return pcBuilderService.getPCBuild();
+    return pcBuilderService.getPCBuilds();
 }

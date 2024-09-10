@@ -1,0 +1,39 @@
+<div 
+    class="card-container"
+    [style.outline]="isSelected ? '1px solid rgb(213, 113, 49)' : '1px solid rgb(100, 100, 100)'"
+    (click)="setComponent()">
+    <mat-card-header style="margin-bottom: 12px">
+        <mat-card-title style="font-weight: bold;">{{motherboardComponent.name}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="flex items-center gap-2">
+            <div class="flex-1">
+                <img [src]="motherboardComponent.imageUrl" alt="No Image" style="width: 40%; height: 40%">
+            </div>
+            <div class="flex-1">
+                <h2 style="font-weight: bold;">Manufacturer</h2>
+                {{motherboardComponent.manufacturer}}
+            </div>
+            <div class="flex-1">
+                <h2 style="font-weight: bold;">Connector</h2>
+                {{motherboardComponent.connector}}
+            </div>
+            <div class="flex-1">
+                <h2 style="font-weight: bold;">Socket</h2>
+                {{motherboardComponent.socket}}
+            </div>
+            <div class="flex-1">
+                <h2 style="font-weight: bold;">Memory Type</h2>
+                {{motherboardComponent.memoryType}}
+            </div>
+            <div class="flex-1">
+                <h2 style="font-weight: bold;">Memory Capacity</h2>
+                {{motherboardComponent.memoryCapacity}}
+            </div>
+            <div class="flex-1">
+                <h2 style="font-weight: bold;">Memory Slots</h2>
+                {{motherboardComponent.memorySlots}}
+            </div>
+        </div>
+    </mat-card-content>
+</div>

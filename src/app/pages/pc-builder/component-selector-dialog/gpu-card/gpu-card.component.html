@@ -1,0 +1,35 @@
+<div 
+    class="card-container"
+    [style.outline]="isSelected ? '1px solid rgb(213, 113, 49)' : '1px solid rgb(100, 100, 100)'"
+    (click)="setComponent()">
+    <mat-card-header style="margin-bottom: 12px">
+        <mat-card-title style="font-weight: bold;">{{gpuComponent.name}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="flex items-center gap-2">
+            <div class="flex-1">
+                <img [src]="gpuComponent.imageUrl" alt="No Image" style="width: 40%; height: 40%">
+            </div>
+            <div class="flex-1">
+                <h2 style="font-weight: bold;">Manufacturer</h2>
+                {{gpuComponent.manufacturer}}
+            </div>
+            <div class="flex-1">
+                <h2 style="font-weight: bold;">VRAM</h2>
+                {{gpuComponent.vram}} Gb
+            </div>
+            <div class="flex-1">
+                <h2 style="font-weight: bold;">Display Ports</h2>
+                {{gpuComponent.numDisplayPorts}}
+            </div>
+            <div class="flex-1">
+                <h2 style="font-weight: bold;">HDMI Ports</h2>
+                {{gpuComponent.numHDMIs}}
+            </div>
+            <div class="flex-1">
+                <h2 style="font-weight: bold;">Boost Clock Speed</h2>
+                {{gpuComponent.boostClock}} MHz
+            </div>
+        </div>
+    </mat-card-content>
+</div>

@@ -15,6 +15,19 @@ import { ISolidStateDriveComponent } from 'src/app/models/pc-builder/solid-state
 import { IVideoCardComponent } from 'src/app/models/pc-builder/video-card-component';
 import { CaseCardComponent } from './case-card/case-card.component';
 import { ComponentService } from 'src/app/services/component.service';
+import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { TitleCasePipe } from '@angular/common';
+import { CpuCardComponent } from './cpu-card/cpu-card.component';
+import { GpuCardComponent } from './gpu-card/gpu-card.component';
+import { HardDriveCardComponent } from './hard-drive-card/hard-drive-card.component';
+import { SolidStateDriveCardComponent } from './solid-state-drive-card/solid-state-drive-card.component';
+import { MemoryCardComponent } from './memory-card/memory-card.component';
+import { MotherboardCardComponent } from './motherboard-card/motherboard-card.component';
+import { PowerSupplyCardComponent } from './power-supply-card/power-supply-card.component';
 
 export interface IComponentSelectorData {
   category: ComponentCategory;
@@ -35,31 +48,68 @@ export interface IComponentSelectorData {
     MatDialogTitle, 
     MatDialogContent,
     MatCardModule,
+    MatPaginatorModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    TitleCasePipe,
     CaseCardComponent,
-    MatPaginatorModule
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    CpuCardComponent,
+    GpuCardComponent,
+    HardDriveCardComponent,
+    SolidStateDriveCardComponent,
+    MemoryCardComponent,
+    MotherboardCardComponent,
+    PowerSupplyCardComponent
+  ]
 })
 export class ComponentSelectorDialogComponent {
   readonly dialogRef = inject(MatDialogRef);
-  data: IComponentSelectorData = inject(MAT_DIALOG_DATA);
 
-  constructor(private readonly componentService: ComponentService) { }
+  data: IComponentSelectorData = inject(MAT_DIALOG_DATA);
 
   pageSize = 25;
   pageIndex = 0;
   showFirstLastButtons = true;
 
+  searchInputTest = new FormControl('');
+  inputSubject: Subscription;
+
+  searchInput = new Subject<EventTarget | null>();
+  selectedComponent: IComponent;
+
+  constructor(private readonly componentService: ComponentService) {
+    this.inputSubject = this.searchInputTest.valueChanges
+      .pipe(
+        debounceTime(300), // Wait 300ms after each keystroke
+        distinctUntilChanged() // Only trigger if the value has changed
+      )
+      .subscribe(async (searchTerm) => {
+        this.componentService.getPagedComponentsOfCategory(this.data.category, this.pageIndex, this.pageSize, 'name', false, searchTerm as string)
+        .subscribe(pagedComponent => {
+          this.data.numItems = pagedComponent.numItems;
+          this.data.components = pagedComponent.components;
+        });
+      });
+  }
+
   handlePageEvent(event: PageEvent) {
-    console.log('page event: ', event);
-    this.componentService.getPagedComponentsOfCategory(this.data.category, event.pageIndex, event.pageSize, 'name', false)
+    this.componentService.getPagedComponentsOfCategory(this.data.category, event.pageIndex, event.pageSize, 'name', false, this.searchInputTest.value as string)
       .subscribe(pagedComponent => {
-        console.log('pagedComponent: ', pagedComponent);
         this.data.numItems = pagedComponent.numItems;
         this.data.components = pagedComponent.components;
       });
 
     this.pageIndex = event.pageIndex;
+  }
+
+  createComponent(category: ComponentCategory) {
+    console.log('creating manual component');
+  }
+
+  setSelectedComponent(component: IComponent): void {
+    this.selectedComponent = component;
   }
 
   getTypedComponentCase(component: IComponent): ICaseComponent {

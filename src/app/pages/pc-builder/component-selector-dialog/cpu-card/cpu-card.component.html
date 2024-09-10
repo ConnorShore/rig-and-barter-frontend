@@ -1,0 +1,31 @@
+<div 
+    class="card-container"
+    [style.outline]="isSelected ? '1px solid rgb(213, 113, 49)' : '1px solid rgb(100, 100, 100)'"
+    (click)="setComponent()">
+    <mat-card-header style="margin-bottom: 12px">
+        <mat-card-title style="font-weight: bold;">{{cpuComponent.name}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="flex items-center gap-2">
+            <div class="flex-1">
+                <img [src]="cpuComponent.imageUrl" alt="No Image" style="width: 40%; height: 40%">
+            </div>
+            <div class="flex-1">
+                <h2 style="font-weight: bold;">Manufacturer</h2>
+                {{cpuComponent.manufacturer}}
+            </div>
+            <div class="flex-1">
+                <h2 style="font-weight: bold;">Cores</h2>
+                {{cpuComponent.cores}}
+            </div>
+            <div class="flex-1">
+                <h2 style="font-weight: bold;">Base Clock Speed</h2>
+                {{cpuComponent.baseClock}} GHz
+            </div>
+            <div class="flex-1">
+                <h2 style="font-weight: bold;">Turbo Clock Speed</h2>
+                {{cpuComponent.turboClock}} GHz
+            </div>
+        </div>
+    </mat-card-content>
+</div>
