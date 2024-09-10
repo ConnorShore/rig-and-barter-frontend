@@ -16,15 +16,21 @@
             </div>
             <div class="flex-1">
                 <h2 style="font-weight: bold;">Size</h2>
-                {{memoryComponent.size}} Gb
+                @if(memoryComponent.size) {
+                    {{memoryComponent.size}} Gb
+                }
             </div>
             <div class="flex-1">
                 <h2 style="font-weight: bold;">Number of Sticks</h2>
-                {{memoryComponent.numSticks}}
+                @if(memoryComponent.numSticks) {
+                    {{memoryComponent.numSticks}}
+                }
             </div>
             <div class="flex-1">
                 <h2 style="font-weight: bold;">Clock Speed</h2>
-                {{memoryComponent.clockSpeed}} MHz
+                @if(memoryComponent.clockSpeed) {
+                    {{memoryComponent.clockSpeed}} MHz
+                }
             </div>
         </div>
     </mat-card-content>

@@ -24,7 +24,9 @@
             </div>
             <div class="flex-1">
                 <h2 style="font-weight: bold;">Cache Size</h2>
-                {{hddComponent.cacheSize}} Mb
+                @if(hddComponent.cacheSize) {
+                    {{hddComponent.cacheSize}} Mb
+                }
             </div>
         </div>
     </mat-card-content>

@@ -16,15 +16,21 @@
             </div>
             <div class="flex-1">
                 <h2 style="font-weight: bold;">Cores</h2>
-                {{cpuComponent.cores}}
+                @if(cpuComponent.cores) {
+                    {{cpuComponent.cores}}
+                }
             </div>
             <div class="flex-1">
                 <h2 style="font-weight: bold;">Base Clock Speed</h2>
-                {{cpuComponent.baseClock}} GHz
+                @if(cpuComponent.baseClock) {  
+                    {{cpuComponent.baseClock}} GHz
+                }
             </div>
             <div class="flex-1">
                 <h2 style="font-weight: bold;">Turbo Clock Speed</h2>
-                {{cpuComponent.turboClock}} GHz
+                @if(cpuComponent.turboClock) {
+                    {{cpuComponent.turboClock}} GHz
+                }
             </div>
         </div>
     </mat-card-content>
