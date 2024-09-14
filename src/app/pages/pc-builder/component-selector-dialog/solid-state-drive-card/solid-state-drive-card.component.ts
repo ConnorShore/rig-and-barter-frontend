@@ -23,10 +23,14 @@ export class SolidStateDriveCardComponent {
     }
 
     getSizeString(): string {
-        if(this.ssdComponent.size > 1000) {
-            return (this.ssdComponent.size / 1000) + "TB";
+        if(!this.ssdComponent) {
+            return "";
         }
 
-        return this.ssdComponent.size + "GB";
+        if(this.ssdComponent.size > 1000) {
+            return (this.ssdComponent.size / 1000) + " TB";
+        }
+
+        return this.ssdComponent.size + " GB";
     }
 }

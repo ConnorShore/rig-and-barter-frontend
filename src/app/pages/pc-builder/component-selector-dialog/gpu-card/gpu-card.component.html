@@ -16,19 +16,27 @@
             </div>
             <div class="flex-1">
                 <h2 style="font-weight: bold;">VRAM</h2>
-                {{gpuComponent.vram}} Gb
+                @if(gpuComponent.vram) {
+                    {{gpuComponent.vram}} Gb
+                }
             </div>
             <div class="flex-1">
                 <h2 style="font-weight: bold;">Display Ports</h2>
-                {{gpuComponent.numDisplayPorts}}
+                @if(gpuComponent.numDisplayPorts > 0) {
+                    {{gpuComponent.numDisplayPorts}}
+                }
             </div>
             <div class="flex-1">
                 <h2 style="font-weight: bold;">HDMI Ports</h2>
-                {{gpuComponent.numHDMIs}}
+                @if(gpuComponent.numHDMIs > 0) {
+                    {{gpuComponent.numHDMIs}}
+                }
             </div>
             <div class="flex-1">
                 <h2 style="font-weight: bold;">Boost Clock Speed</h2>
-                {{gpuComponent.boostClock}} MHz
+                @if(gpuComponent.boostClock) {
+                    {{gpuComponent.boostClock}} MHz
+                }
             </div>
         </div>
     </mat-card-content>

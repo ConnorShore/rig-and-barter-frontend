@@ -20,11 +20,15 @@
             </div>
             <div class="flex-1">
                 <h2 style="font-weight: bold;">Form Factor</h2>
-                {{ssdComponent.formFactor}}
+                @if(ssdComponent.formFactor) {
+                    {{ssdComponent.formFactor}}
+                }
             </div>
             <div class="flex-1">
                 <h2 style="font-weight: bold;">Connection Protocol</h2>
-                {{ssdComponent.protocol}}
+                @if(ssdComponent.protocol) {
+                    {{ssdComponent.protocol}}
+                }
             </div>
         </div>
     </mat-card-content>

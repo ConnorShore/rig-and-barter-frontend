@@ -16,23 +16,33 @@
             </div>
             <div class="flex-1">
                 <h2 style="font-weight: bold;">Connector</h2>
-                {{motherboardComponent.connector}}
+                @if(motherboardComponent.connector) {
+                    {{motherboardComponent.connector}}
+                }
             </div>
             <div class="flex-1">
                 <h2 style="font-weight: bold;">Socket</h2>
-                {{motherboardComponent.socket}}
+                @if(motherboardComponent.socket) {
+                    {{motherboardComponent.socket}}
+                }
             </div>
             <div class="flex-1">
                 <h2 style="font-weight: bold;">Memory Type</h2>
-                {{motherboardComponent.memoryType}}
+                @if(motherboardComponent.memoryType) {
+                    {{motherboardComponent.memoryType}}
+                }
             </div>
             <div class="flex-1">
                 <h2 style="font-weight: bold;">Memory Capacity</h2>
-                {{motherboardComponent.memoryCapacity}}
+                @if(motherboardComponent.memoryCapacity > 0) {
+                    {{motherboardComponent.memoryCapacity}}
+                }
             </div>
             <div class="flex-1">
                 <h2 style="font-weight: bold;">Memory Slots</h2>
-                {{motherboardComponent.memorySlots}}
+                @if(motherboardComponent.memorySlots > 0) {
+                    {{motherboardComponent.memorySlots}}
+                }
             </div>
         </div>
     </mat-card-content>

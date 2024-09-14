@@ -33,7 +33,7 @@
     </div>
     
     <mat-accordion>
-        <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+        <mat-expansion-panel [expanded]="true" (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
 
             <mat-expansion-panel-header [collapsedHeight]="'64px'" [expandedHeight]="'82px'">
                 <mat-panel-title style="font-size: 24px;">Payment Methods</mat-panel-title>
