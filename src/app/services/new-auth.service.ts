@@ -7,6 +7,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { UserService } from "./user.service";
 import { IUserResponse } from "../models/user-info/user-response";
 import { IKeycloakUser } from "../models/keycloak-user";
+import { IUserRegisterRequest } from "../models/user-register-request";
 
 @Injectable({
     providedIn: 'root'
@@ -16,7 +17,6 @@ export class NewAuthService {
     userData$: Observable<UserDataResult>;
 
     userProfile = new BehaviorSubject<IUserResponse|undefined>(undefined);
-    userProfile$ = this.userProfile.asObservable();
 
     private authenticated: boolean;
     private userData: any;
@@ -31,12 +31,9 @@ export class NewAuthService {
             }
         )
 
-        this.userData$ = this.oidcSecurityService.userData$;
-
         this.oidcSecurityService.userData$.subscribe(
             ({userData}) => {
                 this.userData = userData;
-                console.log('this. user data: ', this.userData);
                 this.fetchCurrentUserInfo();
             }
         )
@@ -48,24 +45,12 @@ export class NewAuthService {
 
     logout() {
         this.oidcSecurityService.logoff().subscribe(ret => {
-                
-                console.log('logged out: ', ret);
+            console.log('logged out: ', ret);
         });
     }
 
-    fetchCurrentUserInfo() {
-        if(this.userData?.sub) {
-            this.userService.getUserById(this.userData?.sub as string).subscribe(user => {
-                console.log('got user profile in sub: ', user);
-                this.userProfile.next(user);
-            });
-        }
-    }
-
-    updateUser() {
-        this.userService.getUserById(this.userData?.sub as string).subscribe(user => {
-            this.userProfile.next(user);
-        });
+    register(userRegisterRequest: IUserRegisterRequest): Observable<IUserResponse> {
+        return this.userService.registerUser(userRegisterRequest);
     }
 
     isAuthenticated(): boolean {
@@ -77,5 +62,17 @@ export class NewAuthService {
             return this.userData;
 
         return undefined;
+    }
+
+    private fetchCurrentUserInfo() {
+        if(this.userData?.sub) {
+            this.updateUser();
+        }
+    }
+
+    private updateUser() {
+        this.userService.getUserById(this.userData?.sub as string).subscribe(user => {
+            this.userProfile.next(user);
+        });
     }
 }

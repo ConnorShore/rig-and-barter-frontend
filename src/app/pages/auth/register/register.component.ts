@@ -14,7 +14,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { AuthService } from 'src/app/services/auth.service';
 import { IUserRegisterRequest } from 'src/app/models/user-register-request';
 import { NewAuthService } from 'src/app/services/new-auth.service';
 
@@ -36,7 +35,7 @@ import { NewAuthService } from 'src/app/services/new-auth.service';
     RouterLink
   ],
   providers: [
-    AuthService
+    NewAuthService
   ]
 })
 export class RegisterComponent {
@@ -54,7 +53,6 @@ export class RegisterComponent {
   constructor(
     private readonly fb: UntypedFormBuilder,
     private readonly cd: ChangeDetectorRef,
-    private readonly authService: AuthService,
     private readonly newAuthService: NewAuthService
   ) { }
 
@@ -72,8 +70,7 @@ export class RegisterComponent {
     };
 
     console.log('userRegisterRequest: ', userRegisterRequest);
-    this.authService.register(userRegisterRequest).subscribe((userProfile) => {
-      // this.authService.login();
+    this.newAuthService.register(userRegisterRequest).subscribe((userProfile) => {
       this.newAuthService.login();
     });
   }
@@ -97,9 +94,7 @@ export class RegisterComponent {
     return this.form.value.password === this.form.value.passwordConfirm;
   }
 
-
   navigateToLogin() {
     this.newAuthService.login();
-    // this.authService.login();
   }
 }

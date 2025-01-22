@@ -14,9 +14,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { AuthService } from 'src/app/services/auth.service';
-import { KeycloakProfile } from 'keycloak-js';
 import { NewAuthService } from 'src/app/services/new-auth.service';
+import { IKeycloakUser } from 'src/app/models/keycloak-user';
+import { IUserResponse } from 'src/app/models/user-info/user-response';
 
 export interface OnlineStatus {
   id: 'online' | 'away' | 'dnd' | 'offline';
@@ -106,21 +106,24 @@ export class ToolbarUserDropdownComponent implements OnInit {
     }
   ];
 
+  currentUser: IUserResponse | undefined;
+
   activeStatus: OnlineStatus = this.statuses[0];
-  
-  currentUser = this.newAuthService.getCurrentKeycloakUser();
-  // currentUser = this.authService.getCurrentKeycloakUser();
 
   trackById = trackById;
 
   constructor(
     private cd: ChangeDetectorRef,
     private popoverRef: VexPopoverRef<ToolbarUserDropdownComponent>,
-    private authService: AuthService,
     private newAuthService: NewAuthService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.newAuthService.userProfile.subscribe((user) => {
+      this.currentUser = user;
+      this.cd.markForCheck();
+    });
+  }
 
   setStatus(status: OnlineStatus) {
     this.activeStatus = status;
@@ -129,10 +132,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
 
   logoutUser() {
     this.newAuthService.logout();
-    // this.authService.logout();
     this.close();
-
-    // TODO: Route to home page
   }
 
   close() {

@@ -6,8 +6,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IListing } from 'src/app/models/listing';
 import { ITransactionRequest } from 'src/app/models/transaction-request';
-import { AuthService } from 'src/app/services/auth.service';
+import { IUserResponse } from 'src/app/models/user-info/user-response';
 import { ListingService } from 'src/app/services/listing.service';
+import { NewAuthService } from 'src/app/services/new-auth.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { CarouselComponent } from 'src/app/shared/components/carousel/carousel.component';
@@ -26,9 +27,9 @@ import { DeleteConfirmationDialogComponent } from 'src/app/shared/components/del
   ],
   providers: [
     TransactionService,
-    AuthService,
     TransactionService,
-    ListingService
+    ListingService,
+    NewAuthService
   ],
   templateUrl: './view-listing.component.html',
   styleUrl: './view-listing.component.scss'
@@ -36,29 +37,33 @@ import { DeleteConfirmationDialogComponent } from 'src/app/shared/components/del
 export class ViewListingComponent implements OnInit {
 
   listing: IListing;
-  currentUser = this.authService.getCurrentKeycloakUser();
+  currentUser: IUserResponse | undefined;
   
-  constructor(private activatedRoute: ActivatedRoute, 
-    private readonly authService: AuthService,
+  constructor(private activatedRoute: ActivatedRoute,
     private readonly transactionService: TransactionService,
     private readonly notificationService: NotificationService,
     private readonly listingService: ListingService,
     private readonly deleteDialog: MatDialog,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly newAuthService: NewAuthService
   ) { }
 
   ngOnInit() {
     console.log('this.activatedRoute.data: ', this.activatedRoute.data);
+    this.newAuthService.userProfile.subscribe(user => {
+        this.currentUser = user;
+    });
+    
     this.activatedRoute.data.subscribe(({listing}) => {
       this.listing = listing;
-      this.currentUser = this.authService.getCurrentKeycloakUser();
     });
+
   }
 
   createTransaction() {
     const transactionRequest: ITransactionRequest = {
       listingId: this.listing.id,
-      buyerId: this.currentUser.id as string,
+      buyerId: this.currentUser?.id as string,
       sellerId: this.listing.userId,
       title: this.listing.title + ' - Transaction'
     };

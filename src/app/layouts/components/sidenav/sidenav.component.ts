@@ -4,7 +4,6 @@ import { VexLayoutService } from '@vex/services/vex-layout.service';
 import { VexConfigService } from '@vex/config/vex-config.service';
 import { map } from 'rxjs/operators';
 import { NavigationItem } from '../../../core/navigation/navigation-item.interface';
-import { VexPopoverService } from '@vex/components/vex-popover/vex-popover.service';
 import { Observable, of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { SearchModalComponent } from './search-modal/search-modal.component';
@@ -14,7 +13,8 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { AuthService } from 'src/app/services/auth.service';
+import { IUserResponse } from 'src/app/models/user-info/user-response';
+import { NewAuthService } from 'src/app/services/new-auth.service';
 
 @Component({
   selector: 'vex-sidenav',
@@ -55,19 +55,18 @@ export class SidenavComponent implements OnInit {
 
   items$: Observable<NavigationItem[]> = this.navigationService.items$;
 
-  user: any;
+  user: IUserResponse | undefined;
 
   constructor(
     private navigationService: NavigationService,
     private layoutService: VexLayoutService,
     private configService: VexConfigService,
     private readonly dialog: MatDialog,
-    private readonly authService: AuthService
+    private readonly newAuthService: NewAuthService
   ) {}
 
   ngOnInit() {
-    this.user = this.authService.getCurrentKeycloakUser();
-    this.authService.userProfile$.subscribe((user) => {
+    this.newAuthService.userProfile.subscribe((user) => {
       this.user = user;
     });
   }

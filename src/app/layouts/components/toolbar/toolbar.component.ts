@@ -26,7 +26,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { NavigationItem } from '../../../core/navigation/navigation-item.interface';
 import { checkRouterChildsData } from '@vex/utils/check-router-childs-data';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AuthService } from 'src/app/services/auth.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CreateListingComponent } from 'src/app/pages/listings/create-listing/create-listing.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -35,9 +34,7 @@ import { IFrontEndNotification } from 'src/app/models/notification/front-end-not
 import { IListing } from 'src/app/models/listing';
 import { NotificationHandlerService } from 'src/app/services/notification-handler.service';
 import { IUserResponse } from 'src/app/models/user-info/user-response';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { NewAuthService } from 'src/app/services/new-auth.service';
-import { IKeycloakUser } from 'src/app/models/keycloak-user';
 
 @Component({
   selector: 'vex-toolbar',
@@ -105,17 +102,15 @@ export class ToolbarComponent implements OnInit {
     private readonly layoutService: VexLayoutService,
     private readonly configService: VexConfigService,
     private readonly navigationService: NavigationService,
-    private readonly authService: AuthService,
     private readonly router: Router,
     private readonly dialog: MatDialog,
     private readonly notificationService: NotificationService,
-    private readonly newAuthService : NewAuthService,
-    private cd: ChangeDetectorRef
+    private readonly newAuthService : NewAuthService
   ) {}
 
   ngOnInit() {
-    this.newAuthService.userProfile$.subscribe((user) => {
-      this.userProfile = user;
+    this.newAuthService.userProfile.subscribe(user => {
+        this.userProfile = user;
     });
 
     this.router.events
@@ -131,7 +126,7 @@ export class ToolbarComponent implements OnInit {
         );
       });
 
-      if(this.authService.isLoggedIn()) {
+      if(this.newAuthService.isAuthenticated()) {
         this.notificationService.getAllNotificationsForUser().subscribe((notifications: IFrontEndNotification[]) => {
           this.userNotifications = notifications.reverse();
         });
