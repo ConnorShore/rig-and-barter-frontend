@@ -3,13 +3,20 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
-  OnInit
+  OnChanges,
+  OnInit,
+  SimpleChanges
 } from '@angular/core';
 import { VexPopoverService } from '@vex/components/vex-popover/vex-popover.service';
 import { ToolbarUserDropdownComponent } from './toolbar-user-dropdown/toolbar-user-dropdown.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
 import { KeycloakProfile } from 'keycloak-js';
+import { UserDataResult } from 'angular-auth-oidc-client';
+import { IKeycloakUser } from 'src/app/models/keycloak-user';
+import { UserInfo } from 'os';
+import { IUserResponse } from 'src/app/models/user-info/user-response';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'vex-toolbar-user',
@@ -20,14 +27,22 @@ import { KeycloakProfile } from 'keycloak-js';
 })
 export class ToolbarUserComponent implements OnInit {
   dropdownOpen: boolean = false;
-  @Input() currentUser: KeycloakProfile;
+
+  // @Input() userProfile$: Observable<IUserResponse | undefined> | undefined;
+  @Input() userProfile: IUserResponse | undefined;
 
   constructor(
     private popover: VexPopoverService,
     private cd: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {
+      // this.userProfile$?.subscribe(user => {
+      //   this.userProfile = user;
+      //   this.cd.markForCheck();
+      //   console.log('user profile in user toolbar set: ', this.userProfile);
+      // });
+  }
 
   showPopover(originRef: HTMLElement) {
     this.dropdownOpen = true;

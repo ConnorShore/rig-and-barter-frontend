@@ -6,7 +6,7 @@
   matRipple>
   <div
     class="body-1 font-medium leading-snug ltr:mr-3 rtl:ml-3 hidden sm:block">
-    {{ currentUser.firstName + ' ' + currentUser.lastName }}
+    {{ userProfile?.basicInfo?.firstName }} {{ userProfile?.basicInfo?.lastName }}
   </div>
   <div
     class="rounded-full h-9 w-9 flex items-center justify-center text-primary-600 bg-primary-600/10">

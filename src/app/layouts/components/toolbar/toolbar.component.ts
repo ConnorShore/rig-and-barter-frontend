@@ -1,4 +1,6 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   DestroyRef,
   EventEmitter,
@@ -35,6 +37,7 @@ import { NotificationHandlerService } from 'src/app/services/notification-handle
 import { IUserResponse } from 'src/app/models/user-info/user-response';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { NewAuthService } from 'src/app/services/new-auth.service';
+import { IKeycloakUser } from 'src/app/models/keycloak-user';
 
 @Component({
   selector: 'vex-toolbar',
@@ -92,11 +95,7 @@ export class ToolbarComponent implements OnInit {
   isDesktop$: Observable<boolean> = this.layoutService.isDesktop$;
   megaMenuOpen$: Observable<boolean> = of(false);
 
-  isUserLoggedIn = this.authService.isLoggedIn();
-  loggedInUser = this.authService.getCurrentKeycloakUser();
-
   userProfile: IUserResponse | undefined;
-  newUserProfile: any;
 
   userNotifications: IFrontEndNotification[] = [];
 
@@ -110,20 +109,15 @@ export class ToolbarComponent implements OnInit {
     private readonly router: Router,
     private readonly dialog: MatDialog,
     private readonly notificationService: NotificationService,
-    private readonly newAuthService : NewAuthService
-  ) {
-    this.loggedInUser = this.authService.getCurrentKeycloakUser();
-    this.authService.userProfile$.subscribe((user) => {
+    private readonly newAuthService : NewAuthService,
+    private cd: ChangeDetectorRef
+  ) {}
+
+  ngOnInit() {
+    this.newAuthService.userProfile$.subscribe((user) => {
       this.userProfile = user;
     });
 
-    this.newAuthService.userData$.subscribe((userData) => {
-      console.log('userData in toolbar: ', userData);
-      this.newUserProfile = userData;
-    });
-  }
-
-  ngOnInit() {
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
