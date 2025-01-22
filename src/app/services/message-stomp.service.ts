@@ -9,7 +9,7 @@ import { IMessageResponse } from "../models/message/message-response";
     providedIn: 'root'
 })
 export class MessageStompService {
-    msocket = new SockJs('http://localhost:8080/msocket');
+    msocket = new SockJs('http://localhost:9000/msocket');
     messageStompClient = Stomp.over(this.msocket);
 
     connect(): void {

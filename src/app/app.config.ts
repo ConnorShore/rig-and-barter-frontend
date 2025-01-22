@@ -6,7 +6,8 @@ import {
   HTTP_INTERCEPTORS,
   withFetch,
   provideHttpClient,
-  withInterceptorsFromDi
+  withInterceptorsFromDi,
+  withInterceptors
 } from '@angular/common/http';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -27,24 +28,29 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { provideNgxStripe } from 'ngx-stripe';
 import { environment } from '../environments/environment';
 import e from 'express';
+import { authInterceptor } from './shared/auth.interceptor';
+import { provideAuth } from 'angular-auth-oidc-client';
+import { authConfig } from 'src/config/auth.config';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideClientHydration(),
     provideAnimationsAsync(),
-    KeycloakAngularModule,
+    // KeycloakAngularModule,
     KeycloakService,
-    KeycloakBearerInterceptor,
+    // KeycloakBearerInterceptor,
     provideHttpClient(
       withFetch(),
-      withInterceptorsFromDi()
+      withInterceptors([authInterceptor])
+      // withInterceptorsFromDi()
     ),
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeKeycloak,
-      multi: true,
-      deps: [KeycloakService]
-    },
+    provideAuth(authConfig),
+    // {
+    //   provide: APP_INITIALIZER,
+    //   useFactory: initializeKeycloak,
+    //   multi: true,
+    //   deps: [KeycloakService]
+    // },
     {
       provide: APP_INITIALIZER,
       useFactory: loadConfigFile,
@@ -144,22 +150,22 @@ function loadConfigFile(configService: ConfigurationService) {
   return () => configService.loadConfigurationFile();
 }
 
-function initializeKeycloak(keycloak: KeycloakService) {
-  return () =>
-    keycloak.init({
-      config: {
-        url: 'http://localhost:8180',
-        realm: 'rig-and-barter-realm',
-        clientId: 'rig-and-barter-client'
-      },
-      initOptions: {
-        onLoad: 'check-sso',
-        pkceMethod: 'S256',
-        // silentCheckSsoRedirectUri:
-        //   window.location.origin + '/assets/silent-check-sso.html'
-      },
-      enableBearerInterceptor: true,
-      bearerPrefix: 'Bearer',
-      bearerExcludedUrls: ['/assets', '/clients/public']
-    });
-}
+// function initializeKeycloak(keycloak: KeycloakService) {
+//   return () =>
+//     keycloak.init({
+//       config: {
+//         url: 'http://localhost:8180',
+//         realm: 'rig-and-barter-realm',
+//         clientId: 'angular-client'
+//       },
+//       initOptions: {
+//         onLoad: 'check-sso',
+//         pkceMethod: 'S256',
+//         silentCheckSsoRedirectUri:
+//           window.location.origin + '/assets/silent-check-sso.html'
+//       },
+//       enableBearerInterceptor: true,
+//       bearerPrefix: 'Bearer',
+//       bearerExcludedUrls: ['/assets', '/clients/public']
+//     });
+// }

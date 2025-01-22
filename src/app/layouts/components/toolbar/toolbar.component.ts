@@ -33,6 +33,8 @@ import { IFrontEndNotification } from 'src/app/models/notification/front-end-not
 import { IListing } from 'src/app/models/listing';
 import { NotificationHandlerService } from 'src/app/services/notification-handler.service';
 import { IUserResponse } from 'src/app/models/user-info/user-response';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { NewAuthService } from 'src/app/services/new-auth.service';
 
 @Component({
   selector: 'vex-toolbar',
@@ -94,6 +96,7 @@ export class ToolbarComponent implements OnInit {
   loggedInUser = this.authService.getCurrentKeycloakUser();
 
   userProfile: IUserResponse | undefined;
+  newUserProfile: any;
 
   userNotifications: IFrontEndNotification[] = [];
 
@@ -106,11 +109,17 @@ export class ToolbarComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly router: Router,
     private readonly dialog: MatDialog,
-    private readonly notificationService: NotificationService
+    private readonly notificationService: NotificationService,
+    private readonly newAuthService : NewAuthService
   ) {
     this.loggedInUser = this.authService.getCurrentKeycloakUser();
     this.authService.userProfile$.subscribe((user) => {
       this.userProfile = user;
+    });
+
+    this.newAuthService.userData$.subscribe((userData) => {
+      console.log('userData in toolbar: ', userData);
+      this.newUserProfile = userData;
     });
   }
 
@@ -148,7 +157,8 @@ export class ToolbarComponent implements OnInit {
   }
 
   loginUser() {
-    this.authService.login();
+    // this.authService.login();
+    this.newAuthService.login();
   }
 
   registerUser() {

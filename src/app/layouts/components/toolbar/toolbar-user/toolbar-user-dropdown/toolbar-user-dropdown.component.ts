@@ -16,6 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from 'src/app/services/auth.service';
 import { KeycloakProfile } from 'keycloak-js';
+import { NewAuthService } from 'src/app/services/new-auth.service';
 
 export interface OnlineStatus {
   id: 'online' | 'away' | 'dnd' | 'offline';
@@ -114,7 +115,8 @@ export class ToolbarUserDropdownComponent implements OnInit {
   constructor(
     private cd: ChangeDetectorRef,
     private popoverRef: VexPopoverRef<ToolbarUserDropdownComponent>,
-    private authService: AuthService
+    private authService: AuthService,
+    private newAuthService: NewAuthService
   ) {}
 
   ngOnInit() {}
@@ -125,7 +127,8 @@ export class ToolbarUserDropdownComponent implements OnInit {
   }
 
   logoutUser() {
-    this.authService.logout();
+    this.newAuthService.logout();
+    // this.authService.logout();
     this.close();
 
     // TODO: Route to home page
