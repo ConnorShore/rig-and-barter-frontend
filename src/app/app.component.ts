@@ -3,11 +3,10 @@ import { RouterOutlet } from '@angular/router';
 import { NotificationStompService } from './services/notification-stomp.service';
 import { NotificationHandlerService } from './services/notification-handler.service';
 import { FrontEndNotificationType, IFrontEndNotification } from './models/notification/front-end-notification';
-import { AuthService } from './services/auth.service';
 import { MessageStompService } from './services/message-stomp.service';
 import { IMessageResponse } from './models/message/message-response';
-import { DateTime } from 'luxon';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { NewAuthService } from './services/new-auth.service';
 
 @Component({
   selector: 'rb-root',
@@ -23,7 +22,7 @@ export class AppComponent implements OnInit {
               private notificationHandlerService: NotificationHandlerService,
               private notificationStompService: NotificationStompService,
               private messageStompService: MessageStompService,
-              private authService: AuthService,
+              private newAuthService: NewAuthService,
               private oidcSecurityService: OidcSecurityService) { }
 
   ngOnInit(): void {
@@ -33,32 +32,28 @@ export class AppComponent implements OnInit {
             console.log('app authenticated', isAuthenticated);
       })
 
-    /**
-     * TODO: Move endpoint to config value
-     */
-    // this.stompService.subscribe((notification: IFrontEndNotification) => {
-    //   console.log('got a message from notification topic: ', notification);
-    //   if(this.authService.isLoggedIn() && notification.targetUser === this.authService.getCurrentKeycloakUser().id)
-    //     this.notificationHandlerService.handleFrontEndNotification(notification);
-    // });
+    this.stompService.subscribe((notification: IFrontEndNotification) => {
+      if(this.newAuthService.isAuthenticated() && notification.targetUser === this.newAuthService.getCurrentKeycloakUser()?.sub)
+        this.notificationHandlerService.handleFrontEndNotification(notification);
+    });
 
-    // this.messageStompService.subscribe('message', (message: IMessageResponse) => {
-    //   console.log('windows path name: ', window.location.pathname);
-    //   if(window.location.pathname !== '/messages/' + message.groupId) {
-    //     let frontEndNotifcation: IFrontEndNotification = {
-    //       id: this.generateGuid(),
-    //       targetUser: message.receiverId,
-    //       title: 'New message recieved',
-    //       body: 'New message in ' + message.groupName,
-    //       actionUrl: '/messages/' + message.groupId,
-    //       creationDate: undefined,  // set in backend
-    //       seenByUser: false,
-    //       notificationType: FrontEndNotificationType.INFO
-    //     };
+    this.messageStompService.subscribe('message', (message: IMessageResponse) => {
+      console.log('windows path name: ', window.location.pathname);
+      if(window.location.pathname !== '/messages/' + message.groupId) {
+        let frontEndNotifcation: IFrontEndNotification = {
+          id: this.generateGuid(),
+          targetUser: message.receiverId,
+          title: 'New message recieved',
+          body: 'New message in ' + message.groupName,
+          actionUrl: '/messages/' + message.groupId,
+          creationDate: undefined,  // set in backend
+          seenByUser: false,
+          notificationType: FrontEndNotificationType.INFO
+        };
 
-    //     this.notificationStompService.sendMessage('notification', frontEndNotifcation);
-    //   }
-    // });
+        this.notificationStompService.sendMessage('notification', frontEndNotifcation);
+      }
+    });
   }
 
   private generateGuid() : string {

@@ -15,6 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { IUserResponse } from 'src/app/models/user-info/user-response';
 import { NewAuthService } from 'src/app/services/new-auth.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'vex-sidenav',
@@ -29,7 +30,8 @@ import { NewAuthService } from 'src/app/services/new-auth.service';
     VexScrollbarComponent,
     NgFor,
     SidenavItemComponent,
-    AsyncPipe
+    AsyncPipe,
+    RouterLink,
   ]
 })
 export class SidenavComponent implements OnInit {
@@ -63,7 +65,7 @@ export class SidenavComponent implements OnInit {
     private configService: VexConfigService,
     private readonly dialog: MatDialog,
     private readonly newAuthService: NewAuthService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.newAuthService.userProfile.subscribe((user) => {
