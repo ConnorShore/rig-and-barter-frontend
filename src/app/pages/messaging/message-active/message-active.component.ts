@@ -15,7 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 import { IMessageRequest } from 'src/app/models/message/message-request';
 import { MessageStompService } from 'src/app/services/message-stomp.service';
 import { IKeycloakUser } from 'src/app/models/keycloak-user';
-import { NewAuthService } from 'src/app/services/new-auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'rb-message-active',
@@ -32,7 +32,7 @@ import { NewAuthService } from 'src/app/services/new-auth.service';
     MessageBubbleComponent,
   ],
   providers: [
-    NewAuthService
+    AuthService
   ],
   templateUrl: './message-active.component.html',
   styleUrl: './message-active.component.scss',
@@ -53,7 +53,7 @@ export class MessageActiveComponent implements OnInit, AfterViewInit{
   private scrollContainer: HTMLDivElement;
   
   constructor(
-    private readonly newAuthService: NewAuthService,
+    private readonly authService: AuthService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly stompService: MessageStompService,
     private readonly ref: ChangeDetectorRef
@@ -63,7 +63,7 @@ export class MessageActiveComponent implements OnInit, AfterViewInit{
     this.ref.detectChanges();
     
     this.activatedRoute.data.subscribe(({messageGroup}) => {
-      this.user = this.newAuthService.getCurrentKeycloakUser();
+      this.user = this.authService.getCurrentKeycloakUser();
       this.messageGroup = messageGroup;
 
       this.onMessageRecieved = this.onMessageRecieved.bind(this);

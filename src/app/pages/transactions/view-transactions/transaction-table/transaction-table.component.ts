@@ -17,6 +17,7 @@ import { TransactionService } from 'src/app/services/transaction.service';
 @Component({
   selector: 'rb-transaction-table',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     DatePipe,
     MatListModule,

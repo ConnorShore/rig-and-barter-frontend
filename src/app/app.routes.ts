@@ -1,10 +1,10 @@
 import { LayoutComponent } from './layouts/layout/layout.component';
 import { VexRoutes } from '@vex/interfaces/vex-route.interface';
 import { UserProfileComponent } from './pages/user-profile/user-profile.component';
-import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
 import { userProfileResolver } from './pages/user-profile/resolvers/user-profile.resolver';
 import { RegisterComponent } from './pages/auth/register/register.component';
+import { AuthService } from './services/auth.service';
 
 export const appRoutes: VexRoutes = [
   {
@@ -20,7 +20,7 @@ export const appRoutes: VexRoutes = [
         path: 'register',
         component: RegisterComponent,
         providers: [
-            AuthService
+          AuthService
         ]
       },
       {

@@ -6,7 +6,7 @@ import { FrontEndNotificationType, IFrontEndNotification } from './models/notifi
 import { MessageStompService } from './services/message-stomp.service';
 import { IMessageResponse } from './models/message/message-response';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { NewAuthService } from './services/new-auth.service';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'rb-root',
@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
               private notificationHandlerService: NotificationHandlerService,
               private notificationStompService: NotificationStompService,
               private messageStompService: MessageStompService,
-              private newAuthService: NewAuthService,
+              private authService: AuthService,
               private oidcSecurityService: OidcSecurityService) { }
 
   ngOnInit(): void {
@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
       })
 
     this.stompService.subscribe((notification: IFrontEndNotification) => {
-      if(this.newAuthService.isAuthenticated() && notification.targetUser === this.newAuthService.getCurrentKeycloakUser()?.sub)
+      if(this.authService.isAuthenticated() && notification.targetUser === this.authService.getCurrentKeycloakUser()?.sub)
         this.notificationHandlerService.handleFrontEndNotification(notification);
     });
 

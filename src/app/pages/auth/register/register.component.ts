@@ -15,7 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { IUserRegisterRequest } from 'src/app/models/user-register-request';
-import { NewAuthService } from 'src/app/services/new-auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'rb-register',
@@ -35,7 +35,7 @@ import { NewAuthService } from 'src/app/services/new-auth.service';
     RouterLink
   ],
   providers: [
-    NewAuthService
+    AuthService
   ]
 })
 export class RegisterComponent {
@@ -53,7 +53,7 @@ export class RegisterComponent {
   constructor(
     private readonly fb: UntypedFormBuilder,
     private readonly cd: ChangeDetectorRef,
-    private readonly newAuthService: NewAuthService
+    private readonly authService: AuthService
   ) { }
 
   registerUser() {
@@ -70,8 +70,8 @@ export class RegisterComponent {
     };
 
     console.log('userRegisterRequest: ', userRegisterRequest);
-    this.newAuthService.register(userRegisterRequest).subscribe((userProfile) => {
-      this.newAuthService.login();
+    this.authService.register(userRegisterRequest).subscribe((userProfile) => {
+      this.authService.login();
     });
   }
 
@@ -95,6 +95,6 @@ export class RegisterComponent {
   }
 
   navigateToLogin() {
-    this.newAuthService.login();
+    this.authService.login();
   }
 }

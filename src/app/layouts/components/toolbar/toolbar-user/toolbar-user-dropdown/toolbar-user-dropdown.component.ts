@@ -14,7 +14,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { NewAuthService } from 'src/app/services/new-auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { IKeycloakUser } from 'src/app/models/keycloak-user';
 import { IUserResponse } from 'src/app/models/user-info/user-response';
 
@@ -115,11 +115,11 @@ export class ToolbarUserDropdownComponent implements OnInit {
   constructor(
     private cd: ChangeDetectorRef,
     private popoverRef: VexPopoverRef<ToolbarUserDropdownComponent>,
-    private newAuthService: NewAuthService
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
-    this.newAuthService.userProfile.subscribe((user) => {
+    this.authService.userProfile.subscribe((user) => {
       this.currentUser = user;
       this.cd.markForCheck();
     });
@@ -131,7 +131,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
   }
 
   logoutUser() {
-    this.newAuthService.logout();
+    this.authService.logout();
     this.close();
   }
 

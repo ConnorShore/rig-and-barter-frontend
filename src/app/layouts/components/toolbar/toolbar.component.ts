@@ -34,7 +34,7 @@ import { IFrontEndNotification } from 'src/app/models/notification/front-end-not
 import { IListing } from 'src/app/models/listing';
 import { NotificationHandlerService } from 'src/app/services/notification-handler.service';
 import { IUserResponse } from 'src/app/models/user-info/user-response';
-import { NewAuthService } from 'src/app/services/new-auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'vex-toolbar',
@@ -105,11 +105,11 @@ export class ToolbarComponent implements OnInit {
     private readonly router: Router,
     private readonly dialog: MatDialog,
     private readonly notificationService: NotificationService,
-    private readonly newAuthService : NewAuthService
+    private readonly authService : AuthService
   ) {}
 
   ngOnInit() {
-    this.newAuthService.userProfile.subscribe(user => {
+    this.authService.userProfile.subscribe(user => {
         this.userProfile = user;
     });
 
@@ -126,7 +126,7 @@ export class ToolbarComponent implements OnInit {
         );
       });
 
-      if(this.newAuthService.isAuthenticated()) {
+      if(this.authService.isAuthenticated()) {
         this.notificationService.getAllNotificationsForUser().subscribe((notifications: IFrontEndNotification[]) => {
           this.userNotifications = notifications.reverse();
         });
@@ -146,7 +146,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   loginUser() {
-    this.newAuthService.login();
+    this.authService.login();
   }
 
   registerUser() {

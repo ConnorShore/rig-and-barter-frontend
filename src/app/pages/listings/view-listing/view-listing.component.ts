@@ -8,7 +8,7 @@ import { IListing } from 'src/app/models/listing';
 import { ITransactionRequest } from 'src/app/models/transaction-request';
 import { IUserResponse } from 'src/app/models/user-info/user-response';
 import { ListingService } from 'src/app/services/listing.service';
-import { NewAuthService } from 'src/app/services/new-auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { CarouselComponent } from 'src/app/shared/components/carousel/carousel.component';
@@ -29,7 +29,7 @@ import { DeleteConfirmationDialogComponent } from 'src/app/shared/components/del
     TransactionService,
     TransactionService,
     ListingService,
-    NewAuthService
+    AuthService
   ],
   templateUrl: './view-listing.component.html',
   styleUrl: './view-listing.component.scss'
@@ -45,12 +45,12 @@ export class ViewListingComponent implements OnInit {
     private readonly listingService: ListingService,
     private readonly deleteDialog: MatDialog,
     private readonly router: Router,
-    private readonly newAuthService: NewAuthService
+    private readonly authService: AuthService
   ) { }
 
   ngOnInit() {
     console.log('this.activatedRoute.data: ', this.activatedRoute.data);
-    this.newAuthService.userProfile.subscribe(user => {
+    this.authService.userProfile.subscribe(user => {
         this.currentUser = user;
     });
     

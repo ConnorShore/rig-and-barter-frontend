@@ -14,7 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { IUserResponse } from 'src/app/models/user-info/user-response';
-import { NewAuthService } from 'src/app/services/new-auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -64,11 +64,11 @@ export class SidenavComponent implements OnInit {
     private layoutService: VexLayoutService,
     private configService: VexConfigService,
     private readonly dialog: MatDialog,
-    private readonly newAuthService: NewAuthService
+    private readonly authService: AuthService
   ) { }
 
   ngOnInit() {
-    this.newAuthService.userProfile.subscribe((user) => {
+    this.authService.userProfile.subscribe((user) => {
       this.user = user;
     });
   }
