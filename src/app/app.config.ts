@@ -45,12 +45,6 @@ export const appConfig: ApplicationConfig = {
       // withInterceptorsFromDi()
     ),
     provideAuth(authConfig),
-    // {
-    //   provide: APP_INITIALIZER,
-    //   useFactory: initializeKeycloak,
-    //   multi: true,
-    //   deps: [KeycloakService]
-    // },
     {
       provide: APP_INITIALIZER,
       useFactory: loadConfigFile,
@@ -145,27 +139,6 @@ export const appConfig: ApplicationConfig = {
   ]
 };
 
-
 function loadConfigFile(configService: ConfigurationService) {
   return () => configService.loadConfigurationFile();
 }
-
-// function initializeKeycloak(keycloak: KeycloakService) {
-//   return () =>
-//     keycloak.init({
-//       config: {
-//         url: 'http://localhost:8180',
-//         realm: 'rig-and-barter-realm',
-//         clientId: 'angular-client'
-//       },
-//       initOptions: {
-//         onLoad: 'check-sso',
-//         pkceMethod: 'S256',
-//         silentCheckSsoRedirectUri:
-//           window.location.origin + '/assets/silent-check-sso.html'
-//       },
-//       enableBearerInterceptor: true,
-//       bearerPrefix: 'Bearer',
-//       bearerExcludedUrls: ['/assets', '/clients/public']
-//     });
-// }
