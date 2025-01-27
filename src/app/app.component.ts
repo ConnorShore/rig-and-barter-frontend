@@ -7,6 +7,7 @@ import { MessageStompService } from './services/message-stomp.service';
 import { IMessageResponse } from './models/message/message-response';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { AuthService } from './services/auth.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'rb-root',
@@ -26,6 +27,7 @@ export class AppComponent implements OnInit {
               private oidcSecurityService: OidcSecurityService) { }
 
   ngOnInit(): void {
+    
     this.oidcSecurityService
       .checkAuth()
           .subscribe(({isAuthenticated}) => {
@@ -54,6 +56,7 @@ export class AppComponent implements OnInit {
         this.notificationStompService.sendMessage('notification', frontEndNotifcation);
       }
     });
+    console.log("Keycloak Base URL: " + environment.keycloakHost);
   }
 
   private generateGuid() : string {

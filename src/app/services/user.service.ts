@@ -2,12 +2,11 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
 import { IUserRegisterRequest } from "../models/user-register-request";
-import { createBackendRequest } from "../shared/http.utils";
-import { ConfigurationService } from "./configuration.service";
 import { IUserResponse } from "../models/user-info/user-response";
 import { IUserBasicInfoRequest } from "../models/user-info/user-basic-info-request";
 import { IUserBasicInfoResponse } from "../models/user-info/user-basic-info-response";
 import { Observable } from "rxjs";
+import { environment } from "src/environments/environment";
 
 
 @Injectable({
@@ -15,21 +14,21 @@ import { Observable } from "rxjs";
 })
 export class UserService {
 
-    constructor(private httpClient: HttpClient, private configService: ConfigurationService) { }
+    constructor(private httpClient: HttpClient) { }
 
     registerUser(userRegisterRequest: IUserRegisterRequest) {
-        let url = createBackendRequest(this.configService.apiGatewayUrl, 'api/user');
+        let url = `${environment.apiGateway}/api/user`;
         return this.httpClient.post<IUserResponse>(url, userRegisterRequest);
     }
 
     getUserById(userId: string): Observable<IUserResponse> {
-        let url = createBackendRequest(this.configService.apiGatewayUrl, `api/user/${userId}`);
+        let url = `${environment.apiGateway}/api/user/${userId}`;
         console.log('user called url: ', url);
         return this.httpClient.get<IUserResponse>(url);
     }
 
     updateUser(userId: string): Observable<IUserResponse> {
-        let url = createBackendRequest(this.configService.apiGatewayUrl, `api/user/${userId}` + "?random="+new Date().getTime() );
+        let url = `${environment.apiGateway}/api/user/${userId}?random=${new Date().getTime()}`;
         console.log('updating user: ', url);
         return this.httpClient.get<IUserResponse>(url, {
             headers: {
@@ -48,7 +47,7 @@ export class UserService {
             formData.append('profilePic', new Blob([]), 'empty');
         
         return this.httpClient.post<IUserBasicInfoResponse>(
-            createBackendRequest(this.configService.apiGatewayUrl, `api/user/${userId}/info/basic`), 
+            `${environment.apiGateway}/api/user/${userId}/info/basic`, 
             formData);
     }
 }

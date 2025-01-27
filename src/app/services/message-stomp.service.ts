@@ -3,13 +3,14 @@ import { Injectable } from "@angular/core";
 import * as SockJs from 'sockjs-client';
 import * as Stomp from 'stompjs';
 import { IMessageResponse } from "../models/message/message-response";
+import { environment } from "src/environments/environment";
 
 
 @Injectable({
     providedIn: 'root'
 })
 export class MessageStompService {
-    msocket = new SockJs('http://localhost:9000/msocket');
+    msocket = new SockJs(environment.apiGateway + '/msocket');
     messageStompClient = Stomp.over(this.msocket);
 
     connect(): void {

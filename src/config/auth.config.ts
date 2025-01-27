@@ -1,9 +1,9 @@
 import { PassedInitialConfig } from 'angular-auth-oidc-client';
+import { environment } from 'src/environments/environment';
 
 export const authConfig: PassedInitialConfig = {
   config: {
-    authority: 'http://keycloak.default.svc.cluster.local:8080/realms/rig-and-barter-realm', // get same thing as local host
-    // authority: 'http://localhost:8080/realms/rig-and-barter-realm', // we can register and login but jwt token does not work, gets 401 everywhere
+    authority: environment.keycloakHost + '/realms/rig-and-barter-realm',
     redirectUrl: window.location.origin,
     postLogoutRedirectUri: window.location.origin,
     clientId: 'angular-client',

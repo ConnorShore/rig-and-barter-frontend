@@ -2,39 +2,38 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ITransactionRequest } from "../models/transaction-request";
 import { Observable } from "rxjs";
-import { ConfigurationService } from "./configuration.service";
-import { createBackendRequest } from "../shared/http.utils";
 import { ITransaction } from "../models/transaction";
 import { ICompleteTransactionRequest } from "../models/complete-transaction-request";
+import { environment } from "src/environments/environment";
 
 
 @Injectable()
 export class TransactionService {
 
-    constructor(private httpClient: HttpClient, private configService: ConfigurationService) { }
+    constructor(private httpClient: HttpClient) { }
 
     createTransaction(transactionRequest: ITransactionRequest): Observable<string> {
-        let url = createBackendRequest(this.configService.apiGatewayUrl, 'api/transaction');
+        let url = `${environment.apiGateway}/api/transaction`;
         return this.httpClient.post(url, transactionRequest, {responseType: 'text'});
     }
 
     acceptTransaction(transactionId: string): Observable<ITransaction> {
-        let url = createBackendRequest(this.configService.apiGatewayUrl, `api/transaction/${transactionId}/accept`);
+        let url = `${environment.apiGateway}/api/transaction/${transactionId}/accept`;
         return this.httpClient.put<ITransaction>(url, null);
     }
 
     completeTransaction(transactioRequest: ICompleteTransactionRequest): Observable<ITransaction> {
-        let url = createBackendRequest(this.configService.apiGatewayUrl, `api/transaction/${transactioRequest.transactionId}/complete`);
+        let url = `${environment.apiGateway}/api/transaction/${transactioRequest.transactionId}/complete`;
         return this.httpClient.put<ITransaction>(url, transactioRequest);
     }
 
     cancelTransaction(transactionId: string): Observable<ITransaction> {
-        let url = createBackendRequest(this.configService.apiGatewayUrl, `api/transaction/${transactionId}/cancel`);
+        let url = `${environment.apiGateway}/api/transaction/${transactionId}/cancel`;
         return this.httpClient.put<ITransaction>(url, null);
     }
 
     getAllActiveTransactions(): Observable<ITransaction[]> {
-        let url = createBackendRequest(this.configService.apiGatewayUrl, `api/transaction`);
+        let url = `${environment.apiGateway}/api/transaction`;
         return this.httpClient.get<ITransaction[]>(url);
     }
 }

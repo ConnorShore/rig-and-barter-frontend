@@ -23,7 +23,6 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ErrorInterceptor } from './shared/error.interceptor';
 import { KeycloakAngularModule, KeycloakBearerInterceptor, KeycloakService } from 'keycloak-angular';
-import { ConfigurationService } from './services/configuration.service';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { provideNgxStripe } from 'ngx-stripe';
 import { environment } from '../environments/environment';
@@ -45,12 +44,6 @@ export const appConfig: ApplicationConfig = {
       // withInterceptorsFromDi()
     ),
     provideAuth(authConfig),
-    {
-      provide: APP_INITIALIZER,
-      useFactory: loadConfigFile,
-      multi: true,
-      deps: [ConfigurationService]
-    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,
@@ -138,7 +131,3 @@ export const appConfig: ApplicationConfig = {
     // }
   ]
 };
-
-function loadConfigFile(configService: ConfigurationService) {
-  return () => configService.loadConfigurationFile();
-}
