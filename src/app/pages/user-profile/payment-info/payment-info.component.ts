@@ -14,9 +14,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { IStripePaymentMethod } from 'src/app/models/user-info/stripe/stripe-payment-method';
 import { DeleteConfirmationDialogComponent } from 'src/app/shared/components/delete-confirmation-dialog/delete-confirmation-dialog.component';
-import { AuthService } from 'src/app/services/auth.service';
 import { IStripePaymentMethodRequest } from 'src/app/models/user-info/stripe/stripe-payment-method-request';
 import { ListingService } from 'src/app/services/listing.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
     selector: 'rb-payment-info',
@@ -60,7 +60,7 @@ export class PaymentInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.paymentMethods = this.user.stripeInfo?.paymentMethods ? this.user.stripeInfo.paymentMethods : [];
-    this.authService.userProfile$.subscribe(user => {
+    this.authService.userProfile.subscribe(user => {
       if(user == undefined) {
         return;
       }

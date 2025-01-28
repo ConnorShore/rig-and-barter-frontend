@@ -6,7 +6,8 @@ import {
   HTTP_INTERCEPTORS,
   withFetch,
   provideHttpClient,
-  withInterceptorsFromDi
+  withInterceptorsFromDi,
+  withInterceptors
 } from '@angular/common/http';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -22,35 +23,27 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ErrorInterceptor } from './shared/error.interceptor';
 import { KeycloakAngularModule, KeycloakBearerInterceptor, KeycloakService } from 'keycloak-angular';
-import { ConfigurationService } from './services/configuration.service';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { provideNgxStripe } from 'ngx-stripe';
 import { environment } from '../environments/environment';
 import e from 'express';
+import { authInterceptor } from './shared/auth.interceptor';
+import { provideAuth } from 'angular-auth-oidc-client';
+import { authConfig } from 'src/config/auth.config';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideClientHydration(),
     provideAnimationsAsync(),
-    KeycloakAngularModule,
+    // KeycloakAngularModule,
     KeycloakService,
-    KeycloakBearerInterceptor,
+    // KeycloakBearerInterceptor,
     provideHttpClient(
       withFetch(),
-      withInterceptorsFromDi()
+      withInterceptors([authInterceptor])
+      // withInterceptorsFromDi()
     ),
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeKeycloak,
-      multi: true,
-      deps: [KeycloakService]
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: loadConfigFile,
-      multi: true,
-      deps: [ConfigurationService]
-    },
+    provideAuth(authConfig),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,
@@ -138,28 +131,3 @@ export const appConfig: ApplicationConfig = {
     // }
   ]
 };
-
-
-function loadConfigFile(configService: ConfigurationService) {
-  return () => configService.loadConfigurationFile();
-}
-
-function initializeKeycloak(keycloak: KeycloakService) {
-  return () =>
-    keycloak.init({
-      config: {
-        url: 'http://localhost:8180',
-        realm: 'rig-and-barter-realm',
-        clientId: 'rig-and-barter-client'
-      },
-      initOptions: {
-        onLoad: 'check-sso',
-        pkceMethod: 'S256',
-        // silentCheckSsoRedirectUri:
-        //   window.location.origin + '/assets/silent-check-sso.html'
-      },
-      enableBearerInterceptor: true,
-      bearerPrefix: 'Bearer',
-      bearerExcludedUrls: ['/assets', '/clients/public']
-    });
-}

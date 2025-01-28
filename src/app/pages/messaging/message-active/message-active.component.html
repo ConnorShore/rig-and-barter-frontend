@@ -13,7 +13,7 @@
     <div class="flex-1 pb-6" style="overflow: scroll; height: xyz;" #scrollFrame>
       
       @for(message of messageGroup?.messages; track message.id) {
-          <rb-message-bubble [message]="message" [isSender]="message.senderId === user.id" />
+          <rb-message-bubble [message]="message" [isSender]="message.senderId === user?.sub" />
       }
       
     </div>  

@@ -27,7 +27,7 @@
   <button
     id="createListingBtn"
     style="padding-right: 48px; padding-left: 48px; padding-top: 12px; padding-bottom: 12px;"
-    [disabled]="!isUserLoggedIn"
+    [disabled]="!userProfile"
     (click)="createListingClicked()"
     *ngIf="isHorizontalLayout$ | async"
     color="primary"
@@ -54,12 +54,12 @@
     </div>
 
     <div class="px-1">
-      <vex-toolbar-notifications [userNotifications]="userNotifications" [userSignedIn]="isUserLoggedIn"></vex-toolbar-notifications>
+      <vex-toolbar-notifications [userNotifications]="userNotifications" [userSignedIn]="userProfile !== undefined"></vex-toolbar-notifications>
     </div>
 
-    @if(isUserLoggedIn) {
+    @if(userProfile) {
       <div class="px-1">
-        <vex-toolbar-user [currentUser]="loggedInUser"></vex-toolbar-user>
+        <vex-toolbar-user [userProfile]="userProfile"></vex-toolbar-user>
       </div>
     } 
     @else {

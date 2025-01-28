@@ -3,10 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import { NotificationStompService } from './services/notification-stomp.service';
 import { NotificationHandlerService } from './services/notification-handler.service';
 import { FrontEndNotificationType, IFrontEndNotification } from './models/notification/front-end-notification';
-import { AuthService } from './services/auth.service';
 import { MessageStompService } from './services/message-stomp.service';
 import { IMessageResponse } from './models/message/message-response';
-import { DateTime } from 'luxon';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { AuthService } from './services/auth.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'rb-root',
@@ -22,15 +23,19 @@ export class AppComponent implements OnInit {
               private notificationHandlerService: NotificationHandlerService,
               private notificationStompService: NotificationStompService,
               private messageStompService: MessageStompService,
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private oidcSecurityService: OidcSecurityService) { }
 
   ngOnInit(): void {
-    /**
-     * TODO: Move endpoint to config value
-     */
+    
+    this.oidcSecurityService
+      .checkAuth()
+          .subscribe(({isAuthenticated}) => {
+            console.log('app authenticated', isAuthenticated);
+      })
+
     this.stompService.subscribe((notification: IFrontEndNotification) => {
-      console.log('got a message from notification topic: ', notification);
-      if(this.authService.isLoggedIn() && notification.targetUser === this.authService.getCurrentKeycloakUser().id)
+      if(this.authService.isAuthenticated() && notification.targetUser === this.authService.getCurrentKeycloakUser()?.sub)
         this.notificationHandlerService.handleFrontEndNotification(notification);
     });
 
@@ -51,6 +56,7 @@ export class AppComponent implements OnInit {
         this.notificationStompService.sendMessage('notification', frontEndNotifcation);
       }
     });
+    console.log("Keycloak Base URL: " + environment.keycloakHost);
   }
 
   private generateGuid() : string {

@@ -10,7 +10,7 @@
         [src]="imageUrl$ | async"
         alt="Logo"
         class="w-6 select-none flex-none" />
-      <h2 class="vex-sidenav-toolbar__headline flex-auto">
+      <h2 class="vex-sidenav-toolbar__headline flex-auto" [routerLink]="['/']" style="cursor: pointer;">
         {{ title$ | async }}
       </h2>
       <button

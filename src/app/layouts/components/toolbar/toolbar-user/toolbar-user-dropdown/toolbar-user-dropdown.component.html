@@ -4,7 +4,7 @@
       <div class="dropdown-heading-icon flex items-center justify-center">
         <mat-icon svgIcon="mat:person"></mat-icon>
       </div>
-      <div class="dropdown-heading">{{currentUser.firstName + ' ' + currentUser.lastName}}</div>
+      <div class="dropdown-heading">{{currentUser?.basicInfo?.firstName}} {{currentUser?.basicInfo?.lastName}}</div>
     </div>
 
     <button
@@ -58,7 +58,7 @@
         </span>
       </ng-container>
     </button>
-    <a (click)="logoutUser()" [routerLink]="['/login']" color="primary" mat-button
+    <a (click)="logoutUser()" [routerLink]="['/listing']" color="primary" mat-button
     >Logout</a
     >
   </div>

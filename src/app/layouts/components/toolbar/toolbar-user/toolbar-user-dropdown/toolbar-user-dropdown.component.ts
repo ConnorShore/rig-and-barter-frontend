@@ -15,7 +15,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from 'src/app/services/auth.service';
-import { KeycloakProfile } from 'keycloak-js';
+import { IKeycloakUser } from 'src/app/models/keycloak-user';
+import { IUserResponse } from 'src/app/models/user-info/user-response';
 
 export interface OnlineStatus {
   id: 'online' | 'away' | 'dnd' | 'offline';
@@ -105,9 +106,9 @@ export class ToolbarUserDropdownComponent implements OnInit {
     }
   ];
 
+  currentUser: IUserResponse | undefined;
+
   activeStatus: OnlineStatus = this.statuses[0];
-  
-  currentUser = this.authService.getCurrentKeycloakUser();
 
   trackById = trackById;
 
@@ -117,7 +118,12 @@ export class ToolbarUserDropdownComponent implements OnInit {
     private authService: AuthService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.authService.userProfile.subscribe((user) => {
+      this.currentUser = user;
+      this.cd.markForCheck();
+    });
+  }
 
   setStatus(status: OnlineStatus) {
     this.activeStatus = status;
@@ -127,8 +133,6 @@ export class ToolbarUserDropdownComponent implements OnInit {
   logoutUser() {
     this.authService.logout();
     this.close();
-
-    // TODO: Route to home page
   }
 
   close() {

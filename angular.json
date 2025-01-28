@@ -25,6 +25,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
+              "src/config",
               "src/_redirects",
               "src/README.md",
               "src/CHANGELOG.md",
@@ -68,6 +69,10 @@
             "namedChunks": true
           },
           "configurations": {
+            "development" : {
+              "optimization": false,
+              "sourceMap": true
+            },
             "production": {
               "optimization": true,
               "outputHashing": "all",
@@ -90,7 +95,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -118,7 +124,9 @@
             "karmaConfig": "karma.conf.js",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/config",
+              "src/evironments",
             ],
             "styles": [
               "src/styles.scss"

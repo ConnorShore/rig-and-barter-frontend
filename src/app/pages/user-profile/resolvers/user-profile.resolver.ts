@@ -12,8 +12,8 @@ export const userProfileResolver: ResolveFn<IUserResponse> = (
     authService: AuthService = inject(AuthService),
 ) => {
     return new Promise<IUserResponse>((resolve, reject) => {
-        authService.fetchUserProfilePromise().then(user => {
-            userService.getUserById(user.id as string).subscribe(user => {
+        authService.userProfile.subscribe(user => {
+            userService.getUserById(user?.id as string).subscribe(user => {
                 resolve(user);
             });
         });

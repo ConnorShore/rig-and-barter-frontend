@@ -2,14 +2,13 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Input,
-  OnInit
+  Input
 } from '@angular/core';
 import { VexPopoverService } from '@vex/components/vex-popover/vex-popover.service';
 import { ToolbarUserDropdownComponent } from './toolbar-user-dropdown/toolbar-user-dropdown.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
-import { KeycloakProfile } from 'keycloak-js';
+import { IUserResponse } from 'src/app/models/user-info/user-response';
 
 @Component({
   selector: 'vex-toolbar-user',
@@ -18,16 +17,15 @@ import { KeycloakProfile } from 'keycloak-js';
   standalone: true,
   imports: [MatRippleModule, MatIconModule]
 })
-export class ToolbarUserComponent implements OnInit {
+export class ToolbarUserComponent {
   dropdownOpen: boolean = false;
-  @Input() currentUser: KeycloakProfile;
+
+  @Input() userProfile: IUserResponse | undefined;
 
   constructor(
     private popover: VexPopoverService,
     private cd: ChangeDetectorRef
   ) {}
-
-  ngOnInit() {}
 
   showPopover(originRef: HTMLElement) {
     this.dropdownOpen = true;

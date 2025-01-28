@@ -4,10 +4,9 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarRef, MatSnackBar
 import { NotificationComponent } from "../shared/components/notification/notification.component";
 import { INotificationInfo, NotificationType } from "../shared/components/notification/models/notification-info.model";
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { createBackendRequest } from "../shared/http.utils";
-import { ConfigurationService } from "./configuration.service";
 import { Observable } from "rxjs";
 import { IFrontEndNotification } from "../models/notification/front-end-notification";
+import { environment } from "src/environments/environment";
 
 @Injectable({
     providedIn: 'root',
@@ -25,8 +24,7 @@ export class NotificationService {
     private snackBarRef: MatSnackBarRef<NotificationComponent>;
 
     constructor(private snackBar: MatSnackBar,
-        private httpClient: HttpClient,
-        private configService: ConfigurationService) {
+        private httpClient: HttpClient) {
     }
 
     showInfo(message: string, title?: string, actionLabel?: string, actionUrl?: string) {
@@ -46,25 +44,25 @@ export class NotificationService {
     }
 
     getAllNotificationsForUser(): Observable<IFrontEndNotification[]> {
-        return this.httpClient.get<IFrontEndNotification[]>(createBackendRequest(this.configService.apiGatewayUrl, 'api/notification'));
+        return this.httpClient.get<IFrontEndNotification[]>(`${environment.apiGateway}/api/notification`);
     }
 
     deleteNotifications(ids: string[]): Observable<void> {
         let params = new HttpParams();
         params = params.append('ids', ids.join(','));
-        return this.httpClient.delete<void>(createBackendRequest(this.configService.apiGatewayUrl, 'api/notification'), {params: params});
+        return this.httpClient.delete<void>(`${environment.apiGateway}/api/notification`, {params: params});
     }
 
     markNotificationAsSeen(id: string): Observable<void> {
-        return this.httpClient.patch<void>(createBackendRequest(this.configService.apiGatewayUrl, `api/notification/${id}/seen`), {});
+        return this.httpClient.patch<void>(`${environment.apiGateway}/api/notification/${id}/seen`, {});
     }
 
     markAllNotificationsAsSeen(): Observable<void> {
-        return this.httpClient.patch<void>(createBackendRequest(this.configService.apiGatewayUrl, 'api/notification/seen'), {});
+        return this.httpClient.patch<void>(`${environment.apiGateway}/api/notification/seen`, {});
     }
 
     checkHealth(): Observable<string> {
-        return this.httpClient.get(createBackendRequest(this.configService.apiGatewayUrl, 'api/notification/status'), {responseType: 'text'});
+        return this.httpClient.get(`${environment.apiGateway}/api/notification/status`, {responseType: 'text'});
     }
 
     showTest() {        

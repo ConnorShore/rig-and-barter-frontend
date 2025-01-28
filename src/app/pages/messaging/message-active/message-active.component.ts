@@ -11,11 +11,11 @@ import { trackById } from '@vex/utils/track-by';
 import { IMessageGroupResponse } from 'src/app/models/message/message-group-response';
 import { IMessageResponse } from 'src/app/models/message/message-response';
 import { MessageBubbleComponent } from "./message-bubble/message-bubble.component";
-import { AuthService } from 'src/app/services/auth.service';
-import { KeycloakProfile } from 'keycloak-js';
 import { ActivatedRoute } from '@angular/router';
 import { IMessageRequest } from 'src/app/models/message/message-request';
 import { MessageStompService } from 'src/app/services/message-stomp.service';
+import { IKeycloakUser } from 'src/app/models/keycloak-user';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'rb-message-active',
@@ -38,7 +38,7 @@ import { MessageStompService } from 'src/app/services/message-stomp.service';
   styleUrl: './message-active.component.scss',
 })
 export class MessageActiveComponent implements OnInit, AfterViewInit{
-  user: KeycloakProfile;
+  user: IKeycloakUser | undefined;
   messageGroup?: IMessageGroupResponse;
 
   messageForm = new FormGroup({
@@ -90,11 +90,11 @@ export class MessageActiveComponent implements OnInit, AfterViewInit{
       return;
     }
 
-    const isSeller = this.user?.id === this.messageGroup?.sellerId;
+    const isSeller = this.user?.sub === this.messageGroup?.sellerId;
     let messageRequest: IMessageRequest = {
       content: message,
       groupId: this.messageGroup?.id as string,
-      senderId: this.user?.id as string,
+      senderId: this.user?.sub as string,
       receiverId: (isSeller ? this.messageGroup?.buyerId : this.messageGroup?.sellerId) as string
     };
 
@@ -109,6 +109,8 @@ export class MessageActiveComponent implements OnInit, AfterViewInit{
   }
 
   private onMessageRecieved(message: IMessageResponse): void {
+    console.log('message recieved: ', message);
+    console.log('user info: ', this.user);
     if(message.groupId !== this.messageGroup?.id) {
       return;
     }

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rig-and-barter-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rig-and-barter-frontend
+  template:
+    metadata:
+      labels:
+        app: rig-and-barter-frontend
+    spec:
+      containers:
+        - name: rig-and-barter-frontend
+          image: cjshore1996/rig-and-barter-frontend:latest
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rig-and-barter-frontend
+spec:
+  selector:
+    app: rig-and-barter-frontend
+  ports:
+    - protocol: TCP
+      port: 4200
+      targetPort: 80

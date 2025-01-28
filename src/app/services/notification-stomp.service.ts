@@ -9,7 +9,7 @@ import { FrontEndNotificationType, IFrontEndNotification } from "../models/notif
     providedIn: 'root'
 })
 export class NotificationStompService {
-    socket = new SockJs('http://localhost:8080/socket');
+    socket = new SockJs('http://localhost:9000/socket');
     stompClient = Stomp.over(this.socket);
 
     sendMessage(topic: string, message: any): void {

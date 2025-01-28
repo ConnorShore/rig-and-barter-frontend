@@ -1,44 +1,51 @@
-import { Injectable } from "@angular/core";
-import { KeycloakService } from "keycloak-angular";
-import { KeycloakProfile } from "keycloak-js";
-import { UserService } from "./user.service";
-import { IUserRegisterRequest } from "../models/user-register-request";
-import { BehaviorSubject, Observable } from "rxjs";
-import { IUserResponse } from "../models/user-info/user-response";
+//TODO: Migrate to use new auth service which leverages oidc
+// verify this works with the registration flow and everything as well
 
+import { Injectable } from "@angular/core";
+import { OidcSecurityService, UserDataResult } from "angular-auth-oidc-client";
+import { BehaviorSubject, Observable } from "rxjs";
+import { UserService } from "./user.service";
+import { IUserResponse } from "../models/user-info/user-response";
+import { IKeycloakUser } from "../models/keycloak-user";
+import { IUserRegisterRequest } from "../models/user-register-request";
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
 
-    keycloakProfile: KeycloakProfile;
+    userData$: Observable<UserDataResult>;
 
     userProfile = new BehaviorSubject<IUserResponse|undefined>(undefined);
-    userProfile$ = this.userProfile.asObservable();
 
-    constructor(private readonly keycloakService: KeycloakService, 
-        private readonly userService: UserService) {
-            this.fetchUserProfile();
+    private authenticated: boolean;
+    private userData: any;
+
+    constructor(private oidcSecurityService: OidcSecurityService,
+        private userService :UserService
+    ) {
+        this.oidcSecurityService.isAuthenticated$.subscribe(
+            ({isAuthenticated}) => {
+                console.log('isAuthenticated: ', isAuthenticated);
+                this.authenticated = isAuthenticated;
+            }
+        )
+
+        this.oidcSecurityService.userData$.subscribe(
+            ({userData}) => {
+                this.userData = userData;
+                this.fetchCurrentUserInfo();
+            }
+        )
     }
 
     login() {
-        this.keycloakService.login({
-            redirectUri: location.origin + '/listings'
-        }).then(() => {
-            this.fetchUserProfile();
-        });
+        this.oidcSecurityService.authorize();
     }
 
-    setCurrentUserProfile(keycloakProfile: KeycloakProfile) {
-        this.userService.getUserById(keycloakProfile.id as string).subscribe(user => {
-            this.userProfile.next(user);
-        });
-    }
-
-    updateUser() {
-        this.userService.updateUser(this.keycloakProfile.id as string).subscribe(user => {
-            this.userProfile.next(user);
+    logout() {
+        this.oidcSecurityService.logoff().subscribe(ret => {
+            console.log('logged out: ', ret);
         });
     }
 
@@ -46,35 +53,26 @@ export class AuthService {
         return this.userService.registerUser(userRegisterRequest);
     }
 
-    logout() {
-        this.keycloakService.logout(location.origin + '/listings');
+    updateUser() {
+        this.userService.getUserById(this.userData?.sub as string).subscribe(user => {
+            this.userProfile.next(user);
+        });
     }
 
-    isLoggedIn(): boolean {
-        return this.keycloakService.isLoggedIn();
+    isAuthenticated(): boolean {
+        return this.authenticated;
     }
 
-    getAccessToken(): Promise<string> {
-        return this.keycloakService.getToken();
+    getCurrentKeycloakUser(): IKeycloakUser | undefined {
+        if(this.authenticated)
+            return this.userData;
+
+        return undefined;
     }
 
-    fetchUserProfile(): void {
-        if(this.isLoggedIn()) {
-            this.keycloakService.loadUserProfile().then(profile => {
-                this.keycloakProfile = profile;
-                this.setCurrentUserProfile(profile);
-            });
+    private fetchCurrentUserInfo() {
+        if(this.userData?.sub) {
+            this.updateUser();
         }
-    }
-
-    getCurrentKeycloakUser() {
-        if(!this.keycloakProfile)
-            this.fetchUserProfile();
-
-        return this.keycloakProfile;
-    }
-
-    fetchUserProfilePromise(): Promise<KeycloakProfile> {
-        return this.keycloakService.loadUserProfile();
     }
 }

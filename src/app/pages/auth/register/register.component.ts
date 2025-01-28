@@ -14,8 +14,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { AuthService } from 'src/app/services/auth.service';
 import { IUserRegisterRequest } from 'src/app/models/user-register-request';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'rb-register',
@@ -93,7 +93,6 @@ export class RegisterComponent {
 
     return this.form.value.password === this.form.value.passwordConfirm;
   }
-
 
   navigateToLogin() {
     this.authService.login();
