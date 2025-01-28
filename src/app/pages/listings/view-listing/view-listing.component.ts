@@ -57,7 +57,10 @@ export class ViewListingComponent implements OnInit {
     this.activatedRoute.data.subscribe(({listing}) => {
       this.listing = listing;
     });
+  }
 
+  requestLogin() {
+    this.authService.login();
   }
 
   createTransaction() {
