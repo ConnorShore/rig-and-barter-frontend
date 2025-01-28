@@ -8,6 +8,7 @@ import { UserService } from "./user.service";
 import { IUserResponse } from "../models/user-info/user-response";
 import { IKeycloakUser } from "../models/keycloak-user";
 import { IUserRegisterRequest } from "../models/user-register-request";
+import { Router } from "@angular/router";
 
 @Injectable({
     providedIn: 'root'
@@ -22,7 +23,8 @@ export class AuthService {
     private userData: any;
 
     constructor(private oidcSecurityService: OidcSecurityService,
-        private userService :UserService
+        private userService: UserService,
+        private router: Router
     ) {
         this.oidcSecurityService.isAuthenticated$.subscribe(
             ({isAuthenticated}) => {
