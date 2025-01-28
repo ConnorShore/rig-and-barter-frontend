@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     # if: github.event.pull_request.merged == true
     env:
-      AccountId: 'cjshore1996'
+      AccountId: ${{ vars.DOCKER_USERNAME }}
       ImageName: 'rig-and-barter-frontend'
       Version: 'latest'
       
