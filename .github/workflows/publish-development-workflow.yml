@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    where:
+    env:
       AccountId: 'cjshore1996'
       ImageName: 'rig-and-barter-frontend'
       Version: 'latest'
