@@ -19,9 +19,7 @@ export const appRoutes: VexRoutes = [
       {
         path: 'register',
         component: RegisterComponent,
-        providers: [
-          AuthService
-        ]
+        providers: []
       },
       {
         path: 'profile',

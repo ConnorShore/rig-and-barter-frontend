@@ -1,6 +1,4 @@
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   DestroyRef,
   EventEmitter,
@@ -111,6 +109,7 @@ export class ToolbarComponent implements OnInit {
   ngOnInit() {
     this.authService.userProfile.subscribe(user => {
         this.userProfile = user;
+        console.log('got new user in toolbar: ', user);
     });
 
     this.router.events
