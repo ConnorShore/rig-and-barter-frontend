@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { IListing } from 'src/app/models/listing';
 import { ITransactionRequest } from 'src/app/models/transaction-request';
 import { IUserResponse } from 'src/app/models/user-info/user-response';
@@ -44,7 +44,6 @@ export class ViewListingComponent implements OnInit {
     private readonly notificationService: NotificationService,
     private readonly listingService: ListingService,
     private readonly deleteDialog: MatDialog,
-    private readonly router: Router,
     private readonly authService: AuthService
   ) { }
 
@@ -58,6 +57,10 @@ export class ViewListingComponent implements OnInit {
       this.listing = listing;
     });
 
+  }
+
+  requestLogin() {
+    this.authService.login();
   }
 
   createTransaction() {

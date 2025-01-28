@@ -12,7 +12,7 @@
 
 /dist
 dist/
-/dist/*
+/dist/**
 
 # profiling files
 chrome-profiler-events.json

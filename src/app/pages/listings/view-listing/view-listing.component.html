@@ -75,12 +75,25 @@
             type="button">
             Delete Listing
           </button>
-        } @else {
+        } 
+        @else if(!currentUser) {
           <button
             id="createListingBtn"
             class="flex justify-center flex-end p-6"
             style="width: 100%; vertical-align: bottom"
-            [disabled]="!currentUser || currentUser.id === listing.userId"
+            (click)="requestLogin()"
+            color="primary"
+            mat-flat-button
+            type="button">
+            Login To Request Purchase
+          </button>
+        } 
+        @else
+        {
+          <button
+            id="createListingBtn"
+            class="flex justify-center flex-end p-6"
+            style="width: 100%; vertical-align: bottom"
             (click)="createTransaction()"
             color="primary"
             mat-flat-button
