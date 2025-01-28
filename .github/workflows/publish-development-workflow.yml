@@ -1,15 +1,13 @@
 name: Publish Frontend Development Image
 
 on:
-  pull_request:
+  push:
     branches: [ "main" ]
-    types:
-      - closed
 
 jobs:
   publish-image:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true
+    
     env:
       AccountId: ${{ vars.DOCKER_USERNAME }}
       ImageName: 'rig-and-barter-frontend'
