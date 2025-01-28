@@ -1,7 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ITransaction } from 'src/app/models/transaction';
-import { TransactionService } from 'src/app/services/transaction.service';
 import { VexPageLayoutContentDirective } from "../../../../@vex/components/vex-page-layout/vex-page-layout-content.directive";
 import { VexPageLayoutHeaderDirective } from "../../../../@vex/components/vex-page-layout/vex-page-layout-header.directive";
 import { VexPageLayoutComponent } from "../../../../@vex/components/vex-page-layout/vex-page-layout.component";
@@ -18,20 +17,19 @@ import { AuthService } from 'src/app/services/auth.service';
     selector: 'view-transactions',
     standalone: true,
     providers: [
-        NotificationService,
-        AuthService
+      NotificationService
     ],
     templateUrl: './view-transactions.component.html',
     styleUrl: './view-transactions.component.scss',
     imports: [
-        VexPageLayoutContentDirective,
-        VexPageLayoutHeaderDirective,
-        VexPageLayoutComponent,
-        MatListModule,
-        MatButtonModule,
-        DatePipe,
-        MatExpansionModule,
-        TransactionTableComponent
+      VexPageLayoutContentDirective,
+      VexPageLayoutHeaderDirective,
+      VexPageLayoutComponent,
+      MatListModule,
+      MatButtonModule,
+      DatePipe,
+      MatExpansionModule,
+      TransactionTableComponent
     ]
 })
 export class ViewTransactionsComponent implements OnInit {

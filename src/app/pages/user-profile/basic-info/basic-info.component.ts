@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { Subject } from 'rxjs';
 import { IUserBasicInfoRequest } from 'src/app/models/user-info/user-basic-info-request';
 import { IUserResponse } from 'src/app/models/user-info/user-response';
+import { AuthService } from 'src/app/services/auth.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { UserService } from 'src/app/services/user.service';
 import { FileDragAndDropComponent } from 'src/app/shared/components/file-drag-and-drop/file-drag-and-drop.component';
@@ -48,7 +49,8 @@ export class BasicInfoComponent implements OnInit {
 
   constructor(
     private readonly userService: UserService,
-    private readonly notificationService: NotificationService
+    private readonly notificationService: NotificationService,
+    private readonly authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -63,11 +65,9 @@ export class BasicInfoComponent implements OnInit {
       email: this.userInfoForm.get('email')?.value as string,
     };
 
-    console.log('userInfoRequest: ', userInfoRequest);
-    console.log('profileImageUpload: ', this.profileImageUpload);
-
     this.userService.setUserBasicInfo(this.user.id, userInfoRequest, this.profileImageUpload).subscribe((updatedUser) => {
       this.user.basicInfo = updatedUser;
+      this.authService.updateUser();
       this.revertChanges();
       this.notificationService.showSuccess('User info updated successfully');
     });

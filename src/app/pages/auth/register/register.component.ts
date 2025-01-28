@@ -33,9 +33,6 @@ import { AuthService } from 'src/app/services/auth.service';
     MatIconModule,
     MatCheckboxModule,
     RouterLink
-  ],
-  providers: [
-    AuthService
   ]
 })
 export class RegisterComponent {

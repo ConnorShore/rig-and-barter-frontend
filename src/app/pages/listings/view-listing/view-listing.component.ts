@@ -28,8 +28,7 @@ import { DeleteConfirmationDialogComponent } from 'src/app/shared/components/del
   providers: [
     TransactionService,
     TransactionService,
-    ListingService,
-    AuthService
+    ListingService
   ],
   templateUrl: './view-listing.component.html',
   styleUrl: './view-listing.component.scss'

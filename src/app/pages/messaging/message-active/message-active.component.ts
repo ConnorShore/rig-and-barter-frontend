@@ -31,9 +31,6 @@ import { AuthService } from 'src/app/services/auth.service';
     MatDividerModule,
     MessageBubbleComponent,
   ],
-  providers: [
-    AuthService
-  ],
   templateUrl: './message-active.component.html',
   styleUrl: './message-active.component.scss',
 })

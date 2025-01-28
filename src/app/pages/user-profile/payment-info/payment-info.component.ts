@@ -23,7 +23,7 @@ import { AuthService } from 'src/app/services/auth.service';
     standalone: true,
     providers: [
         NotificationService,
-        PaymentService,
+        // PaymentService,
     ],
     templateUrl: './payment-info.component.html',
     styleUrl: './payment-info.component.scss',

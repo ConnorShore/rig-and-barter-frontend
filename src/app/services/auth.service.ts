@@ -1,30 +1,24 @@
-//TODO: Migrate to use new auth service which leverages oidc
-// verify this works with the registration flow and everything as well
-
 import { Injectable } from "@angular/core";
-import { OidcSecurityService, UserDataResult } from "angular-auth-oidc-client";
+import { OidcSecurityService } from "angular-auth-oidc-client";
 import { BehaviorSubject, Observable } from "rxjs";
 import { UserService } from "./user.service";
 import { IUserResponse } from "../models/user-info/user-response";
 import { IKeycloakUser } from "../models/keycloak-user";
 import { IUserRegisterRequest } from "../models/user-register-request";
-import { Router } from "@angular/router";
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
 
-    userData$: Observable<UserDataResult>;
-
     userProfile = new BehaviorSubject<IUserResponse|undefined>(undefined);
+    // userProfile = this.userProfile$.asObservable();
 
     private authenticated: boolean;
     private userData: any;
 
     constructor(private oidcSecurityService: OidcSecurityService,
-        private userService: UserService,
-        private router: Router
+        private userService: UserService
     ) {
         this.oidcSecurityService.isAuthenticated$.subscribe(
             ({isAuthenticated}) => {
@@ -58,6 +52,7 @@ export class AuthService {
     updateUser() {
         this.userService.getUserById(this.userData?.sub as string).subscribe(user => {
             this.userProfile.next(user);
+            console.log('userProfile updarted in auth service: ', user);
         });
     }
 

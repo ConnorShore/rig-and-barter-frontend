@@ -11,6 +11,6 @@ export const authConfig: PassedInitialConfig = {
     responseType: 'code',
     silentRenew: true,
     useRefreshToken: true,
-    renewTimeBeforeTokenExpiresInSeconds: 300
+    // renewTimeBeforeTokenExpiresInSeconds: 270
   }
 }
