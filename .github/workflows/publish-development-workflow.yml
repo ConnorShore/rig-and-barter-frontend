@@ -1,8 +1,6 @@
 name: Publish Frontend Development Image
 
 on:
-  push:
-    branches: [ "buildTest" ]
   pull_request:
     branches: [ "main" ]
     types:
@@ -11,7 +9,7 @@ on:
 jobs:
   publish-image:
     runs-on: ubuntu-latest
-    # if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     env:
       AccountId: ${{ vars.DOCKER_USERNAME }}
       ImageName: 'rig-and-barter-frontend'
