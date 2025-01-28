@@ -5,10 +5,13 @@ on:
     branches: [ "buildTest" ]
   pull_request:
     branches: [ "main" ]
+    types:
+      - closed
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    # if: github.event.pull_request.merged == true
     env:
       AccountId: 'cjshore1996'
       ImageName: 'rig-and-barter-frontend'
