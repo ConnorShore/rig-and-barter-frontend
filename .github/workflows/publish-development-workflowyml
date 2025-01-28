@@ -1,0 +1,23 @@
+name: Publish Frontend Development Image
+
+on:
+  push:
+    branches: [ "buildTest" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    where:
+      AccountId: 'cjshore1996'
+      ImageName: 'rig-and-barter-frontend'
+      Version: 'latest'
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the Docker image
+      run: docker build -t dev-$ImageName .
+    - name: Tag the image
+      run: docker tag dev-$ImageName:$Version $AccountId/dev-$ImageName:$Version
+    -name: Push the image
+      run: docker push $AccountId/dev-$ImageName:$Version
