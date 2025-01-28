@@ -22,6 +22,11 @@ export class UserService {
     }
 
     getUserById(userId: string): Observable<IUserResponse> {
+        if(!userId) {
+            console.log('Not updating user with undefined id');
+            return new Observable<IUserResponse>(undefined);
+        }
+
         let url = `${environment.apiGateway}/api/user/${userId}`;
         console.log('user called url: ', url);
         return this.httpClient.get<IUserResponse>(url);
