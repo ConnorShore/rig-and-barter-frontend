@@ -50,11 +50,6 @@ export class AuthService {
     }
 
     updateUser() {
-        if(this.userData === undefined || this.userData?.sub === undefined) {
-            console.log('Not updating user with undefined id');
-            return;
-        }
-
         this.userService.getUserById(this.userData?.sub as string).subscribe(user => {
             this.userProfile.next(user);
             console.log('userProfile updarted in auth service: ', user);
