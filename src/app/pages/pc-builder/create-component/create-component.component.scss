@@ -1,0 +1,17 @@
+.component-form-fields {
+    display: flex;
+    align-items: flex-start;
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+.component-form-fields > mat-form-field {
+    margin: 4px;
+    width: 100%;
+}
+
+.image-field {
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-bottom: 24px;
+}

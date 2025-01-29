@@ -1,0 +1,26 @@
+<form [formGroup]="createPowerSupplyComponentForm">
+    <div class="power-supply-form-fields">
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>Wattage</mat-label>
+            <input formControlName="watts" type="number" matInput placeholder="Wattage"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>Connector Type</mat-label>
+            <input cdkFocusInitial formControlName="connector" type="text" matInput placeholder="Connector Type"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+    </div>
+    <div class="power-supply-form-fields">
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>8 Pin PCIE Connectors</mat-label>
+            <input formControlName="num8PinPCIE" type="number" matInput placeholder="Number of 8 Pin PCIE Connectors"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>6 Pin PCIE Connectors</mat-label>
+            <input formControlName="num6PinPCIE" type="number" matInput placeholder="Number of 6 Pin PCIE Connectors"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+    </div>
+</form>

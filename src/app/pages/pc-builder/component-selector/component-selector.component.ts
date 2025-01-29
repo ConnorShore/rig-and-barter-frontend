@@ -21,7 +21,6 @@ export interface IComponentModifiedData {
     MatCardModule,
     MatButtonModule,
     TitleCasePipe,
-    LowerCasePipe,
     MatDialogModule,
     NgIf
   ],

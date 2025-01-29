@@ -1,0 +1,11 @@
+.cpu-form-fields {
+    display: flex;
+    align-items: flex-start;
+    margin-right: 12px;
+    margin-left: 12px;
+}
+
+.cpu-form-fields > mat-form-field {
+    margin: 4px;
+    width: 100%;
+}

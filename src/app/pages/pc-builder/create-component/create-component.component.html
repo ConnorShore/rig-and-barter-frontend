@@ -1,0 +1,73 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="createComponentForm">
+    <div class="flex items-center" mat-dialog-title>
+      <h2 class="headline m-0 flex-auto">
+        Create {{componentName() | titlecase}} Component
+      </h2>
+  
+      <button
+        class="text-secondary"
+        mat-dialog-close
+        mat-icon-button
+        type="button">
+        <mat-icon svgIcon="mat:close"></mat-icon>
+      </button>
+    </div>
+  
+    <mat-divider class="text-border"></mat-divider>
+  
+    <mat-dialog-content class="flex flex-col">
+        <div class="component-form-fields">
+            <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+                <mat-label>Name</mat-label>
+                <input cdkFocusInitial formControlName="name" matInput placeholder="Component Name" required/>
+                <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+            </mat-form-field>
+        
+            <mat-form-field class="flex-auto" appearance="outline" floatLabel="always" required>
+                <mat-label>Manufacturer</mat-label>
+                <input formControlName="manufacturer" matInput placeholder="Component Manufacturer" required/>
+            </mat-form-field>
+        </div>
+        <div class="image-field">
+            <mat-label>Component Image</mat-label>
+            <file-drag-and-drop [maxNumFiles]="1" (selectedFiles)="setSelectedFiles($event)" />
+        </div> 
+
+        @switch (componentCategory) {
+            @case (ComponentCategory.CASE) {
+                <rb-case-component />
+            }
+            @case (ComponentCategory.CPU) {
+                <rb-cpu-component />
+            }
+            @case (ComponentCategory.GPU) {
+                <rb-gpu-component />
+            }
+            @case (ComponentCategory.MOTHERBOARD) {
+                <rb-motherboard-component />
+            }
+            @case (ComponentCategory.POWER_SUPPLY) {
+                <rb-power-supply-component />
+            }
+            @case (ComponentCategory.MEMORY) {
+                <rb-memory-component />
+            }
+            @case (ComponentCategory.HARD_DRIVE) {
+                <rb-hard-drive-component />
+            }
+            @case (ComponentCategory.SOLID_STATE_DRIVE) {
+                <rb-solid-state-drive-component />
+            }
+        }
+    </mat-dialog-content>
+  
+    <mat-dialog-actions class="flex justify-end" style="margin-bottom: 12px; margin-right: 12px;">
+        <button mat-button type="button" (click)="closeDialog()">Cancel</button>
+        <button [disabled]="createComponentForm.invalid"
+        color="primary"
+        mat-flat-button
+        type="submit">
+        Create Component
+        </button>
+    </mat-dialog-actions>
+</form>

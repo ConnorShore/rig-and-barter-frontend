@@ -19,11 +19,17 @@
                 @if(powerSupplyComponent.watts) {
                     {{powerSupplyComponent.watts}} W
                 }
+                @else {
+                    N/A
+                }
             </div>
             <div class="flex-1">
                 <h2 style="font-weight: bold;">Connector</h2>
                 @if(powerSupplyComponent.connector) {
                     {{powerSupplyComponent.connector}}
+                }
+                @else {
+                    N/A
                 }
             </div>
             <div class="flex-1">
@@ -31,11 +37,17 @@
                 @if(powerSupplyComponent.num6PinPCIE) {
                     {{powerSupplyComponent.num6PinPCIE}}
                 }
+                @else {
+                    0
+                }
             </div>
             <div class="flex-1">
                 <h2 style="font-weight: bold;">PCIE Cables 8 Pin</h2>
                 @if(powerSupplyComponent.num8PinPCIE) {
                     {{powerSupplyComponent.num8PinPCIE}}
+                }
+                @else {
+                    0
                 }
             </div>
         </div>

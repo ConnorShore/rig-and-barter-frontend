@@ -1,0 +1,21 @@
+<form [formGroup]="createHardDriveComponentForm">
+    <div class="hdd-form-fields">
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>Storage Size</mat-label>
+            <input cdkFocusInitial formControlName="size" type="number" matInput placeholder="Storage Size (Gb)"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>RPM Speed</mat-label>
+            <input formControlName="rpm" type="number" matInput placeholder="RPM Speed (r/s)"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+    </div>
+    <div class="hdd-form-fields">
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>Cache Storage Size</mat-label>
+            <input formControlName="cacheSize" type="number" matInput placeholder="Cache Size (Mb)"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+    </div>
+</form>

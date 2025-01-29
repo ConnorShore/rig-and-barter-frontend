@@ -1,0 +1,31 @@
+<form [formGroup]="createMemoryComponentForm">
+    <div class="memory-form-fields">
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>Memory Size</mat-label>
+            <input cdkFocusInitial formControlName="size" type="number" matInput placeholder="Memory Size (Gb)"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+        <mat-form-field appearance="outline" floatLabel="always">
+            <mat-label>Memory Type</mat-label>
+            <mat-select formControlName="type">
+                <mat-option [value]="'DDR2'">DDR2</mat-option>
+                <mat-option [value]="'DDR3'">DDR3</mat-option>
+                <mat-option [value]="'DDR4'" selected>DDR4</mat-option>
+                <mat-option [value]="'DDR5'">DDR5</mat-option>
+            </mat-select>
+            <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+        </mat-form-field>
+    </div>
+    <div class="memory-form-fields">
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>Clock Speed</mat-label>
+            <input formControlName="clockSpeed" type="number" matInput placeholder="Clock Speed"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>Number of Sticks</mat-label>
+            <input formControlName="numSticks" type="number" matInput placeholder="Number of Sticks"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+    </div>
+</form>

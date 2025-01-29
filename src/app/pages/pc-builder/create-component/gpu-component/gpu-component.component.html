@@ -1,0 +1,38 @@
+<form [formGroup]="createGpuComponentForm">
+    <div class="gpu-form-fields">
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>HDMI Ports</mat-label>
+            <input cdkFocusInitial formControlName="numHDMIs" type="number" matInput placeholder="Number of HDMI Ports"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>Display Ports</mat-label>
+            <input formControlName="numDisplayPorts" type="number" matInput placeholder="Number of Display Ports"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+    </div>
+    <div class="gpu-form-fields">
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>VRAM</mat-label>
+            <input formControlName="vram" type="number" matInput placeholder="VRAM"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>Boost Clock Speed</mat-label>
+            <input formControlName="boostClock" type="text" matInput placeholder="Boost Clock Speed (MHz)"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+    </div>
+    <div class="gpu-form-fields">
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>Length</mat-label>
+            <input formControlName="length" type="number" matInput placeholder="GPU Length (mm)"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>Slots</mat-label>
+            <input formControlName="slots" type="text" matInput placeholder="Number of Slots"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+    </div>
+</form>

@@ -1,0 +1,21 @@
+<form [formGroup]="createSSDComponentForm">
+    <div class="ssd-form-fields">
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>Storage Size</mat-label>
+            <input cdkFocusInitial formControlName="size" type="number" matInput placeholder="Storage Size (Gb)"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+    </div>
+    <div class="ssd-form-fields">
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>Form Factor</mat-label>
+            <input formControlName="formFactor" type="string" matInput placeholder="Form Factor"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>Protocol</mat-label>
+            <input formControlName="protocol" type="text" matInput placeholder="Protocol"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+    </div>
+</form>
