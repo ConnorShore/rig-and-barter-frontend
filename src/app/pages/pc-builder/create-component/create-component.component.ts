@@ -23,6 +23,13 @@ import { CPUComponentComponent } from "./cpu-component/cpu-component.component";
 import { TitleCasePipe } from '@angular/common';
 import { IComponentRequest } from 'src/app/models/component/component-request';
 import { ICaseComponentRequest } from 'src/app/models/component/case-component-request';
+import { ISolidStateDriveComponentRequest } from 'src/app/models/component/solid-state-drive-component-request';
+import { IHardDriveComponentRequest } from 'src/app/models/component/hard-drive-component-request';
+import { IMemoryComponentRequest } from 'src/app/models/component/memory-component-request';
+import { IPowerSupplyComponentRequest } from 'src/app/models/component/power-supply-component-request';
+import { IMotherBoardComponentRequest } from 'src/app/models/component/motherboard-component-request';
+import { IVideocardComponentRequest } from 'src/app/models/component/video-card-component-request';
+import { IProcessorComponentRequest } from 'src/app/models/component/processor-component-request';
 
 @Component({
   selector: 'rb-create-component',
@@ -90,27 +97,27 @@ export class CreateComponentComponent implements OnInit {
       case ComponentCategory.CASE:
         componentSpecifics = this.caseComponent.getCurrentCaseComponentValues() as ICaseComponentRequest;
         break;
-      // case ComponentCategory.SOLID_STATE_DRIVE:
-      //   this.solidStateDriveComponent.getCurrentSolidStateDriveComponentValues();
-      //   break;
-      // case ComponentCategory.HARD_DRIVE:
-      //   this.hardDriveComponent.getCurrentHardDriveComponentValues();
-      //   break;
-      // case ComponentCategory.MEMORY:
-      //   this.memoryComponent.getCurrentMemoryComponentValues();
-      //   break;
-      // case ComponentCategory.POWER_SUPPLY:
-      //   this.powerSupplyComponent.getCurrentPowerSupplyComponentValues();
-      //   break;
-      // case ComponentCategory.MOTHERBOARD:
-      //   this.motherboardComponent.getCurrentMotherboardComponentValues();
-      //   break;
-      // case ComponentCategory.GPU:
-      //   this.gpuComponent.getCurrentGPUComponentValues();
-      //   break;
-      // case ComponentCategory.CPU:
-      //   this.cpuComponent.getCurrentCPUComponentValues();
-      //   break;
+      case ComponentCategory.SOLID_STATE_DRIVE:
+        componentSpecifics = this.solidStateDriveComponent.getCurrentSSDComponentValues() as ISolidStateDriveComponentRequest;
+        break;
+      case ComponentCategory.HARD_DRIVE:
+        componentSpecifics = this.hardDriveComponent.getCurrentHardDriveComponentValues() as IHardDriveComponentRequest;
+        break;
+      case ComponentCategory.MEMORY:
+        componentSpecifics = this.memoryComponent.getCurrentMemoryComponentValues() as IMemoryComponentRequest;
+        break;
+      case ComponentCategory.POWER_SUPPLY:
+        componentSpecifics = this.powerSupplyComponent.getCurrentPowerSupplyComponentValues() as IPowerSupplyComponentRequest;
+        break;
+      case ComponentCategory.MOTHERBOARD:
+        componentSpecifics = this.motherboardComponent.getCurrentMotherboardComponentValues() as IMotherBoardComponentRequest;
+        break;
+      case ComponentCategory.GPU:
+        componentSpecifics = this.gpuComponent.getCurrentVideoCardComponentValues() as IVideocardComponentRequest;
+        break;
+      case ComponentCategory.CPU:
+        componentSpecifics = this.cpuComponent.getCurrentProcessorComponentValues() as IProcessorComponentRequest;
+        break;
     }
 
     componentSpecifics.name = this.createComponentForm.value.name as string;

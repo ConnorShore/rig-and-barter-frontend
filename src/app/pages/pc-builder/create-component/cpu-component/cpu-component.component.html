@@ -1,1 +1,26 @@
-<p>CPU</p>
+<form [formGroup]="createCpuComponentForm">
+    <div class="cpu-form-fields">
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>Base Clock Speed</mat-label>
+            <input cdkFocusInitial formControlName="baseClock" type="number" matInput placeholder="Base Clock Speed"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>Turbo Clock Speed</mat-label>
+            <input formControlName="turboClock" type="number" matInput placeholder="Base Clock Speed"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+    </div>
+    <div class="cpu-form-fields">
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>Number of Cores</mat-label>
+            <input formControlName="cores" type="number" matInput placeholder="Number of Cores"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>Number of Threads</mat-label>
+            <input formControlName="threads" type="number" matInput placeholder="Number of Threads"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+    </div>
+</form>

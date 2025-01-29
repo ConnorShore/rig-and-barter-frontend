@@ -1,1 +1,38 @@
-<p>Motherboard</p>
+<form [formGroup]="createMotherboardComponentForm">
+    <div class="motherboard-form-fields">
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>Connector Type</mat-label>
+            <input cdkFocusInitial formControlName="connector" type="text" matInput placeholder="Connector Type"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>Socket Type</mat-label>
+            <input formControlName="socket" type="text" matInput placeholder="Socket Type"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+    </div>
+    <div class="motherboard-form-fields">
+        <mat-form-field appearance="outline" floatLabel="always">
+            <mat-label>Memory Type</mat-label>
+            <mat-select formControlName="memoryType">
+                <mat-option [value]="'DDR2'">DDR2</mat-option>
+                <mat-option [value]="'DDR3'">DDR3</mat-option>
+                <mat-option [value]="'DDR4'" selected>DDR4</mat-option>
+                <mat-option [value]="'DDR5'">DDR5</mat-option>
+            </mat-select>
+            <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+        </mat-form-field>
+    </div>
+    <div class="motherboard-form-fields">
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>Memory Capacity</mat-label>
+            <input formControlName="memoryCapacity" type="number" matInput placeholder="Total Memory Capacity (Gb)"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>Memory Slots</mat-label>
+            <input formControlName="memorySlots" type="number" matInput placeholder="Total Memory Slots"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+    </div>
+</form>

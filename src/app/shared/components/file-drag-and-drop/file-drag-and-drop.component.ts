@@ -76,7 +76,7 @@ export class FileDragAndDropComponent implements OnInit, OnDestroy {
     if (fileList == null || fileList.length == 0)
       return;
 
-    if (fileList.length > this.maxNumFiles) {
+    if ((fileList.length + this.currentSelectedFiles.length) > this.maxNumFiles) {
       this.notificationService.showWarning(`You can only select up to ${this.maxNumFiles} file(s)`, 'Too many files selected');
       return;
     }

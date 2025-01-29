@@ -27,11 +27,11 @@ import { ICaseComponentRequest } from "src/app/models/component/case-component-r
 export class CaseComponentComponent {
 
     createCaseComponentForm = new FormGroup({
-        color: new FormControl(''),
+        color: new FormControl(),
         windowed: new FormControl(false),
-        motherboardType: new FormControl(''),  // TODO: Move to a dropdown option
-        powerSupplyType: new FormControl(''),  // TODO: Move to a dropdown option
-        gpuLength: new FormControl(0),
+        motherboardType: new FormControl(),  // TODO: Move to a dropdown option
+        powerSupplyType: new FormControl(),  // TODO: Move to a dropdown option
+        gpuLength: new FormControl(),
     });
 
     getCurrentCaseComponentValues() {

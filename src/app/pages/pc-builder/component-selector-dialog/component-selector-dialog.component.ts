@@ -114,10 +114,11 @@ export class ComponentSelectorDialogComponent {
   }
 
   componentCreated(component: IComponent) {
-    console.log('component created triggered: ', component);
     this.data.components.push(component);
     this.data.numItems++;
+    
     this.isCreatingComponent = false;
+    this.selectedComponent = component;
   }
 
   setSelectedComponent(component: IComponent): void {
