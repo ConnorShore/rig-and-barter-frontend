@@ -4,7 +4,7 @@ body {
   --vex-font: theme("fontFamily.sans");
 
   // Sidenav
-  --vex-sidenav-width: 280px;
+  --vex-sidenav-width: 300px;
   --vex-sidenav-collapsed-width: 72px;
 
   // Sidenav Item
@@ -12,7 +12,7 @@ body {
   --vex-sidenav-item-padding-vertical: theme("space.2");
   --vex-sidenav-item-padding-horizontal: theme("space.6");
   --vex-sidenav-item-font-weight: 500;
-  --vex-sidenav-item-icon-gap: theme("space.4");
+  --vex-sidenav-item-icon-gap: theme("space.2");
   --vex-sidenav-item-icon-size: theme("space.6");
   --vex-sidenav-item-dropdown-gap: theme("space.3");
 
