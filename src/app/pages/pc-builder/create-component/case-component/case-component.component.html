@@ -1,0 +1,38 @@
+<form [formGroup]="createCaseComponentForm">
+    <div class="case-form-fields">
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>Case Color</mat-label>
+            <input cdkFocusInitial formControlName="color" matInput placeholder="Color"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" floatLabel="always">
+            <mat-label>Windowed</mat-label>
+            <mat-select formControlName="windowed">
+                <mat-option [value]="false" selected>False</mat-option>
+                <mat-option [value]="true">True</mat-option>
+            </mat-select>
+            <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+        </mat-form-field>
+    </div>
+    <div class="case-form-fields">
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>Motherboard Type</mat-label>
+            <input formControlName="motherboardType" matInput placeholder="Motherboard Type"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>Power Supply Type</mat-label>
+            <input formControlName="powerSupplyType" matInput placeholder="Power Supply Type"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+    </div>
+    <div class="case-form-fields">
+        <mat-form-field class="flex-auto" appearance="outline" floatLabel="always">
+            <mat-label>GPU Length</mat-label>
+            <input formControlName="motherboardType" matInput placeholder="GPU Length (mm)" type="number"/>
+            <mat-icon matIconPrefix svgIcon="mat:title"></mat-icon>
+        </mat-form-field>
+    </div>
+</form>

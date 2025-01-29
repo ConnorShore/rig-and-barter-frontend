@@ -1,11 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-// import { ConfigurationService } from "./configuration.service";
 import { IComponent } from "../models/pc-builder/component";
 import { ComponentCategory } from "../models/component-category";
 import { IPagedComponent } from "../models/pc-builder/paged-component";
 import { environment } from "src/environments/environment";
+import { IComponentRequest } from "../models/component/component-request";
 
 
 @Injectable({
@@ -14,6 +14,14 @@ import { environment } from "src/environments/environment";
 export class ComponentService {
     
     constructor(private httpClient: HttpClient) { }
+
+    createComponent(component: IComponentRequest, image: File): Observable<IComponent> {
+        const formData:any = new FormData();
+        formData.append('component', new Blob([JSON.stringify(component)]), {type: 'application/json'});
+        formData.append('image', image, image.name);
+        console.log('component form data: ', formData);
+        return this.httpClient.post<IComponent>(`${environment.apiGateway}/api/component`, formData);
+    }
 
     getAllComponents(): Observable<IComponent[]>{
         let url = `${environment.apiGateway}/api/component`;

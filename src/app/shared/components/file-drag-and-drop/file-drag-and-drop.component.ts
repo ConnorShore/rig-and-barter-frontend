@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, 
 import { MatGridListModule } from '@angular/material/grid-list'
 import { MatIconModule } from '@angular/material/icon'
 import { Observable, Subscription } from 'rxjs';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'file-drag-and-drop',
@@ -28,7 +29,7 @@ export class FileDragAndDropComponent implements OnInit, OnDestroy {
   isDragging: boolean;
   currentSelectedFiles: File[];
 
-  constructor() { }
+  constructor(private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.isDragging = false;
@@ -74,6 +75,11 @@ export class FileDragAndDropComponent implements OnInit, OnDestroy {
     let fileList: FileList | null = element.files
     if (fileList == null || fileList.length == 0)
       return;
+
+    if (fileList.length > this.maxNumFiles) {
+      this.notificationService.showWarning(`You can only select up to ${this.maxNumFiles} file(s)`, 'Too many files selected');
+      return;
+    }
 
     if(this.overwriteFilesOnSelect)
       this.currentSelectedFiles = [];

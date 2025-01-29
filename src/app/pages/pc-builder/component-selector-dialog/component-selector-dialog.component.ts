@@ -28,6 +28,7 @@ import { SolidStateDriveCardComponent } from './solid-state-drive-card/solid-sta
 import { MemoryCardComponent } from './memory-card/memory-card.component';
 import { MotherboardCardComponent } from './motherboard-card/motherboard-card.component';
 import { PowerSupplyCardComponent } from './power-supply-card/power-supply-card.component';
+import { CreateComponentComponent } from "../create-component/create-component.component";
 
 export interface IComponentSelectorData {
   category: ComponentCategory;
@@ -42,10 +43,10 @@ export interface IComponentSelectorData {
   templateUrl: './component-selector-dialog.component.html',
   styleUrl: './component-selector-dialog.component.scss',
   imports: [
-    MatButtonModule, 
-    MatDialogActions, 
-    MatDialogClose, 
-    MatDialogTitle, 
+    MatButtonModule,
+    MatDialogActions,
+    MatDialogClose,
+    MatDialogTitle,
     MatDialogContent,
     MatCardModule,
     MatPaginatorModule,
@@ -61,8 +62,9 @@ export interface IComponentSelectorData {
     SolidStateDriveCardComponent,
     MemoryCardComponent,
     MotherboardCardComponent,
-    PowerSupplyCardComponent
-  ]
+    PowerSupplyCardComponent,
+    CreateComponentComponent
+]
 })
 export class ComponentSelectorDialogComponent {
   readonly dialogRef = inject(MatDialogRef);
@@ -78,6 +80,8 @@ export class ComponentSelectorDialogComponent {
 
   searchInput = new Subject<EventTarget | null>();
   selectedComponent: IComponent;
+
+  isCreatingComponent = false;
 
   constructor(private readonly componentService: ComponentService) {
     this.inputSubject = this.searchInputTest.valueChanges
@@ -105,11 +109,23 @@ export class ComponentSelectorDialogComponent {
   }
 
   createComponent(category: ComponentCategory) {
-    console.log('creating manual component');
+    console.log('create component triggered');
+    this.isCreatingComponent = true;
+  }
+
+  componentCreated(component: IComponent) {
+    console.log('component created triggered: ', component);
+    this.data.components.push(component);
+    this.data.numItems++;
+    this.isCreatingComponent = false;
   }
 
   setSelectedComponent(component: IComponent): void {
     this.selectedComponent = component;
+  }
+
+  toggleCreateComponent(val: boolean) {
+    this.isCreatingComponent = val;
   }
 
   getTypedComponentCase(component: IComponent): ICaseComponent {
