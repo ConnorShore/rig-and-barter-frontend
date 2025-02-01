@@ -32,7 +32,7 @@ const baseConfig: VexConfig = {
   boxed: false,
   sidenav: {
     title: 'Rig and Barter',
-    imageUrl: 'assets/img/logo/logo.png',
+    imageUrl: 'assets/img/logo/logo_small.png',
     showCollapsePin: true,
     user: {
       visible: true
