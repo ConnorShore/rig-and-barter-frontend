@@ -57,6 +57,20 @@
       </div>
       <div class="p-4" style="flex-basis: 100%"></div>
       <div class="p-4" style="flex-basis: 100%"></div>
+      <div class="pr-6 pl-6 flex items-end justify-center" style="flex-basis: 100%">
+        @if (currentUser && currentUser.id === listing.userId) {
+          <button
+          id="createListingBtn"
+          class="flex justify-center flex-end p-6"
+          style="width: 100%; vertical-align: bottom"
+          (click)="updateListingPrice()"
+          color="primary"
+          mat-stroked-button
+          type="button">
+            Update Listing Price
+          </button>
+        }
+      </div>
       <div
         class="p-6 flex items-end justify-center"
         style="flex-basis: 100%"
@@ -64,6 +78,7 @@
           !currentUser
             ? 'You must be signed in to show interest in components'
             : 'I\'m Interested!'">
+
         @if (currentUser && currentUser.id === listing.userId) {
           <button
             id="createListingBtn"

@@ -52,6 +52,10 @@ export class ListingService {
         return this.httpClient.get<IListing>(`${environment.apiGateway}/api/listing/${listingId}`);
     }
 
+    updateListingPrice(listingId: string, newPrice: number): Observable<void> {
+        return this.httpClient.put<void>(`${environment.apiGateway}/api/listing/${listingId}/price`, newPrice);
+    }
+
     deleteListingById(listingId: string, deleteTransaction: boolean): Observable<void> {
         return this.httpClient.delete<void>(`${environment.apiGateway}/api/listing/${listingId}?deleteTransaction=${deleteTransaction}`);
     }
