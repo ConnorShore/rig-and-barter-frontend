@@ -12,7 +12,6 @@ import { IUserRegisterRequest } from "../models/user-register-request";
 export class AuthService {
 
     userProfile = new BehaviorSubject<IUserResponse|undefined>(undefined);
-    // userProfile = this.userProfile$.asObservable();
 
     private authenticated: boolean;
     private userData: any;

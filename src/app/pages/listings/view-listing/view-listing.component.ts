@@ -1,7 +1,7 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogModule, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IListing } from 'src/app/models/listing';
@@ -13,10 +13,14 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { CarouselComponent } from 'src/app/shared/components/carousel/carousel.component';
 import { DeleteConfirmationDialogComponent } from 'src/app/shared/components/delete-confirmation-dialog/delete-confirmation-dialog.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'view-listing',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports:[
     CurrencyPipe,
     DatePipe,
@@ -43,8 +47,10 @@ export class ViewListingComponent implements OnInit {
     private readonly notificationService: NotificationService,
     private readonly listingService: ListingService,
     private readonly deleteDialog: MatDialog,
+    private readonly updatePriceDialog: MatDialog,
     private readonly router: Router,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly cd: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -76,6 +82,27 @@ export class ViewListingComponent implements OnInit {
       this.notificationService.showInfo('The seller will be notified of your interest in this listing.', 'Transaction Started');
     });
   }
+
+  updateListingPrice() {
+    this.updatePriceDialog.open(UpdateListingPriceDialog, {
+      width: '350px',
+      data: {
+        price: this.listing.price
+      }
+    })
+    .afterClosed()
+    .subscribe(newPrice => {
+      console.log('new price in view listing: ', newPrice);
+      if(newPrice) {
+        this.listingService.updateListingPrice(this.listing.id, newPrice).subscribe(() => {
+          this.listing.price = newPrice;
+          this.notificationService.showSuccess('Successfully updated listing price!');
+          this.cd.detectChanges();
+          // this.router.navigate([`/listings/${this.listing.id}`], {onSameUrlNavigation: 'reload'});
+        });
+      }
+    });
+  }
   
   confirmDeleteListing() {
     this.deleteDialog.open(DeleteConfirmationDialogComponent<ViewListingComponent>, {
@@ -95,5 +122,59 @@ export class ViewListingComponent implements OnInit {
         });
       }
     });
+  }
+}
+
+@Component({
+  selector: 'rb-update-listing-price-dialog',
+  standalone: true,
+  imports: [
+    MatButtonModule, 
+    MatDialogActions, 
+    MatDialogClose, 
+    MatDialogTitle, 
+    MatDialogContent,
+    CurrencyPipe,
+    MatInputModule,
+    MatFormFieldModule,
+    FormsModule,
+    MatIconModule
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styles: [],
+  template: `
+    <mat-dialog-content>
+      <h1 mat-dialog-title>Update Listing Price</h1>
+      <br>
+      <h3><b>Current Listing Price: {{data.price | currency}}</b></h3>
+      <br>
+      <p>Enter the new price for this listing below</p>
+
+      <mat-form-field class="pt-4" appearance="outline" floatLabel="always">
+        <mat-label>New Listing Price</mat-label>
+        <input [(ngModel)]="newPrice" matInput type="number" placeholder="0.00" required/>
+        <span matTextPrefix>$&nbsp;</span>
+        <mat-icon matIconPrefix svgIcon="mat:sell"></mat-icon>
+      </mat-form-field>
+      <!-- <mat-form-field>
+        <input matInput type="number" [(ngModel)]="newPrice" placeholder="New Price" required>
+      </mat-form-field> -->
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <div class="flex justify-center" style="justify-items: center; width: 100%">
+        <button class="flex" mat-flat-button color="primary" (click)="updatePrice()">Save</button>
+        <button class="flex" mat-flat-button mat-dialog-close>Cancel</button>
+      </div>
+    </mat-dialog-actions>
+  `
+})
+export class UpdateListingPriceDialog {
+  readonly dialogRef = inject(MatDialogRef);
+  data: any = inject(MAT_DIALOG_DATA);
+
+  newPrice: number;
+
+  updatePrice() {
+    this.dialogRef.close(this.newPrice);
   }
 }
