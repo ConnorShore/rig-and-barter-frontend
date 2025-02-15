@@ -30,11 +30,4 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
           
     - name: Build the Docker image
-      run: docker buildx build --platform linux/amd64,linux/arm64 -t $AccountId/dev-$ImageName$Version --push .
-      # run: docker build -t dev-$ImageName .
-      
-    # - name: Tag the image
-    #   run: docker tag dev-$ImageName:$Version $AccountId/dev-$ImageName:$Version
-      
-    # - name: Push the image
-    #   run: docker push $AccountId/dev-$ImageName:$Version
+      run: docker buildx build --platform linux/amd64,linux/arm64 -t $AccountId/dev-$ImageName:$Version --push .
