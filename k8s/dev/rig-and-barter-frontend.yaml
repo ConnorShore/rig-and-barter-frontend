@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rig-and-barter-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rig-and-barter-frontend
+  template:
+    metadata:
+      labels:
+        app: rig-and-barter-frontend
+    spec:
+      containers:
+        - name: rig-and-barter-frontend
+          image: cjshore1996/dev-rig-and-barter-frontend:latest
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rig-and-barter-frontend
+spec:
+  # type: NodePort  # Expose the service on a static port on each node
+  selector:
+    app: rig-and-barter-frontend
+  ports:
+    - protocol: TCP
+      port: 4200
+      targetPort: 80

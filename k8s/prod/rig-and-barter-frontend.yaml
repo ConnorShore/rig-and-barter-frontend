@@ -14,15 +14,18 @@ spec:
     spec:
       containers:
         - name: rig-and-barter-frontend
-          image: cjshore1996/rig-and-barter-frontend:latest
+          image: cjshore1996/prod-rig-and-barter-frontend:latest
           ports:
             - containerPort: 80
+      imagePullSecrets:
+        - name: regcred
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: rig-and-barter-frontend
 spec:
+  # type: NodePort  # Expose the service on a static port on each node
   selector:
     app: rig-and-barter-frontend
   ports:
