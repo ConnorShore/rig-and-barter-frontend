@@ -25,10 +25,30 @@ kind: Service
 metadata:
   name: rig-and-barter-frontend
 spec:
-  # type: NodePort  # Expose the service on a static port on each node
+  type: NodePort  # Expose the service on a static port on each node
   selector:
     app: rig-and-barter-frontend
   ports:
     - protocol: TCP
       port: 4200
       targetPort: 80
+# ---
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: minimal-ingress
+#   annotations:
+#     nginx.ingress.kubernetes.io/rewrite-target: /
+# spec:
+#   ingressClassName: rab-ingress
+#   rules:
+#   - host: apigateway.com
+#     http:
+#       paths:
+#       - path: /api-gateway.default.svc.cluster.local
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: api-gateway
+#             port:
+#               number: 9000
