@@ -25,30 +25,42 @@ kind: Service
 metadata:
   name: rig-and-barter-frontend
 spec:
-  type: NodePort  # Expose the service on a static port on each node
+  # type: NodePort  # Expose the service on a static port on each node
   selector:
     app: rig-and-barter-frontend
   ports:
     - protocol: TCP
       port: 4200
       targetPort: 80
+
+# TODO:
+# - Create a loadbalancer (i.e MetalLB) and nginx-ingress or trafik or something to createa ingress controllers
+# - Then make web alls through the loadbalancer/ingress controller to access the frontend/backend
+
 # ---
 # apiVersion: networking.k8s.io/v1
 # kind: Ingress
 # metadata:
-#   name: minimal-ingress
 #   annotations:
-#     nginx.ingress.kubernetes.io/rewrite-target: /
+#     nginx.ingress.kubernetes.io/rewrite-target: /$2
+#   name: rewrite-example
+#   namespace: default
 # spec:
-#   ingressClassName: rab-ingress
+#   ingressClassName: nginx
 #   rules:
-#   - host: apigateway.com
-#     http:
+#   - http:
 #       paths:
-#       - path: /api-gateway.default.svc.cluster.local
+#       - path: /()(.*)
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: rig-and-barter-frontend
+#             port: 
+#               number: 80
+#       - path: /api(/|$)(.*)
 #         pathType: Prefix
 #         backend:
 #           service:
 #             name: api-gateway
-#             port:
+#             port: 
 #               number: 9000
