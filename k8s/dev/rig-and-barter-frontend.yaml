@@ -25,7 +25,6 @@ kind: Service
 metadata:
   name: rig-and-barter-frontend
 spec:
-  # type: NodePort  # Expose the service on a static port on each node
   selector:
     app: rig-and-barter-frontend
   ports:
@@ -49,27 +48,6 @@ spec:
       services:
         - name: rig-and-barter-frontend
           port: 4200
-      middlewares:
-        - name: default-headers # may not need
-  tls:
-   secretName: rig-and-barter-staging-tls
----
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
-metadata:
-  name: pc-rig-and-barter-backend-route
-  namespace: default
-  annotations: 
-    kubernetes.io/ingress.class: traefik-external
-spec:
-  entryPoints:
-    - websecure
-  routes:
-    - match: Host(`pc-rig-and-barter.com`) && PathPrefix(`/api`)
-      kind: Rule
-      services:
-        - name: api-gateway
-          port: 9000
       middlewares:
         - name: default-headers # may not need
   tls:
