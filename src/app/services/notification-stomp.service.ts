@@ -3,13 +3,14 @@ import { Injectable } from "@angular/core";
 import * as SockJs from 'sockjs-client';
 import * as Stomp from 'stompjs';
 import { FrontEndNotificationType, IFrontEndNotification } from "../models/notification/front-end-notification";
+import { environment } from "src/environments/environment";
 
 
 @Injectable({
     providedIn: 'root'
 })
 export class NotificationStompService {
-    socket = new SockJs('http://localhost:9000/socket');
+    socket = new SockJs(environment.apiGateway + '/socket');
     stompClient = Stomp.over(this.socket);
 
     sendMessage(topic: string, message: any): void {

@@ -32,6 +32,7 @@ export class ListingService {
     }
 
     getAllListings(): Observable<IListing[]> {
+        console.log('getting all listings from: ', `${environment.apiGateway}/api/listing`);
         return this.httpClient.get<IListing[]>(`${environment.apiGateway}/api/listing`);
     }
 
