@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: rig-and-barter-frontend
+  namespace: rig-and-barter
 spec:
   replicas: 1
   selector:
@@ -24,6 +25,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: rig-and-barter-frontend
+  namespace: rig-and-barter
 spec:
   selector:
     app: rig-and-barter-frontend
@@ -36,7 +38,7 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: pc-rig-and-barter-frontend-route
-  namespace: default
+  namespace: rig-and-barter
   annotations: 
     kubernetes.io/ingress.class: traefik-external
 spec:
@@ -49,6 +51,6 @@ spec:
         - name: rig-and-barter-frontend
           port: 4200
       middlewares:
-        - name: default-headers # may not need
+        - name: default-headers
   tls:
    secretName: rig-and-barter-staging-tls
