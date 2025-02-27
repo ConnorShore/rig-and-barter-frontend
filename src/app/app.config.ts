@@ -22,6 +22,7 @@ import { provideQuillConfig } from 'ngx-quill';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ErrorInterceptor } from './shared/error.interceptor';
+import { KeycloakAngularModule, KeycloakBearerInterceptor, KeycloakService } from 'keycloak-angular';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { provideNgxStripe } from 'ngx-stripe';
 import { environment } from '../environments/environment';
