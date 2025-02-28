@@ -1,8 +1,8 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { Observable, catchError, throwError } from "rxjs";
-import { NotificationService } from "../services/notification.service";
-import { AuthService } from "../services/auth.service";
+import { NotificationService } from "../../services/notification.service";
+import { AuthService } from "../../services/auth.service";
 
 
 @Injectable()

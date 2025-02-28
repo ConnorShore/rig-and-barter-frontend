@@ -8,12 +8,13 @@ import { IMessageResponse } from './models/message/message-response';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { AuthService } from './services/auth.service';
 import { environment } from 'src/environments/environment';
+import { LoadingComponent } from "./shared/components/loading/loading.component";
 
 @Component({
   selector: 'rb-root',
   templateUrl: './app.component.html',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, LoadingComponent],
   providers: [NotificationHandlerService]
 })
 export class AppComponent implements OnInit {

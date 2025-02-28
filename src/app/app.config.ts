@@ -21,15 +21,16 @@ import { vexConfigs } from '@vex/config/vex-configs';
 import { provideQuillConfig } from 'ngx-quill';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { ErrorInterceptor } from './shared/error.interceptor';
+import { ErrorInterceptor } from './shared/interceptors/error.interceptor';
 import { KeycloakAngularModule, KeycloakBearerInterceptor, KeycloakService } from 'keycloak-angular';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { provideNgxStripe } from 'ngx-stripe';
 import { environment } from '../environments/environment';
 import e from 'express';
-import { authInterceptor } from './shared/auth.interceptor';
+import { authInterceptor } from './shared/interceptors/auth.interceptor';
 import { provideAuth } from 'angular-auth-oidc-client';
 import { authConfig } from 'src/config/auth.config';
+import { LoadingInterceptor } from './shared/interceptors/loading.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -50,6 +51,11 @@ export const appConfig: ApplicationConfig = {
       provide: HTTP_INTERCEPTORS,
       useClass: KeycloakBearerInterceptor,
       multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
+      multi: true,
     },
     importProvidersFrom(
       BrowserModule,
