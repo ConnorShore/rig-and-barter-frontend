@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rig-and-barter-frontend
+  namespace: demo-rig-and-barter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rig-and-barter-frontend
+  template:
+    metadata:
+      labels:
+        app: rig-and-barter-frontend
+    spec:
+      containers:
+        - name: rig-and-barter-frontend
+          image: cjshore1996/demo-rig-and-barter-frontend:latest
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rig-and-barter-frontend
+  namespace: demo-rig-and-barter
+spec:
+  selector:
+    app: rig-and-barter-frontend
+  ports:
+    - protocol: TCP
+      port: 4200
+      targetPort: 80
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: pc-rig-and-barter-frontend-route
+  namespace: demo-rig-and-barter
+  annotations: 
+    kubernetes.io/ingress.class: traefik-external
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`demo.pc-rig-and-barter.com`)
+      kind: Rule
+      services:
+        - name: rig-and-barter-frontend
+          port: 4200
+      middlewares:
+        - name: default-headers
+  tls:
+   secretName: rig-and-barter-staging-tls
