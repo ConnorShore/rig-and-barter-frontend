@@ -1,6 +1,5 @@
 FROM node:22 AS build
 
-
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
@@ -9,5 +8,7 @@ RUN npm run buildProd
 
 FROM nginx:alpine
 
+ARG CONFIG=dev
+
 COPY --from=build /app/dist/rb /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY /nginx/${CONFIG}/nginx.conf /etc/nginx/conf.d/default.conf
