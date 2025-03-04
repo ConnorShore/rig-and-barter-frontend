@@ -53,4 +53,4 @@ spec:
       middlewares:
         - name: default-headers
   tls:
-   secretName: rig-and-barter-staging-tls
+   secretName: demo-rig-and-barter-staging-tls

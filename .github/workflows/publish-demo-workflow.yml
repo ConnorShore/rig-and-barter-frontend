@@ -1,0 +1,33 @@
+name: Publish Frontend Demo Image
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  publish-image:
+    runs-on: ubuntu-latest
+    
+    env:
+      AccountId: ${{ vars.DOCKER_USERNAME }}
+      ImageName: 'rig-and-barter-frontend'
+      Version: 'latest'
+      
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3.9.0
+      with:
+        platforms: linux/amd64,linux/arm64
+          
+      
+    - name: Docker Login
+      uses: docker/login-action@v3.3.0
+      with:
+        username: ${{ vars.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+          
+    - name: Build the Docker image
+      run: docker buildx build --build-arg CONFIG=demo --platform linux/amd64,linux/arm64 -t $AccountId/demo-$ImageName:$Version --push .

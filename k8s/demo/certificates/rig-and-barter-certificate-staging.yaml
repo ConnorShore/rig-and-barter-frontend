@@ -5,7 +5,7 @@ metadata:
   name: rig-and-barter
   namespace: demo-rig-and-barter
 spec:
-  secretName: rig-and-barter-staging-tls
+  secretName: demo-rig-and-barter-staging-tls
   issuerRef:
     name: letsencrypt-staging
     kind: ClusterIssuer
