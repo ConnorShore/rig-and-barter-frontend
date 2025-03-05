@@ -7,11 +7,11 @@
   "private": true,
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --configuration=local",
+    "start": "ng serve",
     "start_dev": "ng serve --configuration=development",
     "start_demo": "ng serve --configuration=demo",
     "start_prod": "ng serve --configuration=production",
-    "build": "ng build --configuration=local",
+    "build": "ng build --configuration=locnpm al",
     "build_dev": "ng build --configuration=development",
     "build_demo": "ng build --configuration=demo",
     "build_prod": "ng build --configuration=production",
