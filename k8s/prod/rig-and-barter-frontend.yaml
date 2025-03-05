@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: rig-and-barter-frontend
-          image: cjshore1996/dev-rig-and-barter-frontend:latest
+          image: cjshore1996/prod-rig-and-barter-frontend:latest
           ports:
             - containerPort: 80
       imagePullSecrets:
