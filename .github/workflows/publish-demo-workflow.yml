@@ -1,8 +1,8 @@
-name: Publish Development Frontend Image
-
+name: Publish Demo Frontend Image
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [ "main" ]
 
 jobs:
   publish-image:
@@ -30,4 +30,4 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
           
     - name: Build the Docker image
-      run: docker buildx build --build-arg CONFIG=dev --platform linux/amd64,linux/arm64 -t $AccountId/dev-$ImageName:$Version --push .
+      run: docker buildx build --build-arg CONFIG=demo --platform linux/amd64,linux/arm64 -t $AccountId/demo-$ImageName:$Version --push .

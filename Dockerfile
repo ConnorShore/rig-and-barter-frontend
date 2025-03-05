@@ -1,10 +1,12 @@
 FROM node:22 AS build
 
+ARG CONFIG=dev
+
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm run buildProd
+RUN npm run build_${CONFIG}
 
 FROM nginx:alpine
 
