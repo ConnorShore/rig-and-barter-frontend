@@ -1,4 +1,4 @@
-name: Publish Development Frontend Image
+name: Publish Production Frontend Image
 
 on:
   push:
@@ -30,4 +30,4 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
           
     - name: Build the Docker image
-      run: docker buildx build --build-arg CONFIG=dev --platform linux/amd64,linux/arm64 -t $AccountId/dev-$ImageName:$Version --push .
+      run: docker buildx build --build-arg CONFIG=prod --platform linux/amd64,linux/arm64 -t $AccountId/prod-$ImageName:$Version --push .

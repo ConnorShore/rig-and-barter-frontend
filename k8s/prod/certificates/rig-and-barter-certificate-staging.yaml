@@ -3,12 +3,12 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: rig-and-barter
-  namespace: dev-rig-and-barter
+  namespace: rig-and-barter
 spec:
-  secretName: dev-rig-and-barter-staging-tls
+  secretName: rig-and-barter-staging-tls
   issuerRef:
     name: letsencrypt-staging
     kind: ClusterIssuer
-  commonName: "dev.pc-rig-and-barter.com"
+  commonName: "pc-rig-and-barter.com"
   dnsNames:
-  - "dev.pc-rig-and-barter.com"
+  - "pc-rig-and-barter.com"

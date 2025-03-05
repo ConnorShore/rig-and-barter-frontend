@@ -3,11 +3,11 @@ apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: letsencrypt-staging
-  namespace: dev-rig-and-barter
+  namespace: rig-and-barter
 spec:
   acme:
     server: https://acme-staging-v02.api.letsencrypt.org/directory
-    email: cjshore12@gmail.com  # move to github action secret
+    email: cjshore12@gmail.com
     privateKeySecretRef:
       name: letsencrypt-staging
     solvers:
@@ -19,4 +19,4 @@ spec:
               key: cloudflare-token
         selector:
           dnsZones:
-            - "dev.pc-rig-and-barter.com"
+            - "pc-rig-and-barter.com"

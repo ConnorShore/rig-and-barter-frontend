@@ -1,4 +1,4 @@
-name: Publish Frontend Demo Image
+name: Publish Demo Frontend Image
 
 on:
   push:
