@@ -1,8 +1,8 @@
 name: Publish Development Frontend Image
 
+
 on:
-  push:
-    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   publish-image:
