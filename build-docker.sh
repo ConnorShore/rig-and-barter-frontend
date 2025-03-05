@@ -4,8 +4,9 @@
 #!/bin/bash
 set -e
 VERSION=$1
-DOCKER_USERNAME=$2
-DOCKER_PASSWORD=$3
+IMAGE_LABEL=$2
+DOCKER_USERNAME=$3
+DOCKER_PASSWORD=$4
 
 # Check if the version argument is provided
 if [ -z "$VERSION" ]; then
@@ -31,11 +32,11 @@ fi
 
 # Build the docker image for amd64 and arm64
 echo "Building and Pushing Docker image for amd64 and arm64..."
-docker buildx build --platform linux/amd64,linux/arm64 -t $DOCKER_USERNAME/dev-rig-and-barter-frontend:$VERSION --push .
+docker buildx build --build-arg=CONFIG=$IMAGE_LABEL --platform linux/amd64,linux/arm64 -t $DOCKER_USERNAME/$IMAGE_LABEL-rig-and-barter-frontend:$VERSION --push .
 
 # Check if the build was successful
 if [ $? -ne 0 ]; then
   echo "Docker build failed"
   exit 1
 fi
-echo "Docker image dev-rig-and-barter-frontend:$VERSION built and pushed successfully"
+echo "Docker image $IMAGE_LABEL-rig-and-barter-frontend:$VERSION built and pushed successfully"
