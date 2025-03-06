@@ -23,7 +23,7 @@ jobs:
       name: Checkout code
 
     - uses: actions-hub/kubectl@master
-      name: Deploy Common Configs
+      name: Deploy Frontend
       env:
         KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
       with:
