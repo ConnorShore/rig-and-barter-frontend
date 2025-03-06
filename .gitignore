@@ -52,4 +52,5 @@ Thumbs.db
 
 /ARCHIVE/*
 
-!enviroment.ts
+# Local env file with keys
+src/environments/environment.ts
