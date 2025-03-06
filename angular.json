@@ -91,7 +91,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.development.ts"
+                  "with": "src/environments/environment.dev.ts"
                 }
               ]
             },
@@ -135,7 +135,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.production.ts"
+                  "with": "src/environments/environment.prod.ts"
                 }
               ]
             }
@@ -170,7 +170,7 @@
               "src/favicon.ico",
               "src/assets",
               "src/config",
-              "src/evironments",
+              "src/evironments"
             ],
             "styles": [
               "src/styles.scss"
