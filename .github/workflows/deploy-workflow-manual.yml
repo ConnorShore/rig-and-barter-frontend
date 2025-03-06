@@ -12,6 +12,11 @@ on:
         - dev
         - demo
         - prod
+      replicas:
+        description: 'Replicas'
+        required: true
+        default: '1'
+        type: number
 
 jobs:
   deploy-frontend:
@@ -20,6 +25,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       name: Checkout code
+
+    - name: Insert Replica Count on Deployment
+      run: |
+        sed -i "s/__REPLICAS__/${{ inputs.replicas }}/g" k8s/${{ inputs.environment }}/rig-and-barter-frontend.yaml
 
     - uses: actions-hub/kubectl@master
       name: Deploy Frontend
