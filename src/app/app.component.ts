@@ -28,6 +28,8 @@ export class AppComponent implements OnInit {
               private oidcSecurityService: OidcSecurityService) { }
 
   ngOnInit(): void {
+
+    console.log('stripe key: ', environment.stripeApiKey);
     
     this.oidcSecurityService
       .checkAuth()
