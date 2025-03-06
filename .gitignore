@@ -51,3 +51,6 @@ testem.log
 Thumbs.db
 
 /ARCHIVE/*
+
+# Local env file with keys
+src/environments/environment.local.ts

@@ -40,4 +40,4 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
           
     - name: Build the Docker image
-      run: docker buildx build --build-arg CONFIG=$ImageLabel --platform linux/amd64,linux/arm64 -t $AccountId/$ImageLabel-$ImageName:$Version --push .
+      run: docker buildx build --build-arg CONFIG=$ImageLabel --build-arg STRIPE_API_KEY=${{ secrets.STRIPE_API_KEY }} --platform linux/amd64,linux/arm64 -t $AccountId/$ImageLabel-$ImageName:$Version --push .
