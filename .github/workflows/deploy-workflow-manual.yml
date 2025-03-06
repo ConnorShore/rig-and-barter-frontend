@@ -1,0 +1,29 @@
+name: Deploy Frontend To Kubernetes
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+        - dev
+        - demo
+        - prod
+
+jobs:
+  deploy-frontend:
+    runs-on: self-hosted
+
+    steps:
+    - uses: actions/checkout@v4
+      name: Checkout code
+
+    - uses: actions-hub/kubectl@master
+      name: Deploy Frontend
+      env:
+        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+      with:
+        args: apply -f k8s/${{ inputs.environment }}/rig-and-barter-frontend.yaml
