@@ -58,7 +58,7 @@
   
     <mat-dialog-actions class="flex justify-end" style="margin-bottom: 12px; margin-right: 12px;">
         <button mat-button type="button" (click)="closeDialog(undefined)">Cancel</button>
-        <button [disabled]="createListingForm.invalid"
+        <button [disabled]="createListingForm.invalid || isSubmittingListing"
         color="primary"
         mat-flat-button
         type="submit">

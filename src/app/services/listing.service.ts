@@ -32,8 +32,13 @@ export class ListingService {
     }
 
     getAllListings(): Observable<IListing[]> {
-        console.log('getting all listings from: ', `${environment.apiGateway}/api/listing`);
-        return this.httpClient.get<IListing[]>(`${environment.apiGateway}/api/listing`);
+        let url = `${environment.apiGateway}/api/listing?random=${new Date().getTime()}`;
+        return this.httpClient.get<IListing[]>(url, {
+            headers: {
+                "Cache-Control": "no-cache",
+                "Pragma": "no-cache",
+            }
+        });
     }
 
     refreshListings(): void {

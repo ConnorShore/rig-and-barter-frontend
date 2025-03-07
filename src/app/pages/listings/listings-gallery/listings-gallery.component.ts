@@ -42,6 +42,7 @@ export class ListingsGalleryComponent implements OnInit {
     });  
     
     this.activatedRoute.data.subscribe(({listings}) => {
+      console.log('got activated route listings in gallery: ', listings);
       this.listings = listings;   
     });
   }

@@ -38,6 +38,7 @@ export class CreateListingComponent implements OnInit {
 
   componentCategories: string[];
   ComponentCategory: typeof ComponentCategory = ComponentCategory;
+  isSubmittingListing = false;
 
   createListingForm = new FormGroup({
     listingTitle: new FormControl(''),
@@ -66,8 +67,10 @@ export class CreateListingComponent implements OnInit {
       componentCategory: this.createListingForm.value.listingCategory as ComponentCategory,
     }
 
+    this.isSubmittingListing = true;
     this.listingService.createListing(listingRequest, this.listingImages).subscribe(listing => {
       this.notificationService.showSuccess('Your listing is now available to the public', 'Listing Created', 'View', `/listings/${listing.id}`);
+      this.isSubmittingListing = false;
       this.closeDialog(listing);
     })
   }
