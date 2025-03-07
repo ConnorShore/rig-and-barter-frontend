@@ -117,6 +117,8 @@ export class ViewListingComponent implements OnInit {
     .subscribe(result => {
       if(result) {
         this.listingService.deleteListingById(this.listing.id, true).subscribe(() => {
+          this.listingService.refreshListings();
+          
           this.notificationService.showSuccess('Successfully removed listing!');
           this.router.navigate(['/listings'], {onSameUrlNavigation: 'reload'});
         });
