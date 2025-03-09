@@ -29,6 +29,11 @@ jobs:
     - name: Insert Replica Count on Deployment
       run: |
         sed -i "s/__REPLICAS__/${{ inputs.replicas }}/g" k8s/${{ inputs.environment }}/rig-and-barter-frontend.yaml
+        
+
+    - name: Insert Stripe Secret on Deployment
+      run: |
+        sed -i "s/__STRIPE_API_KEY__/${{ secrets.STRIPE_API_KEY }}/g" k8s/${{ inputs.environment }}/rig-and-barter-frontend.yaml
 
     - uses: actions-hub/kubectl@master
       name: Deploy Frontend
