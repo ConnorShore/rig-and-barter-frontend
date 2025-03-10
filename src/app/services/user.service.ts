@@ -55,4 +55,14 @@ export class UserService {
             `${environment.apiGateway}/api/user/${userId}/info/basic`, 
             formData);
     }
+
+    isUserVerified(userId: string): Observable<boolean> {
+        if(!userId) {
+            console.log('Cannot get user verification status with undefined id');
+            return new Observable<boolean>();
+        }
+
+        let url = `${environment.apiGateway}/api/user/${userId}/verified`;
+        return this.httpClient.get<boolean>(url);
+    }
 }

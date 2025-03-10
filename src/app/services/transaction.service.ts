@@ -23,6 +23,7 @@ export class TransactionService {
     }
 
     completeTransaction(transactioRequest: ICompleteTransactionRequest): Observable<ITransaction> {
+        console.log('completing transaction with request: ', transactioRequest);
         let url = `${environment.apiGateway}/api/transaction/${transactioRequest.transactionId}/complete`;
         return this.httpClient.put<ITransaction>(url, transactioRequest);
     }

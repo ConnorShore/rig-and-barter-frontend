@@ -55,7 +55,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
     },
     {
       id: '2',
-      icon: 'mat:move_to_inbox',
+      icon: 'mat:chat',
       label: 'Messages',
       description: 'Messages & Latest News',
       colorClass: 'text-primary-600',
@@ -63,7 +63,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
     },
     {
       id: '3',
-      icon: 'mat:list_alt',
+      icon: 'mat:receipt_long',
       label: 'Active Transactions',
       description: 'Tasks & Active Projects',
       colorClass: 'text-amber-600',

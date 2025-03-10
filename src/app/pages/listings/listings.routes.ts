@@ -24,7 +24,7 @@ export const LISTING_ROUTES: Routes = [
             ListingService
         ],
         resolve: {
-            listing: listingsItemResolver
+            listingData: listingsItemResolver
         }
     }
 ];

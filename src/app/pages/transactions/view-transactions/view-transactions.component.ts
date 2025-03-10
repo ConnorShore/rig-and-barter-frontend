@@ -12,6 +12,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { TransactionState } from 'src/app/models/transaction-state';
 import { NotificationService } from 'src/app/services/notification.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { IUserResponse } from 'src/app/models/user-info/user-response';
 
 @Component({
     selector: 'view-transactions',
@@ -36,7 +37,7 @@ export class ViewTransactionsComponent implements OnInit {
   activeTransactions: ITransaction[] = [];
   finishedTransactions: ITransaction[] = [];
 
-  userId: string;
+  user: IUserResponse | undefined;
 
   readonly activePanelOpenState = signal(false);
   readonly finishedPanelOpenState = signal(false);
@@ -53,7 +54,7 @@ export class ViewTransactionsComponent implements OnInit {
 
     // TODO: Verify this works instead of commented out code below
     this.authService.userProfile.subscribe(user => {
-      this.userId = user?.id as string;
+      this.user = user;
     });
 
     this.activatedRoute.data.subscribe(({transactions}) => {
@@ -61,8 +62,6 @@ export class ViewTransactionsComponent implements OnInit {
       this.activeTransactions = transactions.filter((t: { state: TransactionState; }) => (t.state !== TransactionState.CANCELLED && t.state !== TransactionState.COMPLETED));
       this.finishedTransactions = transactions.filter((t: { state: TransactionState; }) => (t.state === TransactionState.CANCELLED || t.state === TransactionState.COMPLETED));
     });
-
-    // this.userId = this.authService.getCurrentKeycloakUser().id as string;
   }
 
   onTransactionCancelled(transaction: ITransaction) {

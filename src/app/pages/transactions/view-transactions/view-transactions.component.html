@@ -19,7 +19,7 @@
                     </mat-panel-description>
                 </mat-expansion-panel-header>
 
-                <rb-transaction-table (transactionCancelled)="onTransactionCancelled($event)" [userId]="userId" [transactions]="activeTransactions"/>
+                <rb-transaction-table (transactionCancelled)="onTransactionCancelled($event)" [user]="user" [transactions]="activeTransactions"/>
             
             </mat-expansion-panel>
         </mat-accordion>
@@ -36,7 +36,7 @@
                     </mat-panel-description>
                 </mat-expansion-panel-header>
 
-                <rb-transaction-table [userId]="userId" [transactions]="finishedTransactions"/>
+                <rb-transaction-table [user]="user" [transactions]="finishedTransactions"/>
             
             </mat-expansion-panel>
         </mat-accordion>
