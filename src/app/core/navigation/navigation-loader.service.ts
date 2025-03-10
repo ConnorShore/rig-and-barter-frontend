@@ -25,7 +25,7 @@ export class NavigationLoaderService {
         type: 'link',
         label: 'Explore Listings',
         route: '/listings',
-        icon: 'mat:devices',
+        icon: 'mat:devices_other',
         canDisable: false
 
         // type: 'subheading',
@@ -44,7 +44,7 @@ export class NavigationLoaderService {
         type: 'link',
         label: 'View Transactions',
         route: '/transactions',
-        icon: 'logo:reciept',
+        icon: 'mat:receipt_long',
         canDisable: true
       },
       {
@@ -52,6 +52,13 @@ export class NavigationLoaderService {
         label: 'My PC Builds',
         route: '/pc-builder',
         icon: 'mat:computer',
+        canDisable: true
+      },
+      {
+        type: 'link',
+        label: 'Messages',
+        route: '/messages',
+        icon: 'mat:chat',
         canDisable: true
       }
     ]);
