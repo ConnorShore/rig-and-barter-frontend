@@ -30,22 +30,6 @@
       </button>
     </div>
 
-    <div *ngIf="searchVisible$ | async" class="vex-sidenav-search__container">
-      <div
-        (click)="openSearch()"
-        class="vex-sidenav-search relative"
-        matRipple
-        matRippleColor="var(--vex-sidenav-item-ripple-color)">
-        <mat-icon
-          class="flex-none vex-sidenav-search__icon"
-          svgIcon="mat:search"></mat-icon>
-        <div class="flex-auto vex-sidenav-search__placeholder">
-          Quick Search
-        </div>
-        <div class="flex-none vex-sidenav-search__keybind">Ctrl K</div>
-      </div>
-    </div>
-
     <div class="vex-sidenav-toolbar__divider"></div>
   </div>
 
