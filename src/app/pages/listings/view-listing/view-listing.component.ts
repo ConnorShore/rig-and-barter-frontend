@@ -16,6 +16,7 @@ import { DeleteConfirmationDialogComponent } from 'src/app/shared/components/del
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
+import { ITransaction } from 'src/app/models/transaction';
 
 @Component({
   selector: 'view-listing',
@@ -38,9 +39,9 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './view-listing.component.scss'
 })
 export class ViewListingComponent implements OnInit {
-
   listing: IListing;
   currentUser: IUserResponse | undefined;
+  currentTransactions: ITransaction[] = [];
   
   constructor(private activatedRoute: ActivatedRoute,
     private readonly transactionService: TransactionService,
@@ -54,18 +55,26 @@ export class ViewListingComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log('this.activatedRoute.data: ', this.activatedRoute.data);
     this.authService.userProfile.subscribe(user => {
         this.currentUser = user;
     });
     
-    this.activatedRoute.data.subscribe(({listing}) => {
-      this.listing = listing;
+    this.activatedRoute.data.subscribe((listingData) => {
+      this.listing = listingData['listingData'][0];
+      this.currentTransactions = listingData['listingData'][1];
     });
   }
 
   requestLogin() {
     this.authService.login();
+  }
+
+  userHasActiveTransaction() {
+    return this.currentTransactions.some(transaction => transaction.buyerId === this.currentUser?.id);
+  }
+
+  viewTransaction() {
+    this.router.navigate([`/transactions`]);
   }
 
   createTransaction() {

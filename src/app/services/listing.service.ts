@@ -4,6 +4,7 @@ import { IListing } from "../models/listing";
 import { BehaviorSubject, Observable } from "rxjs";
 import { IListingRequest } from "../models/listing-request";
 import { environment } from "src/environments/environment";
+import { ITransaction } from "../models/transaction";
 
 
 @Injectable()
@@ -64,6 +65,10 @@ export class ListingService {
 
     deleteListingById(listingId: string, deleteTransaction: boolean): Observable<void> {
         return this.httpClient.delete<void>(`${environment.apiGateway}/api/listing/${listingId}?deleteTransaction=${deleteTransaction}`);
+    }
+
+    getTransactionsForListing(listingId: string): Observable<ITransaction[]> {
+        return this.httpClient.get<ITransaction[]>(`${environment.apiGateway}/api/listing/${listingId}/transactions`);
     }
 
     checkHealth(): Observable<string> {

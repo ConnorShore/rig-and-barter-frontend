@@ -2,14 +2,16 @@ import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from "@angular
 import { IListing } from "../../../models/listing";
 import { ListingService } from "../../../services/listing.service";
 import { inject } from "@angular/core";
+import { forkJoin } from "rxjs";
 
 
-export const listingsItemResolver: ResolveFn<IListing> = (
+export const listingsItemResolver: ResolveFn<any> = (
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot,
     listingService: ListingService = inject(ListingService)
 ) => {
-    var listing = listingService.getListingById(route.paramMap.get('id') as string);
-    console.log('listing: ', listing);
-    return listing;
+    return forkJoin([
+        listingService.getListingById(route.paramMap.get('id') as string),
+        listingService.getTransactionsForListing(route.paramMap.get('id') as string)
+    ]);
 }
