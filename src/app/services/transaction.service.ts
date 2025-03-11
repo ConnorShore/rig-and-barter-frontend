@@ -12,9 +12,9 @@ export class TransactionService {
 
     constructor(private httpClient: HttpClient) { }
 
-    createTransaction(transactionRequest: ITransactionRequest): Observable<string> {
+    createTransaction(transactionRequest: ITransactionRequest): Observable<ITransaction> {
         let url = `${environment.apiGateway}/api/transaction`;
-        return this.httpClient.post(url, transactionRequest, {responseType: 'text'});
+        return this.httpClient.post<ITransaction>(url, transactionRequest);
     }
 
     acceptTransaction(transactionId: string): Observable<ITransaction> {

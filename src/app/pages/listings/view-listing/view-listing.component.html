@@ -79,7 +79,20 @@
             ? 'You must be signed in to show interest in components'
             : 'I\'m Interested!'">
 
-        @if (currentUser && currentUser.id === listing.userId) {
+ 
+        @if(userHasActiveTransaction()) {
+          <button
+            id="createListingBtn"
+            class="flex justify-center flex-end p-6"
+            style="width: 100%; vertical-align: bottom"
+            (click)="viewTransaction()"
+            color="primary"
+            mat-flat-button
+            type="button">
+            View Current Transaction
+          </button>
+        }
+        @else if (currentUser && currentUser.id === listing.userId) {
           <button
             id="createListingBtn"
             class="flex justify-center flex-end p-6"
@@ -101,18 +114,6 @@
             mat-flat-button
             type="button">
             Login To Request Purchase
-          </button>
-        } 
-        @else if(userHasActiveTransaction()) {
-          <button
-            id="createListingBtn"
-            class="flex justify-center flex-end p-6"
-            style="width: 100%; vertical-align: bottom"
-            (click)="viewTransaction()"
-            color="primary"
-            mat-flat-button
-            type="button">
-            View Current Transaction
           </button>
         }
         @else

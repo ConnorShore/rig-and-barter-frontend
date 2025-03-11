@@ -17,6 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { ITransaction } from 'src/app/models/transaction';
+import { TransactionState } from 'src/app/models/transaction-state';
 
 @Component({
   selector: 'view-listing',
@@ -70,7 +71,7 @@ export class ViewListingComponent implements OnInit {
   }
 
   userHasActiveTransaction() {
-    return this.currentTransactions.some(transaction => transaction.buyerId === this.currentUser?.id);
+    return this.currentTransactions.some(transaction => transaction.buyerId === this.currentUser?.id && transaction.state !== TransactionState.CANCELLED);
   }
 
   viewTransaction() {
@@ -87,8 +88,10 @@ export class ViewListingComponent implements OnInit {
 
     console.log('transaciton request: ', transactionRequest);
 
-    this.transactionService.createTransaction(transactionRequest).subscribe((transactionId) => {
+    this.transactionService.createTransaction(transactionRequest).subscribe((transaction) => {
+      this.currentTransactions.push(transaction);
       this.notificationService.showInfo('The seller will be notified of your interest in this listing.', 'Transaction Started');
+      this.cd.detectChanges();
     });
   }
 

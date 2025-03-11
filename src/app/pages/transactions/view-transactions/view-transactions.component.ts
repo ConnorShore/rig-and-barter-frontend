@@ -64,6 +64,21 @@ export class ViewTransactionsComponent implements OnInit {
     });
   }
 
+  onTransactionFinished(transaction: ITransaction) {
+    if(transaction.completionDate)
+      this.onTransactionComplete(transaction);
+    else
+      this.onTransactionCancelled(transaction);
+  }
+
+  onTransactionComplete(transaction: ITransaction) {
+    console.log('onTransactionComplete: ', this.activeTransactions);
+    this.activeTransactions.splice(this.activeTransactions.indexOf(transaction), 1);
+    this.finishedTransactions.push(transaction);
+    this.notificationService.showSuccess('Transaction has been completed successfully');
+    console.log('onTransactionComplete after: ', this.activeTransactions);
+  }
+
   onTransactionCancelled(transaction: ITransaction) {
     console.log('onTransactionCancelled: ', this.activeTransactions);
     this.activeTransactions.splice(this.activeTransactions.indexOf(transaction), 1);

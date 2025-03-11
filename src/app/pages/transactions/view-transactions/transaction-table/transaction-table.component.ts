@@ -1,5 +1,5 @@
 import { DatePipe, DecimalPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent, MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -19,7 +19,7 @@ import { UserService } from 'src/app/services/user.service';
 @Component({
   selector: 'rb-transaction-table',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     DatePipe,
     MatListModule,
@@ -39,21 +39,22 @@ export class TransactionTableComponent{
   @Input() user: IUserResponse | undefined;
   @Input() transactions: ITransaction[];
 
-  @Output() transactionCancelled = new EventEmitter<ITransaction>();
+  @Output() transactionFinished = new EventEmitter<ITransaction>();
 
   constructor(
     private readonly transactionService: TransactionService,
     private readonly notificationService: NotificationService,
     private readonly paymentService: PaymentService,  
     private readonly userService: UserService,  
-    private readonly selectPaymentDialog: MatDialog
+    private readonly selectPaymentDialog: MatDialog,
+    private readonly cd: ChangeDetectorRef
   ) { }
 
   acceptTransaction(transaction: ITransaction) {
     this.transactionService.acceptTransaction(transaction.uniqueId).subscribe((tran) => {
-      console.log('updated transactino: ', tran);
       this.transactions[this.transactions.indexOf(transaction)] = tran;
       this.notificationService.showSuccess('Transaction has been accepted');
+      this.cd.detectChanges();
     });
   }
 
@@ -120,14 +121,17 @@ export class TransactionTableComponent{
     };
 
     this.transactionService.completeTransaction(request).subscribe((tran) => {
-        console.log('completed transaction: ', tran);
-        this.transactions[this.transactions.indexOf(transaction)] = tran;
+        if(tran.completionDate){
+          this.transactionFinished.emit(tran);
+        } else {
+          this.transactions[this.transactions.indexOf(transaction)] = tran;
+        }
     });
   }
 
   cancelTransaction(transaction: ITransaction) {
     this.transactionService.cancelTransaction(transaction.uniqueId).subscribe((tran) => {
-      this.transactionCancelled.emit(tran);
+      this.transactionFinished.emit(tran);
     });
   }
 
