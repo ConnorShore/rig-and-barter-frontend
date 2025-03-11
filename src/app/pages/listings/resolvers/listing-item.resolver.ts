@@ -14,8 +14,4 @@ export const listingsItemResolver: ResolveFn<any> = (
         listingService.getListingById(route.paramMap.get('id') as string),
         listingService.getTransactionsForListing(route.paramMap.get('id') as string)
     ]);
-    // var listing = listingService.getListingById(route.paramMap.get('id') as string);
-    // var transactions = listingService.getTransactionsForListing(route.paramMap.get('id') as string);
-    // console.log('in activated route', listing, transactions);
-    // return [listing, transactions];
 }
