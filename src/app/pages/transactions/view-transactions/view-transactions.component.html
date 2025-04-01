@@ -1,4 +1,55 @@
-<vex-page-layout>
+<div class="h-full flex flex-col">
+    <div class="bg-foreground shadow-b flex-none border-b">
+      <div class="container" style="padding: 8px 8px">
+        <h1 class="display-1 font-bold mt-2 mb-4 flex items-center">
+          <span class="block">Transactions</span>
+        </h1>
+
+      </div>
+    </div>
+  
+    
+    <vex-page-layout-content class="container mt-8">
+        <rb-payment-disclaimer/>
+
+        <div class="mt-4 mb-8"></div>
+
+        <mat-accordion>
+            <mat-expansion-panel expanded="true" (opened)="activePanelOpenState.set(true)" (closed)="activePanelOpenState.set(false)">
+    
+                <mat-expansion-panel-header [collapsedHeight]="'64px'" [expandedHeight]="'82px'">
+                    <mat-panel-title style="font-size: 24px;">Active Transactions</mat-panel-title>
+                    <mat-panel-description>
+                        Click to {{activePanelOpenState() ? 'close' : 'open'}} the panel
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <rb-transaction-table (transactionFinished)="onTransactionFinished($event)" [user]="user" [transactions]="activeTransactions"/>
+            
+            </mat-expansion-panel>
+        </mat-accordion>
+
+        <div class="mt-12 mb-12"></div>
+        
+        <mat-accordion>
+            <mat-expansion-panel (opened)="finishedPanelOpenState.set(true)" (closed)="finishedPanelOpenState.set(false)">
+    
+                <mat-expansion-panel-header [collapsedHeight]="'64px'" [expandedHeight]="'82px'">
+                    <mat-panel-title style="font-size: 24px;">Inactive Transactions</mat-panel-title>
+                    <mat-panel-description>
+                        Click to {{finishedPanelOpenState() ? 'close' : 'open'}} the panel
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <rb-transaction-table [user]="user" [transactions]="finishedTransactions"/>
+            
+            </mat-expansion-panel>
+        </mat-accordion>
+    </vex-page-layout-content>
+  </div>
+  
+
+<!-- <vex-page-layout>
     <vex-page-layout-header class="pb-4 flex flex-col items-start justify-center">
       <div class="w-full flex flex-col sm:flex-row justify-between container">
         <div>
@@ -7,8 +58,9 @@
       </div>
     </vex-page-layout-header>
   
-    <!-- TODO: Make this expandable like payment methods. Have one for active transactions and one for completed/cancelled transactions-->
     <vex-page-layout-content class="container -mt-12">
+        <rb-payment-disclaimer/>
+
         <mat-accordion>
             <mat-expansion-panel expanded="true" (opened)="activePanelOpenState.set(true)" (closed)="activePanelOpenState.set(false)">
     
@@ -42,4 +94,4 @@
         </mat-accordion>
     </vex-page-layout-content>
   </vex-page-layout>
-  
+   -->

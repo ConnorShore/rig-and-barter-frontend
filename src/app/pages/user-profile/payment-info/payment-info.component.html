@@ -1,5 +1,7 @@
 <div class="form-container">
 
+    <rb-payment-disclaimer [showCardHelp]="true"/>
+
     <div class="flex-col" 
             style="border-width: 1px; border-radius: 10px; padding:24px; margin: 36px 0px;" 
             [style]="user.stripeInfo?.accountId ? 'border-color: green' : 'border-color: rgb(66, 82, 108)'">
