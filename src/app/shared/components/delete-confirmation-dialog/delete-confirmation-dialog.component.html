@@ -1,10 +1,21 @@
 <h1 mat-dialog-title>{{ data.title }}</h1>
-<h4 mat-dialog-content>{{ data.body }}</h4>
+
+<div mat-dialog-content>
+  <h4>{{ data.body }}</h4>
+  @if(data.confirmationInput) {
+    <div style="margin-top: 20px">
+      <mat-form-field>
+        <input matInput [placeholder]="confirmationMessage" [(ngModel)]="confirmationMessage">
+      </mat-form-field>
+    </div>
+  }
+</div>
+
 <div mat-dialog-actions>
   <button
     mat-flat-button
     color="warn"
-    (click)="dialogRef.close(true)"
+    (click)="confirm()"
     style="margin: 10px; padding: 10px">
     {{ data.confirmButtonText }}
   </button>

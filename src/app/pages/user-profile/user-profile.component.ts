@@ -4,6 +4,7 @@ import { BasicInfoComponent } from './basic-info/basic-info.component';
 import { PaymentInfoComponent } from './payment-info/payment-info.component';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { IUserResponse } from 'src/app/models/user-info/user-response';
+import { SettingsComponent } from './settings/settings.component';
 
 interface ISubPage {
   title: string;
@@ -81,6 +82,14 @@ export class UserProfileComponent implements OnInit {
         inputs: {
           'user': this.user
         }
-    }];
+      },
+      {
+        title: 'Settings',
+        component: SettingsComponent,
+        inputs: {
+          'user': this.user
+        }
+      }
+    ];
   }
 }
