@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   DestroyRef,
   EventEmitter,
@@ -103,12 +104,14 @@ export class ToolbarComponent implements OnInit {
     private readonly router: Router,
     private readonly dialog: MatDialog,
     private readonly notificationService: NotificationService,
-    private readonly authService : AuthService
+    private readonly authService : AuthService,
+    private readonly cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     this.authService.userProfile.subscribe(user => {
         this.userProfile = user;
+        this.cd.detectChanges();
         console.log('got new user in toolbar: ', user);
     });
 

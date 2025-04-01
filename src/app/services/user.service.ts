@@ -65,4 +65,9 @@ export class UserService {
         let url = `${environment.apiGateway}/api/user/${userId}/verified`;
         return this.httpClient.get<boolean>(url);
     }
+
+    deleteUserAccount(userId: string) {
+        let url = `${environment.apiGateway}/api/user/${userId}`;
+        return this.httpClient.delete(url);
+    }
 }
