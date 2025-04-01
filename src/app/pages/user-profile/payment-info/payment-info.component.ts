@@ -17,6 +17,7 @@ import { DeleteConfirmationDialogComponent } from 'src/app/shared/components/del
 import { IStripePaymentMethodRequest } from 'src/app/models/user-info/stripe/stripe-payment-method-request';
 import { ListingService } from 'src/app/services/listing.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { PaymentDisclaimerComponent } from "../../../shared/components/payment-disclaimer/payment-disclaimer.component";
 
 @Component({
     selector: 'rb-payment-info',
@@ -28,18 +29,19 @@ import { AuthService } from 'src/app/services/auth.service';
     templateUrl: './payment-info.component.html',
     styleUrl: './payment-info.component.scss',
     imports: [
-        MatDialogModule,
-        MatIconModule,
-        MatInputModule,
-        MatButtonModule,
-        MatCardModule,
-        MatExpansionModule,
-        MatGridListModule,
-        MatIconModule,
-        FileDragAndDropComponent,
-        NgIf,
-        DecimalPipe
-    ]
+    MatDialogModule,
+    MatIconModule,
+    MatInputModule,
+    MatButtonModule,
+    MatCardModule,
+    MatExpansionModule,
+    MatGridListModule,
+    MatIconModule,
+    FileDragAndDropComponent,
+    NgIf,
+    DecimalPipe,
+    PaymentDisclaimerComponent
+]
 })
 export class PaymentInfoComponent implements OnInit {
   @Input() user!: IUserResponse;

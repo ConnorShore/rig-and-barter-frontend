@@ -1,0 +1,12 @@
+@if(!isProduction) {
+    <div>
+        <p class="main-content-container text-center">
+            <strong>Disclaimer:</strong> This is a test environment. No real transactions will be processed.
+            @if(showCardHelp) {
+                <div class="sub-content-container">
+                    <a href="https://docs.stripe.com/testing#cards" target="_blank">Test Card Information can be found here</a>.
+                </div>
+            }
+        </p>
+    </div>
+}

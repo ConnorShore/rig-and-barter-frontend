@@ -13,6 +13,7 @@ import { TransactionState } from 'src/app/models/transaction-state';
 import { NotificationService } from 'src/app/services/notification.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { IUserResponse } from 'src/app/models/user-info/user-response';
+import { PaymentDisclaimerComponent } from "../../../shared/components/payment-disclaimer/payment-disclaimer.component";
 
 @Component({
     selector: 'view-transactions',
@@ -23,15 +24,16 @@ import { IUserResponse } from 'src/app/models/user-info/user-response';
     templateUrl: './view-transactions.component.html',
     styleUrl: './view-transactions.component.scss',
     imports: [
-      VexPageLayoutContentDirective,
-      VexPageLayoutHeaderDirective,
-      VexPageLayoutComponent,
-      MatListModule,
-      MatButtonModule,
-      DatePipe,
-      MatExpansionModule,
-      TransactionTableComponent
-    ]
+    VexPageLayoutContentDirective,
+    VexPageLayoutHeaderDirective,
+    VexPageLayoutComponent,
+    MatListModule,
+    MatButtonModule,
+    DatePipe,
+    MatExpansionModule,
+    TransactionTableComponent,
+    PaymentDisclaimerComponent
+]
 })
 export class ViewTransactionsComponent implements OnInit {
   activeTransactions: ITransaction[] = [];
